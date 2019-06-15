@@ -8,6 +8,9 @@ def install_pods
     pod 'R.swift'       , '~> 5.0.3'
     pod 'SnapKit'       , '~> 5.0.0'
     pod 'SVProgressHUD' , '~> 2.2.5'
+    pod 'Moya', '~> 13.0'
+    pod 'LoadingShimmer'
+
     #Pods for FiMap
 
  target 'emsTests' do
