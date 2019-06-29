@@ -9,7 +9,7 @@ def install_pods
     pod 'SnapKit'       , '~> 5.0.0'
     pod 'SVProgressHUD' , '~> 2.2.5'
     pod 'Moya', '~> 13.0'
-    pod 'LoadingShimmer'
+    pod 'QRCodeReader.swift', '~> 10.1.0'
 
     #Pods for FiMap
 
