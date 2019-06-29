@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import QRCodeReader
 import Foundation
 import AVFoundation
 
@@ -32,9 +31,11 @@ class ScanView: UIView {
     }
 
     //MARK: - Layout //snpを使ったレイアウトの設定
-    func scanPreviewViewLayoutSetting() {
+    private func scanPreviewViewLayoutSetting() {
         self.scanPreviewView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
+//            make.edges.top.left.right.equalToSuperview()
+//            make.height.equalTo(self.snp.width)
         }
     }
     //MARK: - Function  //通信処理や計算などの処理

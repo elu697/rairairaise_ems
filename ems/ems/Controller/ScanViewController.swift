@@ -9,13 +9,14 @@
 import UIKit
 import Foundation
 import AVFoundation
-import QRCodeReader
 
 
 class ScanViewController: UIViewController {
     //MARK: - Property //変数定義
     let scanView = ScanView()
     let scanReader = QRCodeReader(metadataObjectTypes: [AVMetadataObject.ObjectType.qr], captureDevicePosition: .back)
+
+    private var scanCode: String = ""
 
     //MARK: - Default //init,viewdidload等標準関数
     override func loadView() {
@@ -31,22 +32,42 @@ class ScanViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-    
+
     //MARK: - Layout //snpを使ったレイアウトの設定
     //MARK: - Function  //通信処理や計算などの処理
-    
-    func scanSetting() {
+    private func scanSetting() {
         let scanViewBuild = QRCodeReaderViewControllerBuilder { (build) in
             build.reader = self.scanReader
-            build.showTorchButton = true
+            build.showTorchButton = false
             build.showSwitchCameraButton = false
             build.showCancelButton = false
             build.showOverlayView = true
+            build.handleOrientationChange = true
             build.rectOfInterest = CGRect(x: 0.2, y: 0.2, width: 0.6, height: 0.3)
-            build.preferredStatusBarStyle = .lightContent
+            build.preferredStatusBarStyle = .default
         }
         self.scanView.scanPreviewView.setupComponents(with: scanViewBuild)
 
+        self.scanReader.didFindCode = { (result) in
+            if result.value != self.scanCode {
+                self.scanCode = result.value
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                    self.scanView.scanPreviewView.overlayView?.setState(.normal)
+                    self.scanCode.removeAll()
+                }
+                Sound.tone(mode: .success)
+                self.scanView.scanPreviewView.overlayView?.setState(.valid)
+                print(result)
+            }
+        }
+
+        self.scanReader.didFailDecoding = { () in
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                self.scanView.scanPreviewView.overlayView?.setState(.normal)
+            }
+            Sound.tone(mode: .fail)
+            self.scanView.scanPreviewView.overlayView?.setState(.wrong)
+        }
         self.scanReader.stopScanningWhenCodeIsFound = false
         self.scanReader.startScanning()
     }

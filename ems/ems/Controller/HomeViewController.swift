@@ -8,7 +8,6 @@
 
 import UIKit
 import AVFoundation
-import QRCodeReader
 
 class HomeViewController: UIViewController {
     //MARK: - Property //変数定義
