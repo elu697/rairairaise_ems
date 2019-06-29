@@ -11,11 +11,32 @@ import AVFoundation
 
 class Sound {
     enum SoundMode: Int {
-        case success = 1050
-        case fail = 1051
-        case detect = 1052
-        case error = 1053
         
+        ///フゥォオン
+        case success = 1050
+        ///ヴィ
+        case fail = 1051
+        ///ピン
+        case detect = 1052
+        ///ビ
+        case error = 1053
+        ///バイブ
+        case minivibe = 1107
+        ///ピロロロン
+        case shake = 1109
+        ///ヴィオン
+        case accept = 1150
+        ///プロロロロロ
+        case ringing = 1151
+        ///フィロン
+        case end = 1152
+        ///3Dタッチの振動
+        case x3dtouch = 1162
+        case x3dtouch2 = 1163
+        case x3dtouch3 = 1164
+        ///2トーンの音が上がったり下がったり
+        case twotone = 1263
+        case twotone2 = 1264
 
     }
 

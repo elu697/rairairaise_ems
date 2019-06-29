@@ -28,14 +28,25 @@ class ScanViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.scanView.backgroundColor = .white
-        self.scanSetting()
+        self.scanerSetting()
+        self.actionSetting()
 
         // Do any additional setup after loading the view.
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.scanReader.startScanning()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.scanReader.stopScanning()
+    }
+
     //MARK: - Layout //snpを使ったレイアウトの設定
     //MARK: - Function  //通信処理や計算などの処理
-    private func scanSetting() {
+    private func scanerSetting() {
         let scanViewBuild = QRCodeReaderViewControllerBuilder { (build) in
             build.reader = self.scanReader
             build.showTorchButton = false
@@ -51,18 +62,19 @@ class ScanViewController: UIViewController {
         self.scanReader.didFindCode = { (result) in
             if result.value != self.scanCode {
                 self.scanCode = result.value
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
                     self.scanView.scanPreviewView.overlayView?.setState(.normal)
                     self.scanCode.removeAll()
                 }
                 Sound.tone(mode: .success)
                 self.scanView.scanPreviewView.overlayView?.setState(.valid)
+                //TODO: TODO
                 print(result)
             }
         }
 
         self.scanReader.didFailDecoding = { () in
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
                 self.scanView.scanPreviewView.overlayView?.setState(.normal)
             }
             Sound.tone(mode: .fail)
@@ -71,7 +83,14 @@ class ScanViewController: UIViewController {
         self.scanReader.stopScanningWhenCodeIsFound = false
         self.scanReader.startScanning()
     }
+
+    private func actionSetting() {
+        self.scanView.scanBtn.addTarget(self, action: #selector(tappedScanBtn), for: .touchUpInside)
+    }
     //MARK: - Action //addtargetの対象となるようなユーザーに近い処理
+    @objc private func tappedScanBtn() {
+        Sound.tone(mode: .success)
+    }
 
     /*
     // MARK: - Navigation
