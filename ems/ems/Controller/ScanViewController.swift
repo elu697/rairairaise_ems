@@ -12,13 +12,13 @@ import AVFoundation
 
 
 class ScanViewController: UIViewController {
-    //MARK: - Property //変数定義
+    //MARK: - Property
     let scanView = ScanView()
     let scanReader = QRCodeReader(metadataObjectTypes: [AVMetadataObject.ObjectType.qr], captureDevicePosition: .back)
 
     private var scanCode: String = ""
 
-    //MARK: - Default //init,viewdidload等標準関数
+    //MARK: - Default
     override func loadView() {
         super.loadView()
         //self.viewとself.scanViewは同じメモリアドレスだからself.scanViewがsuperView
@@ -44,8 +44,8 @@ class ScanViewController: UIViewController {
         self.scanReader.stopScanning()
     }
 
-    //MARK: - Layout //snpを使ったレイアウトの設定
-    //MARK: - Function  //通信処理や計算などの処理
+    //MARK: - Layout
+    //MARK: - Function
     private func scanerSetting() {
         let scanViewBuild = QRCodeReaderViewControllerBuilder { (build) in
             build.reader = self.scanReader
@@ -88,7 +88,7 @@ class ScanViewController: UIViewController {
     private func actionSetting() {
         self.scanView.scanBtn.addTarget(self, action: #selector(tappedScanBtn), for: .touchUpInside)
     }
-    //MARK: - Action //addtargetの対象となるようなユーザーに近い処理
+    //MARK: - Action
     @objc private func tappedScanBtn() {
         Sound.tone(mode: .success)
 //        Sound.tone(mode: .end)

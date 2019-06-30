@@ -11,14 +11,14 @@ import Foundation
 import AVFoundation
 
 class ScanView: UIView {
-    //MARK: - Property //変数定義
+    //MARK: - Property
     let scanPreviewView = QRCodeReaderView()
     let scanBtn = UIButton(type: .system)
     let profileBtn = UIButton()
     let menuBtn = UIButton()
     let settingBtn = UIButton()
 
-    //MARK: - Default //init,viewdidload等標準関数
+    //MARK: - Default
     override init(frame: CGRect) {
         super.init(frame: .zero)
         self.addSubview(self.scanPreviewView)
@@ -41,7 +41,7 @@ class ScanView: UIView {
         self.settingBtnLayoutSetting()
     }
 
-    //MARK: - Layout //snpを使ったレイアウトの設定
+    //MARK: - Layout
     private func scanPreviewViewLayoutSetting() {
         self.scanPreviewView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
@@ -92,8 +92,8 @@ class ScanView: UIView {
         self.settingBtn.setImage(R.image.settingSimpleFilled(), for: .normal)
         self.settingBtn.addShadow(direction: .bottom, radius: 2, color: .black, opacity: 0.5)
     }
-    //MARK: - Function  //通信処理や計算などの処理
-    //MARK: - Action //addtargetの対象となるようなユーザーに近い処理
+    //MARK: - Function
+    //MARK: - Action
 
     /*
     // Only override draw() if you perform custom drawing.

@@ -10,12 +10,11 @@ import UIKit
 import AVFoundation
 
 class HomeViewController: UIViewController {
-    //MARK: - Property //変数定義
-    //MARK: - Default //init,viewdidload等標準関数
-    //MARK: - Layout //snpを使ったレイアウトの設定
-    //MARK: - Function  //通信処理や計算などの処理
-    //MARK: - Action //addtargetの対象となるようなユーザーに近い処理
-//    
+    //MARK: - Property
+    //MARK: - Default
+    //MARK: - Layout
+    //MARK: - Function
+    //MARK: - Action
     
 //    override func loadView() {
 //        super.loadView()
