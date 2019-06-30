@@ -48,6 +48,9 @@
 		8995F3D422C8A2DF00830300 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3D322C8A2DF00830300 /* SettingView.swift */; };
 		8995F3D622C8A2E900830300 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3D522C8A2E900830300 /* MenuView.swift */; };
 		8995F3D822C8A2F700830300 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3D722C8A2F700830300 /* ProfileView.swift */; };
+		8995F3DC22C8AD8700830300 /* cancel-simple-filled@3x-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 8995F3D922C8AD8700830300 /* cancel-simple-filled@3x-black.png */; };
+		8995F3DD22C8AD8700830300 /* edit-simple-filled@3x-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 8995F3DA22C8AD8700830300 /* edit-simple-filled@3x-black.png */; };
+		8995F3DE22C8AD8700830300 /* back-simple-filled@3x-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 8995F3DB22C8AD8700830300 /* back-simple-filled@3x-black.png */; };
 		89AB156B22C72CB6000632E4 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB156A22C72CB6000632E4 /* ScanViewController.swift */; };
 		89AB156D22C72CC6000632E4 /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB156C22C72CC6000632E4 /* ScanView.swift */; };
 		89AB156F22C752E7000632E4 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB156E22C752E7000632E4 /* Sound.swift */; };
@@ -133,6 +136,9 @@
 		8995F3D322C8A2DF00830300 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		8995F3D522C8A2E900830300 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		8995F3D722C8A2F700830300 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		8995F3D922C8AD8700830300 /* cancel-simple-filled@3x-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancel-simple-filled@3x-black.png"; sourceTree = "<group>"; };
+		8995F3DA22C8AD8700830300 /* edit-simple-filled@3x-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit-simple-filled@3x-black.png"; sourceTree = "<group>"; };
+		8995F3DB22C8AD8700830300 /* back-simple-filled@3x-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-simple-filled@3x-black.png"; sourceTree = "<group>"; };
 		89AB156A22C72CB6000632E4 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		89AB156C22C72CC6000632E4 /* ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
 		89AB156E22C752E7000632E4 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
@@ -324,6 +330,9 @@
 		8995F3AC22C86E4B00830300 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				8995F3DB22C8AD8700830300 /* back-simple-filled@3x-black.png */,
+				8995F3D922C8AD8700830300 /* cancel-simple-filled@3x-black.png */,
+				8995F3DA22C8AD8700830300 /* edit-simple-filled@3x-black.png */,
 				8995F3B922C86F5000830300 /* back-simple-filled@3x.png */,
 				8995F3B722C86F5000830300 /* cancel-simple-filled@3x.png */,
 				8995F3BC22C86F5000830300 /* check-simple-filled@3x.png */,
@@ -478,11 +487,14 @@
 			files = (
 				892BD84D22AFEDA5005DBA8F /* Localized.strings in Resources */,
 				8995F3C322C86F5100830300 /* edit-simple-filled@3x.png in Resources */,
+				8995F3DE22C8AD8700830300 /* back-simple-filled@3x-black.png in Resources */,
 				892BD80522AFE591005DBA8F /* LaunchScreen.storyboard in Resources */,
 				8995F3C422C86F5100830300 /* check-simple-filled@3x.png in Resources */,
 				8995F3C222C86F5100830300 /* menu-simple-filled@3x.png in Resources */,
+				8995F3DC22C8AD8700830300 /* cancel-simple-filled@3x-black.png in Resources */,
 				8995F3C122C86F5100830300 /* back-simple-filled@3x.png in Resources */,
 				892BD80222AFE591005DBA8F /* Assets.xcassets in Resources */,
+				8995F3DD22C8AD8700830300 /* edit-simple-filled@3x-black.png in Resources */,
 				8995F3C022C86F5100830300 /* search-simple-filled@3x.png in Resources */,
 				8995F3BF22C86F5100830300 /* cancel-simple-filled@3x.png in Resources */,
 				8995F3C622C86F5100830300 /* setting-simple-filled@3x.png in Resources */,

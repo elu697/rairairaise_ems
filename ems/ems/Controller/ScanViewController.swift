@@ -36,9 +36,9 @@ class ScanViewController: UIViewController {
         setNeedsUpdateOfHomeIndicatorAutoHidden()
         // Do any additional setup after loading the view.
     }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         Permission(vc: self).checkCameraPermission()
         self.scanReader.startScanning()
     }
@@ -99,7 +99,7 @@ class ScanViewController: UIViewController {
     //MARK: - Action
     @objc private func tappedScanBtn() {
         Sound.tone(mode: .success)//ok
-        Sound.tone(mode: .ringing)//error
+//        Sound.tone(mode: .ringing)//error
 
     }
 
@@ -113,12 +113,14 @@ class ScanViewController: UIViewController {
     }
 
     @objc private func tappedMenuBtn() {
-        Sound.tone(mode: .end)
+        self.pushNewNavigationController(rootViewController: MenuViewController())
     }
 
     @objc private func tappedSettingBtn() {
-        Sound.tone(mode: .end)
+        self.pushNewNavigationController(rootViewController: SettingViewController())
+
     }
+
 
     /*
     // MARK: - Navigation

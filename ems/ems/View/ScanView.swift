@@ -67,7 +67,7 @@ class ScanView: UIView {
         self.profileBtn.snp.makeConstraints { (make) in
             make.centerY.equalTo((self.scanPreviewView.toggleTorchButton?.snp.centerY)!)//Safe
             make.right.equalTo(-20)
-            make.width.height.equalTo(35)
+            make.width.height.equalTo(32)
         }
         self.profileBtn.setImage(R.image.profileSimpleFilled(), for: .normal)
         self.profileBtn.addShadow(direction: .bottom, radius: 2, color: .black, opacity: 0.5)

@@ -13,10 +13,16 @@ class SettingViewController: UIViewController {
     //MARK: - Default
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .white
+        self.controllerSetting()
 
         // Do any additional setup after loading the view.
     }
     //MARK: - Layout
+    private func controllerSetting() {
+        self.setLeftBackBarButtonItem(image: R.image.cancelSimpleFilled3xBlack())
+        self.setNavigationBarTitleString(title: R.string.localized.settingViewNavigationTitle())
+    }
     //MARK: - Function
     //MARK: - Action
 

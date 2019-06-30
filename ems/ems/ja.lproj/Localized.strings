@@ -5,3 +5,5 @@
   Created by El You on 2019/06/11.
   Copyright © 2019 RaiRaiRaise. All rights reserved.
 */
+SettingViewNavigationTitle = "設定";
+MenuViewNavigationTitle = "メニュー";

@@ -14,44 +14,53 @@ extension UIViewController {
 
     /// Sets the navigation bar menu on the left bar button.
     /// Also add the left gesture.
-//    func setLeftBackBarButtonItem(action: Selector = #selector(tappedBackButton), image: UIImage? = R.image.round_arrow_back_ios_black_48pt()) {
-//        let barButtonItem = UIBarButtonItem()
-//        let button = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 30.0))
-//        button.setImage(image, for: .normal)
-//        button.imageView?.tintColor = Constants.Color.IMAGE_COLOR
-//        button.contentMode = .scaleAspectFit
-////        button.setBackgroundImage(image, for: .normal)
-//        button.addTarget(self, action: action, for: .touchUpInside)
-//        barButtonItem.customView = button
-//        barButtonItem.customView?.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
-//        barButtonItem.customView?.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
-//        barButtonItem.tintColor = UIColor.clear
-//        self.navigationItem.leftBarButtonItem = barButtonItem
-//    }
-//
-//    /// Sets the navigation bar menu on the left bar button.
-//    /// Also add the left gesture.
-//    func setRightCloseBarButtonItem(action: Selector = #selector(tappedCloseButton), image: UIImage? = R.image.round_close_black_48pt()) {
-//        let barButtonItem = UIBarButtonItem()
-//        let button = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 30.0))
-//        button.setImage(image, for: .normal)
-//        button.imageView?.tintColor = Constants.Color.IMAGE_COLOR
-//        button.contentMode = .scaleAspectFit
-////        button.setBackgroundImage(image, for: .normal)
-//        button.addTarget(self, action: action, for: .touchUpInside)
-//        barButtonItem.customView = button
-//        barButtonItem.customView?.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
-//        barButtonItem.customView?.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
-//        barButtonItem.tintColor = UIColor.clear
-//        self.navigationItem.rightBarButtonItem = barButtonItem
-//    }
+    func setLeftBackBarButtonItem(action: Selector = #selector(tappedBackButton), image: UIImage? = R.image.backSimpleFilled()) {
+        let barButtonItem = UIBarButtonItem()
+        let button = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 30.0))
+        button.setImage(image, for: .normal)
+        button.imageView?.tintColor = Constants.Color.IMAGE_COLOR
+        button.contentMode = .scaleAspectFit
+        button.setBackgroundImage(image, for: .normal)
+        button.addTarget(self, action: action, for: .touchUpInside)
+        barButtonItem.customView = button
+        barButtonItem.customView?.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
+        barButtonItem.customView?.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+        barButtonItem.tintColor = UIColor.clear
+        self.navigationItem.leftBarButtonItem = barButtonItem
+    }
+
+    /// Sets the navigation bar menu on the left bar button.
+    /// Also add the left gesture.
+    func setRightCloseBarButtonItem(action: Selector = #selector(tappedCloseButton), image: UIImage? = R.image.cancelSimpleFilled()) {
+        let barButtonItem = UIBarButtonItem()
+        let button = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 30.0))
+        button.setImage(image, for: .normal)
+        button.imageView?.tintColor = Constants.Color.IMAGE_COLOR
+        button.contentMode = .scaleAspectFit
+        button.setBackgroundImage(image, for: .normal)
+        button.addTarget(self, action: action, for: .touchUpInside)
+        barButtonItem.customView = button
+        barButtonItem.customView?.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
+        barButtonItem.customView?.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+        barButtonItem.tintColor = UIColor.clear
+        self.navigationItem.rightBarButtonItem = barButtonItem
+    }
 
     @objc private func tappedBackButton() {
-        self.navigationController?.popViewController(animated: true)
+        if self.navigationController?.viewControllers.count ?? 0 > 1 {
+            self.navigationController?.popViewController(animated: true)
+        }else {
+            self.dismiss(animated: true, completion: nil)
+        }
+
     }
 
     @objc private func tappedCloseButton() {
-        self.navigationController?.popToRootViewController(animated: true)
+        if self.navigationController?.viewControllers.count ?? 0 > 1 {
+            self.navigationController?.popToRootViewController(animated: true)
+        }else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 
     func setNavigationBarTitleString(title: String) {

@@ -13,11 +13,16 @@ class MenuViewController: UIViewController {
     //MARK: - Default
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.view.backgroundColor = .white
+        self.controllerSetting()
+        
         // Do any additional setup after loading the view.
     }
-    
     //MARK: - Layout
+    private func controllerSetting() {
+        self.setLeftBackBarButtonItem(image: R.image.cancelSimpleFilled3xBlack())
+        self.setNavigationBarTitleString(title: R.string.localized.menuViewNavigationTitle())
+    }
     //MARK: - Function
     //MARK: - Action
 
