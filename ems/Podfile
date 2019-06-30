@@ -10,6 +10,7 @@ def install_pods
     pod 'SVProgressHUD' , '~> 2.2.5'
     pod 'Moya', '~> 13.0'
     pod 'DynamicButton' , '~> 6.1.0'
+    pod 'SPPermission/Camera'
 
     #Pods for FiMap
 
@@ -30,7 +31,6 @@ end
 
 
 swift3_names = [
-
 ]
 
 swift4_names = [

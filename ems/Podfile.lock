@@ -11,6 +11,9 @@ PODS:
   - R.swift.Library (5.0.1)
   - Result (4.1.0)
   - SnapKit (5.0.0)
+  - SPPermission/Camera (4.0.5):
+    - SPPermission/Core
+  - SPPermission/Core (4.0.5)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
@@ -18,6 +21,7 @@ DEPENDENCIES:
   - Moya (~> 13.0)
   - R.swift (~> 5.0.3)
   - SnapKit (~> 5.0.0)
+  - SPPermission/Camera
   - SVProgressHUD (~> 2.2.5)
 
 SPEC REPOS:
@@ -29,6 +33,7 @@ SPEC REPOS:
     - R.swift.Library
     - Result
     - SnapKit
+    - SPPermission
     - SVProgressHUD
 
 SPEC CHECKSUMS:
@@ -39,8 +44,9 @@ SPEC CHECKSUMS:
   R.swift.Library: cfe85d569d9bae6cb262922db130e7c3a7a5fad1
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
   SnapKit: fd22d10eb9aff484d79a8724eab922c1ddf89bcf
+  SPPermission: ef54994522bdf471ce1fe6aea267bf471a9de701
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: a6db716a91e5560a10deb1be0aa1375ac04e3a73
+PODFILE CHECKSUM: 5fbfe2ff223453b3178f34084abcfb2c745ff4ac
 
 COCOAPODS: 1.5.3

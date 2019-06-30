@@ -41,6 +41,13 @@
 		8995F3C422C86F5100830300 /* check-simple-filled@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8995F3BC22C86F5000830300 /* check-simple-filled@3x.png */; };
 		8995F3C522C86F5100830300 /* profile-simple-filled@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8995F3BD22C86F5000830300 /* profile-simple-filled@3x.png */; };
 		8995F3C622C86F5100830300 /* setting-simple-filled@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8995F3BE22C86F5000830300 /* setting-simple-filled@3x.png */; };
+		8995F3C822C8905800830300 /* Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3C722C8905800830300 /* Permission.swift */; };
+		8995F3CA22C8A1C800830300 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3C922C8A1C800830300 /* SettingViewController.swift */; };
+		8995F3CC22C8A1F300830300 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3CB22C8A1F300830300 /* MenuViewController.swift */; };
+		8995F3CE22C8A21200830300 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3CD22C8A21200830300 /* ProfileViewController.swift */; };
+		8995F3D422C8A2DF00830300 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3D322C8A2DF00830300 /* SettingView.swift */; };
+		8995F3D622C8A2E900830300 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3D522C8A2E900830300 /* MenuView.swift */; };
+		8995F3D822C8A2F700830300 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3D722C8A2F700830300 /* ProfileView.swift */; };
 		89AB156B22C72CB6000632E4 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB156A22C72CB6000632E4 /* ScanViewController.swift */; };
 		89AB156D22C72CC6000632E4 /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB156C22C72CC6000632E4 /* ScanView.swift */; };
 		89AB156F22C752E7000632E4 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB156E22C752E7000632E4 /* Sound.swift */; };
@@ -119,6 +126,13 @@
 		8995F3BC22C86F5000830300 /* check-simple-filled@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check-simple-filled@3x.png"; sourceTree = "<group>"; };
 		8995F3BD22C86F5000830300 /* profile-simple-filled@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile-simple-filled@3x.png"; sourceTree = "<group>"; };
 		8995F3BE22C86F5000830300 /* setting-simple-filled@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setting-simple-filled@3x.png"; sourceTree = "<group>"; };
+		8995F3C722C8905800830300 /* Permission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Permission.swift; sourceTree = "<group>"; };
+		8995F3C922C8A1C800830300 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		8995F3CB22C8A1F300830300 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		8995F3CD22C8A21200830300 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		8995F3D322C8A2DF00830300 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		8995F3D522C8A2E900830300 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		8995F3D722C8A2F700830300 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		89AB156A22C72CB6000632E4 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		89AB156C22C72CC6000632E4 /* ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
 		89AB156E22C752E7000632E4 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
@@ -242,6 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				89AB156E22C752E7000632E4 /* Sound.swift */,
+				8995F3C722C8905800830300 /* Permission.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -251,6 +266,9 @@
 			children = (
 				892BD85622B33595005DBA8F /* HomeView.swift */,
 				89AB156C22C72CC6000632E4 /* ScanView.swift */,
+				8995F3D322C8A2DF00830300 /* SettingView.swift */,
+				8995F3D522C8A2E900830300 /* MenuView.swift */,
+				8995F3D722C8A2F700830300 /* ProfileView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -260,6 +278,9 @@
 			children = (
 				892BD85222AFEE1D005DBA8F /* HomeViewController.swift */,
 				89AB156A22C72CB6000632E4 /* ScanViewController.swift */,
+				8995F3C922C8A1C800830300 /* SettingViewController.swift */,
+				8995F3CB22C8A1F300830300 /* MenuViewController.swift */,
+				8995F3CD22C8A21200830300 /* ProfileViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -585,6 +606,7 @@
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
+				"${BUILT_PRODUCTS_DIR}/SPPermission/SPPermission.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
@@ -597,6 +619,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rswift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SPPermission.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
@@ -613,10 +636,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				892BD84922AFEC91005DBA8F /* UITextFieldEx.swift in Sources */,
+				8995F3D822C8A2F700830300 /* ProfileView.swift in Sources */,
 				89AB156F22C752E7000632E4 /* Sound.swift in Sources */,
 				89AB15E822C76F1B000632E4 /* ReaderOverlayView.swift in Sources */,
+				8995F3D622C8A2E900830300 /* MenuView.swift in Sources */,
 				892BD84522AFEC91005DBA8F /* UIViewControllerEx.swift in Sources */,
+				8995F3D422C8A2DF00830300 /* SettingView.swift in Sources */,
 				89AB15E422C76F1B000632E4 /* QRCodeReaderResult.swift in Sources */,
+				8995F3CA22C8A1C800830300 /* SettingViewController.swift in Sources */,
+				8995F3CE22C8A21200830300 /* ProfileViewController.swift in Sources */,
 				892BD84022AFEC91005DBA8F /* UIButtonEx.swift in Sources */,
 				892BD84122AFEC91005DBA8F /* ClassEx.swift in Sources */,
 				89AB15E622C76F1B000632E4 /* QRCodeReaderViewController.swift in Sources */,
@@ -642,8 +670,10 @@
 				89AB15E122C76F1B000632E4 /* QRCodeReaderViewContainer.swift in Sources */,
 				892BD83F22AFEC91005DBA8F /* ArrayEx.swift in Sources */,
 				892BD85922B35C75005DBA8F /* LoadingShimmer.swift in Sources */,
+				8995F3CC22C8A1F300830300 /* MenuViewController.swift in Sources */,
 				89AB15E022C76F1B000632E4 /* QRCodeReaderViewControllerDelegate.swift in Sources */,
 				892BD84722AFEC91005DBA8F /* UIViewEx.swift in Sources */,
+				8995F3C822C8905800830300 /* Permission.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

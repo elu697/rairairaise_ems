@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 import AVFoundation
-
+import SPPermission
 
 class ScanViewController: UIViewController {
     //MARK: - Property
@@ -25,17 +25,21 @@ class ScanViewController: UIViewController {
         self.view = self.scanView
     }
 
+    override var prefersHomeIndicatorAutoHidden: Bool {
+        return true
+    }
+
     override func viewDidLoad() {
-        super.viewDidLoad()
         self.scanView.backgroundColor = .white
         self.scanerSetting()
         self.actionSetting()
-
+        setNeedsUpdateOfHomeIndicatorAutoHidden()
         // Do any additional setup after loading the view.
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        Permission(vc: self).checkCameraPermission()
         self.scanReader.startScanning()
     }
 
@@ -58,7 +62,6 @@ class ScanViewController: UIViewController {
             build.preferredStatusBarStyle = .default
         }
         self.scanView.scanPreviewView.setupComponents(with: scanViewBuild)
-        self.scanView.scanPreviewView.toggleTorchButton?.addTarget(self, action: #selector(tappedTorchBtn), for: .touchUpInside)
 
         self.scanReader.didFindCode = { (result) in
             if result.value != self.scanCode {
@@ -86,18 +89,35 @@ class ScanViewController: UIViewController {
     }
 
     private func actionSetting() {
+        self.scanView.scanPreviewView.toggleTorchButton?.addTarget(self, action: #selector(tappedTorchBtn), for: .touchUpInside)
         self.scanView.scanBtn.addTarget(self, action: #selector(tappedScanBtn), for: .touchUpInside)
+        self.scanView.profileBtn.addTarget(self, action: #selector(tappedProfileBtn), for: .touchUpInside)
+        self.scanView.menuBtn.addTarget(self, action: #selector(tappedMenuBtn), for: .touchUpInside)
+        self.scanView.settingBtn.addTarget(self, action: #selector(tappedSettingBtn), for: .touchUpInside)
     }
+
     //MARK: - Action
     @objc private func tappedScanBtn() {
-        Sound.tone(mode: .success)
-//        Sound.tone(mode: .end)
+        Sound.tone(mode: .success)//ok
+        Sound.tone(mode: .ringing)//error
 
     }
 
     @objc private func tappedTorchBtn() {
         self.scanReader.toggleTorch()
         Sound.tone(mode: .x3dtouch)
+    }
+
+    @objc private func tappedProfileBtn() {
+        Sound.tone(mode: .end)
+    }
+
+    @objc private func tappedMenuBtn() {
+        Sound.tone(mode: .end)
+    }
+
+    @objc private func tappedSettingBtn() {
+        Sound.tone(mode: .end)
     }
 
     /*

@@ -51,7 +51,7 @@ class ScanView: UIView {
     private func scanBtnLayoutSetting() {
         self.scanBtn.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(-70)
+            make.bottom.equalTo(-50)
             make.width.height.equalTo(70)
         }
 
