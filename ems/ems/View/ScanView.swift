@@ -66,7 +66,7 @@ class ScanView: UIView {
     private func profileBtnLayoutSetting() {
         self.profileBtn.snp.makeConstraints { (make) in
             make.centerY.equalTo((self.scanPreviewView.toggleTorchButton?.snp.centerY)!)//Safe
-            make.right.equalTo(-20)
+            make.right.equalTo(-27)
             make.width.height.equalTo(32)
         }
         self.profileBtn.setImage(R.image.profileSimpleFilled(), for: .normal)

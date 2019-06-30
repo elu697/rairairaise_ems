@@ -13,11 +13,15 @@ class ProfileViewController: UIViewController {
     //MARK: - Default
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.view.backgroundColor = .clear
+        self.controllerSetting()
+        
         // Do any additional setup after loading the view.
     }
-
     //MARK: - Layout
+    private func controllerSetting() {
+       
+    }
     //MARK: - Function
     //MARK: - Action
 

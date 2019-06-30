@@ -36,7 +36,7 @@ class ScanViewController: UIViewController {
         setNeedsUpdateOfHomeIndicatorAutoHidden()
         // Do any additional setup after loading the view.
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Permission(vc: self).checkCameraPermission()
@@ -109,7 +109,21 @@ class ScanViewController: UIViewController {
     }
 
     @objc private func tappedProfileBtn() {
-        Sound.tone(mode: .end)
+        let contentVC = ProfileViewController()
+        // スタイルの指定
+        contentVC.modalPresentationStyle = .popover
+        // サイズの指定
+        contentVC.preferredContentSize = CGSize(width: self.view.bounds.width*0.8, height: self.view.bounds.height*0.7)
+        // 表示するViewの指定
+        contentVC.popoverPresentationController?.sourceView = view
+        // ピヨッと表示する位置の指定
+        contentVC.popoverPresentationController?.sourceRect = self.scanView.profileBtn.frame
+        // 矢印が出る方向の指定
+        contentVC.popoverPresentationController?.permittedArrowDirections = .any
+        // デリゲートの設定
+        contentVC.popoverPresentationController?.delegate = self
+        //表示
+        present(contentVC, animated: true, completion: nil)
     }
 
     @objc private func tappedMenuBtn() {
@@ -132,4 +146,10 @@ class ScanViewController: UIViewController {
     }
     */
 
+}
+
+extension ScanViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
+    }
 }
