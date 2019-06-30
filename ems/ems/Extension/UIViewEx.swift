@@ -30,12 +30,13 @@ public extension UIView {
         }
     }
     
-    @IBInspectable var cornerRadius: CGFloat {
-        get {
-            return layer.cornerRadius
-        }
+    var roundRadius: CGFloat {
         set {
-            layer.cornerRadius = newValue
+            self.layer.cornerRadius = newValue
+            self.layer.masksToBounds = true
+        }
+        get {
+            return self.layer.cornerRadius
         }
     }
     
