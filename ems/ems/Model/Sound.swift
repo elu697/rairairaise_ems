@@ -30,8 +30,9 @@ class Sound {
         case ringing = 1151
         ///フィロン
         case end = 1152
-        ///3Dタッチの振動
+        ///3Dタッチの振動ぴろろろろん
         case x3dtouch = 1162
+        ///録画開始の音
         case x3dtouch2 = 1163
         case x3dtouch3 = 1164
         ///2トーンの音が上がったり下がったり

@@ -49,15 +49,16 @@ class ScanViewController: UIViewController {
     private func scanerSetting() {
         let scanViewBuild = QRCodeReaderViewControllerBuilder { (build) in
             build.reader = self.scanReader
-            build.showTorchButton = false
+            build.showTorchButton = true
             build.showSwitchCameraButton = false
             build.showCancelButton = false
             build.showOverlayView = true
             build.handleOrientationChange = true
-            build.rectOfInterest = CGRect(x: 0.2, y: 0.2, width: 0.6, height: 0.3)
+            build.rectOfInterest = CGRect(x: 0.2, y: 0.125, width: 0.6, height: 0.3)
             build.preferredStatusBarStyle = .default
         }
         self.scanView.scanPreviewView.setupComponents(with: scanViewBuild)
+        self.scanView.scanPreviewView.toggleTorchButton?.addTarget(self, action: #selector(tappedTorchBtn), for: .touchUpInside)
 
         self.scanReader.didFindCode = { (result) in
             if result.value != self.scanCode {
@@ -90,6 +91,13 @@ class ScanViewController: UIViewController {
     //MARK: - Action //addtargetの対象となるようなユーザーに近い処理
     @objc private func tappedScanBtn() {
         Sound.tone(mode: .success)
+//        Sound.tone(mode: .end)
+
+    }
+
+    @objc private func tappedTorchBtn() {
+        self.scanReader.toggleTorch()
+        Sound.tone(mode: .x3dtouch)
     }
 
     /*
