@@ -16,16 +16,15 @@ extension UIViewController {
     /// Also add the left gesture.
     func setLeftBackBarButtonItem(action: Selector = #selector(tappedBackButton), image: UIImage? = R.image.backSimpleFilled()) {
         let barButtonItem = UIBarButtonItem()
-        let button = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 30.0))
+        let button = UIButton(type: .system)
+        button.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 30.0)
         button.setImage(image, for: .normal)
-        button.imageView?.tintColor = Constants.Color.IMAGE_COLOR
+        button.tintColor = .black
         button.contentMode = .scaleAspectFit
-        button.setBackgroundImage(image, for: .normal)
         button.addTarget(self, action: action, for: .touchUpInside)
         barButtonItem.customView = button
         barButtonItem.customView?.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
         barButtonItem.customView?.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
-        barButtonItem.tintColor = UIColor.clear
         self.navigationItem.leftBarButtonItem = barButtonItem
     }
 
@@ -33,23 +32,22 @@ extension UIViewController {
     /// Also add the left gesture.
     func setRightCloseBarButtonItem(action: Selector = #selector(tappedCloseButton), image: UIImage? = R.image.cancelSimpleFilled()) {
         let barButtonItem = UIBarButtonItem()
-        let button = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 30.0))
+        let button = UIButton(type: .system)
+        button.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 30.0)
         button.setImage(image, for: .normal)
-        button.imageView?.tintColor = Constants.Color.IMAGE_COLOR
+        button.tintColor = .black
         button.contentMode = .scaleAspectFit
-        button.setBackgroundImage(image, for: .normal)
         button.addTarget(self, action: action, for: .touchUpInside)
         barButtonItem.customView = button
         barButtonItem.customView?.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
         barButtonItem.customView?.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
-        barButtonItem.tintColor = UIColor.clear
         self.navigationItem.rightBarButtonItem = barButtonItem
     }
 
     @objc private func tappedBackButton() {
         if self.navigationController?.viewControllers.count ?? 0 > 1 {
             self.navigationController?.popViewController(animated: true)
-        }else {
+        } else {
             self.dismiss(animated: true, completion: nil)
         }
 
@@ -58,7 +56,7 @@ extension UIViewController {
     @objc private func tappedCloseButton() {
         if self.navigationController?.viewControllers.count ?? 0 > 1 {
             self.navigationController?.popToRootViewController(animated: true)
-        }else {
+        } else {
             self.dismiss(animated: true, completion: nil)
         }
     }
@@ -74,6 +72,15 @@ extension UIViewController {
         self.navigationItem.titleView = titleLbl
     }
 
+    func hideNavigationWhenSwipeView() {
+        let pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dissmissView))
+        
+        let swipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(dissmissView))
+        swipe.direction = .down
+        swipe.cancelsTouchesInView = false
+        view.addGestureRecognizer(swipe)
+    }
+
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
@@ -86,6 +93,10 @@ extension UIViewController {
 
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+
+    @objc func dissmissView() {
+        self.dismiss(animated: true, completion: nil)
     }
 
     func pushNewNavigationController(rootViewController: UIViewController) {

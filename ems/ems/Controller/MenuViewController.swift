@@ -7,10 +7,18 @@
 //
 
 import UIKit
+import Material
 
-class MenuViewController: UIViewController {
+class MenuViewController: UIViewController  {
     //MARK: - Property
+    let menuView = MenuView()
+    
     //MARK: - Default
+    override func loadView() {
+        super.loadView()
+        self.view = self.menuView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white

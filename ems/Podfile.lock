@@ -1,6 +1,13 @@
 PODS:
   - Alamofire (4.8.2)
   - DynamicButton (6.1.0)
+  - Material (3.1.6):
+    - Material/Core (= 3.1.6)
+  - Material/Core (3.1.6):
+    - Motion (~> 3.1.1)
+  - Motion (3.1.1):
+    - Motion/Core (= 3.1.1)
+  - Motion/Core (3.1.1)
   - Moya (13.0.1):
     - Moya/Core (= 13.0.1)
   - Moya/Core (13.0.1):
@@ -18,6 +25,7 @@ PODS:
 
 DEPENDENCIES:
   - DynamicButton (~> 6.1.0)
+  - Material (~> 3.1.0)
   - Moya (~> 13.0)
   - R.swift (~> 5.0.3)
   - SnapKit (~> 5.0.0)
@@ -28,6 +36,8 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - DynamicButton
+    - Material
+    - Motion
     - Moya
     - R.swift
     - R.swift.Library
@@ -39,6 +49,8 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   DynamicButton: 5a3ae2bf26dc196fb6c85b3e1aac956add860718
+  Material: 9b30613deb1b79487eeede5e4f90cbff084311ea
+  Motion: f115b33f36cc52472a25a965daa89b3859817de0
   Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
   R.swift: f5a87643b91ea569d23d6afb3eee9c743edde239
   R.swift.Library: cfe85d569d9bae6cb262922db130e7c3a7a5fad1
@@ -47,6 +59,6 @@ SPEC CHECKSUMS:
   SPPermission: ef54994522bdf471ce1fe6aea267bf471a9de701
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 5fbfe2ff223453b3178f34084abcfb2c745ff4ac
+PODFILE CHECKSUM: 27f943bfc5ff29807f3b5568f6a0ed057981195a
 
 COCOAPODS: 1.5.3

@@ -9,14 +9,15 @@
 import UIKit
 import Foundation
 import AVFoundation
+import Material
 
 class ScanView: UIView {
     //MARK: - Property
     let scanPreviewView = QRCodeReaderView()
     let scanBtn = UIButton(type: .system)
-    let profileBtn = UIButton()
-    let menuBtn = UIButton()
-    let settingBtn = UIButton()
+    let profileBtn = IconButton()
+    let menuBtn = IconButton()
+    let settingBtn = IconButton()
 
     //MARK: - Default
     override init(frame: CGRect) {
@@ -55,11 +56,12 @@ class ScanView: UIView {
             make.width.height.equalTo(70)
         }
 
-        self.scanBtn.cornerRadius = 35
+        self.scanBtn.roundRadius = 35
         self.scanBtn.borderWidth = 5
         self.scanBtn.borderColor = .gray
+        self.scanBtn.tintColor = .gray
+        self.scanBtn.setImage(R.image.cropSimpleFilled(), for: .normal)
         self.scanBtn.setBackgroundColor(color: .clear, forState: .normal)
-        self.scanBtn.setBackgroundColor(color: .white, forState: .highlighted)
         self.addShadow(direction: .bottom, radius: 1, color: .black, opacity: 1)
     }
 
@@ -69,7 +71,10 @@ class ScanView: UIView {
             make.right.equalTo(-27)
             make.width.height.equalTo(32)
         }
-        self.profileBtn.setImage(R.image.profileSimpleFilled(), for: .normal)
+
+        self.profileBtn.image = R.image.profileSimpleFilled()
+        self.profileBtn.tintColor = .white
+        self.profileBtn.pulseColor = .white
         self.profileBtn.addShadow(direction: .bottom, radius: 2, color: .black, opacity: 0.5)
     }
 
@@ -77,9 +82,12 @@ class ScanView: UIView {
         self.menuBtn.snp.makeConstraints { (make) in
             make.centerY.equalTo(self.scanBtn.snp.centerY)
             make.left.equalTo(self.scanBtn.snp.right).offset(30)
-            make.width.height.equalTo(38)
+            make.width.height.equalTo(40)
         }
-        self.menuBtn.setImage(R.image.menuSimpleFilled(), for: .normal)
+
+        self.menuBtn.image = R.image.menuSimpleFilled()
+        self.menuBtn.tintColor = .white
+        self.menuBtn.pulseColor = .white
         self.menuBtn.addShadow(direction: .bottom, radius: 2, color: .black, opacity: 0.5)
     }
 
@@ -87,9 +95,12 @@ class ScanView: UIView {
         self.settingBtn.snp.makeConstraints { (make) in
             make.centerY.equalTo(self.scanBtn.snp.centerY)
             make.right.equalTo(self.scanBtn.snp.left).offset(-32)
-            make.width.height.equalTo(38)
+            make.width.height.equalTo(40)
         }
-        self.settingBtn.setImage(R.image.settingSimpleFilled(), for: .normal)
+
+        self.settingBtn.image = R.image.settingSimpleFilled()
+        self.settingBtn.tintColor = .white
+        self.settingBtn.pulseColor = .white
         self.settingBtn.addShadow(direction: .bottom, radius: 2, color: .black, opacity: 0.5)
     }
     //MARK: - Function
