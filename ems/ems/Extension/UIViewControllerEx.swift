@@ -14,7 +14,7 @@ extension UIViewController {
 
     /// Sets the navigation bar menu on the left bar button.
     /// Also add the left gesture.
-    func setLeftBackBarButtonItem(action: Selector = #selector(tappedBackButton), image: UIImage? = R.image.backSimpleFilled()) {
+    func setLeftBackBarButtonItem(action: Selector = #selector(tappedBackButton), image: UIImage? = Constants.image.back) {
         let barButtonItem = UIBarButtonItem()
         let button = UIButton(type: .system)
         button.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 30.0)
@@ -30,7 +30,7 @@ extension UIViewController {
 
     /// Sets the navigation bar menu on the left bar button.
     /// Also add the left gesture.
-    func setRightCloseBarButtonItem(action: Selector = #selector(tappedCloseButton), image: UIImage? = R.image.cancelSimpleFilled()) {
+    func setRightCloseBarButtonItem(action: Selector = #selector(tappedCloseButton), image: UIImage? = Constants.image.back) {
         let barButtonItem = UIBarButtonItem()
         let button = UIButton(type: .system)
         button.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 30.0)
@@ -73,7 +73,7 @@ extension UIViewController {
     }
 
     func hideNavigationWhenSwipeView() {
-        let pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dissmissView))
+        let _: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dissmissView))
         
         let swipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(dissmissView))
         swipe.direction = .down

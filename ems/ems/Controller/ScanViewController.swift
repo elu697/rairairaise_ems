@@ -53,7 +53,7 @@ class ScanViewController: UIViewController {
     private func scanerSetting() {
         let scanViewBuild = QRCodeReaderViewControllerBuilder { (build) in
             build.reader = self.scanReader
-            build.showTorchButton = true
+            build.showTorchButton = false
             build.showSwitchCameraButton = false
             build.showCancelButton = false
             build.showOverlayView = true
@@ -89,7 +89,7 @@ class ScanViewController: UIViewController {
     }
 
     private func actionSetting() {
-        self.scanView.scanPreviewView.toggleTorchButton?.addTarget(self, action: #selector(tappedTorchBtn), for: .touchUpInside)
+        self.scanView.flashBtn.addTarget(self, action: #selector(tappedFlashBtn), for: .touchUpInside)
         self.scanView.scanBtn.addTarget(self, action: #selector(tappedScanBtn), for: .touchUpInside)
         self.scanView.profileBtn.addTarget(self, action: #selector(tappedProfileBtn), for: .touchUpInside)
         self.scanView.menuBtn.addTarget(self, action: #selector(tappedMenuBtn), for: .touchUpInside)
@@ -103,7 +103,7 @@ class ScanViewController: UIViewController {
 
     }
 
-    @objc private func tappedTorchBtn() {
+    @objc private func tappedFlashBtn() {
         self.scanReader.toggleTorch()
         Sound.tone(mode: .x3dtouch)
     }
