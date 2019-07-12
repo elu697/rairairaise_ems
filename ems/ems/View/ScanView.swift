@@ -21,6 +21,9 @@ class ScanView: UIView {
     let flashBtn = UIButton(type: .system)
     let infoLbl = UILabel()
     let scanCountLbl = UILabel()
+    
+    private var scanReader = QRCodeReader()
+    private var scanCode: String = ""
 
     //MARK: - Default
     override init(frame: CGRect) {
@@ -155,6 +158,44 @@ class ScanView: UIView {
         self.scanCountLbl.roundRadius = 20
     }
     //MARK: - Function
+    public func scanerSetting(scaner: QRCodeReader) {
+        self.scanReader = scaner
+        let scanViewBuild = QRCodeReaderViewControllerBuilder { (build) in
+            build.reader = self.scanReader
+            build.showTorchButton = false
+            build.showSwitchCameraButton = false
+            build.showCancelButton = false
+            build.showOverlayView = true
+            build.handleOrientationChange = true
+            build.rectOfInterest = CGRect(x: 0.2, y: 0.125, width: 0.6, height: 0.3)
+            build.preferredStatusBarStyle = .default
+        }
+        self.scanPreviewView.setupComponents(with: scanViewBuild)
+        
+        self.scanReader.didFindCode = { (result) in
+            if result.value != self.scanCode {
+                self.scanCode = result.value
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+                    self.scanPreviewView.overlayView?.setState(.normal)
+                    self.scanCode.removeAll()
+                }
+                Sound.tone(mode: .success)
+                self.scanPreviewView.overlayView?.setState(.valid)
+                //TODO: TODO
+                print(result)
+            }
+        }
+        
+        self.scanReader.didFailDecoding = { () in
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+                self.scanPreviewView.overlayView?.setState(.normal)
+            }
+            Sound.tone(mode: .fail)
+            self.scanPreviewView.overlayView?.setState(.wrong)
+        }
+        self.scanReader.stopScanningWhenCodeIsFound = false
+        self.scanReader.startScanning()
+    }
     //MARK: - Action
 
     /*

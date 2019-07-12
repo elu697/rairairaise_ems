@@ -16,8 +16,6 @@ class ScanViewController: UIViewController {
     let scanView = ScanView()
     let scanReader = QRCodeReader(metadataObjectTypes: [AVMetadataObject.ObjectType.qr], captureDevicePosition: .back)
 
-    private var scanCode: String = ""
-
     //MARK: - Default
     override func loadView() {
         super.loadView()
@@ -31,7 +29,6 @@ class ScanViewController: UIViewController {
 
     override func viewDidLoad() {
         self.scanView.backgroundColor = .white
-        self.scanerSetting()
         self.actionSetting()
         setNeedsUpdateOfHomeIndicatorAutoHidden()
         // Do any additional setup after loading the view.
@@ -50,44 +47,6 @@ class ScanViewController: UIViewController {
 
     //MARK: - Layout
     //MARK: - Function
-    private func scanerSetting() {
-        let scanViewBuild = QRCodeReaderViewControllerBuilder { (build) in
-            build.reader = self.scanReader
-            build.showTorchButton = false
-            build.showSwitchCameraButton = false
-            build.showCancelButton = false
-            build.showOverlayView = true
-            build.handleOrientationChange = true
-            build.rectOfInterest = CGRect(x: 0.2, y: 0.125, width: 0.6, height: 0.3)
-            build.preferredStatusBarStyle = .default
-        }
-        self.scanView.scanPreviewView.setupComponents(with: scanViewBuild)
-
-        self.scanReader.didFindCode = { (result) in
-            if result.value != self.scanCode {
-                self.scanCode = result.value
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-                    self.scanView.scanPreviewView.overlayView?.setState(.normal)
-                    self.scanCode.removeAll()
-                }
-                Sound.tone(mode: .success)
-                self.scanView.scanPreviewView.overlayView?.setState(.valid)
-                //TODO: TODO
-                print(result)
-            }
-        }
-
-        self.scanReader.didFailDecoding = { () in
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-                self.scanView.scanPreviewView.overlayView?.setState(.normal)
-            }
-            Sound.tone(mode: .fail)
-            self.scanView.scanPreviewView.overlayView?.setState(.wrong)
-        }
-        self.scanReader.stopScanningWhenCodeIsFound = false
-        self.scanReader.startScanning()
-    }
-
     private func actionSetting() {
         self.scanView.flashBtn.addTarget(self, action: #selector(tappedFlashBtn), for: .touchUpInside)
         self.scanView.scanBtn.addTarget(self, action: #selector(tappedScanBtn), for: .touchUpInside)
@@ -110,19 +69,12 @@ class ScanViewController: UIViewController {
 
     @objc private func tappedProfileBtn() {
         let contentVC = ProfileViewController()
-        // スタイルの指定
         contentVC.modalPresentationStyle = .popover
-        // サイズの指定
-        contentVC.preferredContentSize = CGSize(width: self.view.bounds.width*0.8, height: self.view.bounds.height*0.7)
-        // 表示するViewの指定
+        contentVC.preferredContentSize = CGSize(width: self.view.bounds.width * 0.8, height: self.view.bounds.height * 0.7)
         contentVC.popoverPresentationController?.sourceView = view
-        // ピヨッと表示する位置の指定
         contentVC.popoverPresentationController?.sourceRect = self.scanView.profileBtn.frame
-        // 矢印が出る方向の指定
         contentVC.popoverPresentationController?.permittedArrowDirections = .any
-        // デリゲートの設定
         contentVC.popoverPresentationController?.delegate = self
-        //表示
         present(contentVC, animated: true, completion: nil)
     }
 
