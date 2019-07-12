@@ -50,19 +50,7 @@ public extension UIView {
         }
         return nil
     }
-    
-    var alphaWithAnimation: CGFloat {
-        set {
-            UIView.animate(withDuration: 1.0, animations: {
-                self.alpha = newValue
-            }, completion: { _ in
-                self.isHiddenWithInteraction = newValue.isEqual(to: 0.0)
-            })
-        }
-        get {
-            return self.alpha
-        }
-    }
+
     
     var isHiddenWithInteraction: Bool {
         set {
@@ -74,6 +62,19 @@ public extension UIView {
         }
     }
 
+    var isHiddenWithAlphaAnimation: CGFloat {
+        set {
+            UIView.animate(withDuration: 1.0, animations: {
+                self.alpha = newValue
+            }, completion: { _ in
+//                self.isUserInteractionEnabled = newValue.isEqual(to: 0.0)
+            })
+        }
+        get {
+            return self.alpha
+        }
+    }
+    
     var isHiddenWithAlpha: CGFloat {
         set {
             self.alpha = newValue
