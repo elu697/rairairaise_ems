@@ -9,11 +9,11 @@
 import UIKit
 
 class infoView: UIView {
-    //MARK: - Property
+    // MARK: - Property
     let scanCountLbl = UILabel()
     let infoMsgLbl = UILabel()
 
-    //MARK: - Default
+    // MARK: - Default
     override init(frame: CGRect) {
         super.init(frame: .zero)
         self.addSubview(self.scanCountLbl)
@@ -30,7 +30,7 @@ class infoView: UIView {
         self.infoMsgLblLayoutSetting()
     }
 
-    //MARK: - Layout
+    // MARK: - Layout
     private func scanCountLblLayoutSetting() {
 
     }
@@ -38,8 +38,8 @@ class infoView: UIView {
     private func infoMsgLblLayoutSetting() {
 
     }
-    //MARK: - Function
-    //MARK: - Action
+    // MARK: - Function
+    // MARK: - Action
 
     /*
     // Only override draw() if you perform custom drawing.
