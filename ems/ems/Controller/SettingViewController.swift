@@ -18,11 +18,13 @@ class SettingViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+
     //MARK: - Layout
     private func controllerSetting() {
         self.setLeftBackBarButtonItem(image: Constants.image.back)
         self.setNavigationBarTitleString(title: R.string.localized.settingViewNavigationTitle())
     }
+
     //MARK: - Function
     //MARK: - Action
 

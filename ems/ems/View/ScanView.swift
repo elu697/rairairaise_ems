@@ -57,7 +57,7 @@ class ScanView: UIView {
 //        self.clipsToBounds = true
         self.flashBtn.snp.makeConstraints { (make) in
 //            make.top.equalTo(50)
-            make.top.equalToSuperview().offset(20+safeAreaInsets.top)
+            make.top.equalToSuperview().offset(20 + safeAreaInsets.top)
             make.left.equalTo(28)
             make.width.height.equalTo(35)
         }
@@ -80,7 +80,7 @@ class ScanView: UIView {
         }
         self.scanBtn.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-20-safeAreaInsets.bottom)
+            make.bottom.equalToSuperview().offset(-20 - safeAreaInsets.bottom)
             make.width.height.equalTo(70)
         }
         self.menuBtn.snp.makeConstraints { (make) in
@@ -163,13 +163,14 @@ class ScanView: UIView {
         self.scanInfoLbl.addShadow(direction: .bottom)
         self.scanInfoLbl.roundRadius = 2
     }
+    
     //MARK: - Function
     public func scanerSetting(scaner: QRCodeReader, _ find: @escaping (QRCodeReaderResult) -> (), _ fail: @escaping () -> ()) {
         self.scanReader = scaner
-        
+
         let widthRect = 0.6
         let heightRect = Double(UIScreen.main.bounds.width) * widthRect / Double(UIScreen.main.bounds.height)
-        
+
         let scanViewBuild = QRCodeReaderViewControllerBuilder { (build) in
             build.reader = self.scanReader
             build.showTorchButton = false
@@ -235,7 +236,7 @@ class ScanView: UIView {
             self.scanInfoLbl.isHiddenWithAlphaAnimation = 1.0
         }
     }
-    
+
     private func convertRectOfInterest(rect: CGRect) -> CGRect {
         let screenRect = self.frame
         let screenWidth = screenRect.width
@@ -246,6 +247,7 @@ class ScanView: UIView {
         let newHeight = 1 / (screenHeight / rect.height)
         return CGRect(x: newX, y: newY, width: newWidth, height: newHeight)
     }
+    
     //MARK: - Action
 
     /*

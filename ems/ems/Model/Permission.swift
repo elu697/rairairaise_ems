@@ -13,11 +13,11 @@ import AVFoundation
 
 class Permission {
     private var vc: UIViewController
-    
+
     init(vc: UIViewController) {
         self.vc = vc
     }
-    
+
     func checkCameraPermission() {
         switch AVCaptureDevice.authorizationStatus(for: AVMediaType.video) {
         case .notDetermined:

@@ -128,7 +128,7 @@ public class QRCodeReaderViewController: UIViewController {
     // Setup action methods
 
     builder.readerView.displayable.switchCameraButton?.addTarget(self, action: #selector(switchCameraAction), for: .touchUpInside)
-    builder.readerView.displayable.toggleTorchButton?.addTarget(self, action: #selector(toggleTorchAction), for: .touchUpInside)
+        builder.readerView.displayable.toggleTorchButton?.addTarget(self, action: #selector(toggleTorchAction), for: .touchUpInside)
     builder.readerView.displayable.cancelButton?.setTitle(cancelButtonTitle, for: .normal)
     builder.readerView.displayable.cancelButton?.addTarget(self, action: #selector(cancelAction), for: .touchUpInside)
 

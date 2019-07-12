@@ -13,7 +13,6 @@ import SVProgressHUD
 class HomeViewController: UIViewController {
     //MARK: - Property
     //MARK: - Default
-
 //    override func loadView() {
 //        super.loadView()
 ////        self.view = HomeView()
@@ -35,7 +34,7 @@ class HomeViewController: UIViewController {
         }
 
     }
-    
+
     //MARK: - Layout
     //MARK: - Function
     //MARK: - Action

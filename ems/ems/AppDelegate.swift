@@ -65,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func initializedApplication() {
         let rootVC = HomeViewController()
-        
+
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.rootViewController = rootVC
         self.window?.makeKeyAndVisible()

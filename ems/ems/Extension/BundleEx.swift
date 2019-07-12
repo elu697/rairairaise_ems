@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension Bundle {
-    
+
     var releaseVersionNumber: String {
         if let infoDict = Bundle.main.infoDictionary,
             let versionString = infoDict["CFBundleShortVersionString"] as? String {
@@ -18,7 +18,7 @@ extension Bundle {
         }
         return ""
     }
-    
+
     var buildVersionNumber: String {
         if let infoDict = Bundle.main.infoDictionary,
             let versionString = infoDict["CFBundleVersion"] as? String {
@@ -26,7 +26,7 @@ extension Bundle {
         }
         return ""
     }
-    
+
     var productName: String {
         if let infoDict = Bundle.main.infoDictionary,
             let productName = infoDict["CFBundleName"] as? String {
@@ -34,7 +34,7 @@ extension Bundle {
         }
         return ""
     }
-    
+
     var bundleIdName: String {
         if let bundleIdName = Bundle.main.bundleIdentifier {
             return bundleIdName

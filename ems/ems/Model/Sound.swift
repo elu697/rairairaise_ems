@@ -11,7 +11,7 @@ import AVFoundation
 
 class Sound {
     enum SoundMode: Int {
-        
+
         ///フゥォオン
         case success = 1050
         ///ヴィ

@@ -53,7 +53,7 @@ class ScanViewController: UIViewController {
         self.scanView.profileBtn.addTarget(self, action: #selector(tappedProfileBtn), for: .touchUpInside)
         self.scanView.menuBtn.addTarget(self, action: #selector(tappedMenuBtn), for: .touchUpInside)
         self.scanView.settingBtn.addTarget(self, action: #selector(tappedSettingBtn), for: .touchUpInside)
-        
+
         self.scanView.scanerSetting(scaner: self.scanReader, { (result) in
             print(result.value)
             self.scanView.previewQrInfo(msg: result.value)
