@@ -117,6 +117,7 @@ included:
 # Lint対象から除外するパス
 excluded:
 - ems/Pods/
+- ems/.swiftlint.yml
 - ems/ems/R.generated.swift
 - ems/ems/Utility/
 - ems/ems/Constants.swift
