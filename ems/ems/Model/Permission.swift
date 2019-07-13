@@ -6,39 +6,42 @@
 //  Copyright © 2019 RaiRaiRaise. All rights reserved.
 //
 
+import AVFoundation
 import Foundation
 import UIKit
-import AVFoundation
 
-
-class Permission {
+internal class Permission {
     private var vc: UIViewController
-    
-    init(vc: UIViewController) {
+
+    internal init(vc: UIViewController) {
         self.vc = vc
     }
-    
-    func checkCameraPermission() {
+
+    internal func checkCameraPermission() {
         switch AVCaptureDevice.authorizationStatus(for: AVMediaType.video) {
         case .notDetermined:
             requestCameraPermission()
+
         case .restricted, .denied:
             alertCameraAccessNeeded()
+
         case .authorized:
             break
-            @unknown default:
+        @unknown default:
             break
         }
     }
 
     private func requestCameraPermission() {
-        AVCaptureDevice.requestAccess(for: .video, completionHandler: { accessGranted in
-            guard accessGranted == true else { return }
-        })
+        AVCaptureDevice.requestAccess(
+            for: .video, completionHandler: { accessGranted in
+                guard accessGranted == true else { return }
+            }
+        )
     }
 
     private func alertCameraAccessNeeded() {
-        let settingsAppURL = URL(string: UIApplication.openSettingsURLString)!
+        guard let settingsAppURL = URL(string: UIApplication.openSettingsURLString) else { return }
 
         let alert = UIAlertController(
             title: NSLocalizedString("カメラへのアクセスのアクセスが許可されていません", comment: ""),
@@ -46,10 +49,26 @@ class Permission {
             preferredStyle: UIAlertController.Style.alert
         )
 
-        alert.addAction(UIAlertAction(title: NSLocalizedString("許可しない", comment: ""), style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { (alert) -> Void in
-            UIApplication.shared.open(settingsAppURL, options: [:], completionHandler: nil)
-        }))
+        alert.addAction(
+            UIAlertAction(
+                title: NSLocalizedString("許可しない", comment: ""),
+                style: .cancel,
+                handler: nil
+            )
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: NSLocalizedString("OK", comment: ""),
+                style: .default,
+                handler: { _ -> Void in
+                    UIApplication.shared.open(
+                        settingsAppURL,
+                        options: [:],
+                        completionHandler: nil
+                    )
+                }
+            )
+        )
 
         vc.present(alert, animated: true, completion: nil)
     }

@@ -6,48 +6,43 @@
 //  Copyright © 2019 RaiRaiRaise. All rights reserved.
 //
 
-import UIKit
 import AVFoundation
 import SVProgressHUD
+import UIKit
 
-class HomeViewController: UIViewController {
-    //MARK: - Property
-    //MARK: - Default
+internal class HomeViewController: UIViewController {
+    // MARK: - Property
+    // MARK: - Default
+    //    override func loadView() {
+    //        super.loadView()
+    ////        self.view = HomeView()
+    //
+    //    }
 
-//    override func loadView() {
-//        super.loadView()
-////        self.view = HomeView()
-//
-//    }
-
-    override func viewDidLoad() {
+    override internal func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         // Do any additional setup after loading the view.
     }
 
-    override func viewDidAppear(_ animated: Bool) {
+    override internal func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         SVProgressHUD.show()
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-            SVProgressHUD.dismiss()
-            self.present(ScanViewController(), animated: true, completion: nil)
-        }
-
+        SVProgressHUD.dismiss()
+        self.present(ScanViewController(), animated: true, completion: nil)
     }
-    
-    //MARK: - Layout
-    //MARK: - Function
-    //MARK: - Action
+
+    // MARK: - Layout
+    // MARK: - Function
+    // MARK: - Action
 
     /*
-    // MARK: - Navigation
+     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
 }

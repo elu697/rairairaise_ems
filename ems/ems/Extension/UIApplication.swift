@@ -1,5 +1,5 @@
 //
-//  UIApplicationEx.swift
+//  UIApplication.swift
 //  FiMap
 //
 //  Created by AmamiYou on 2018/09/23.

@@ -11,6 +11,8 @@ def install_pods
     pod 'Moya', '~> 13.0'
     pod 'DynamicButton' , '~> 6.1.0'
     pod 'SPPermission/Camera'
+    pod 'Material', '~> 3.1.0'
+    pod 'SwiftLint'
 
     #Pods for FiMap
 

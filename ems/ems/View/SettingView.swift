@@ -8,18 +8,17 @@
 
 import UIKit
 
-class SettingView: UIView {
-    //MARK: - Property
-    //MARK: - Default
-    //MARK: - Layout
-    //MARK: - Function
-    //MARK: - Action
+internal class SettingView: UIView {
+    // MARK: - Property
+    // MARK: - Default
+    // MARK: - Layout
+    // MARK: - Function
+    // MARK: - Action
     /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-
+     // Only override draw() if you perform custom drawing.
+     // An empty implementation adversely affects performance during animation.
+     override func draw(_ rect: CGRect) {
+     // Drawing code
+     }
+     */
 }

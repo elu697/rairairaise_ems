@@ -1,5 +1,5 @@
 //
-//  UIBarButtonEx.swift
+//  UIBarButtonItem.swift swiftlint:disable:this file_name
 //  FiMap
 //
 //  Created by AmamiYou on 2018/10/09.
@@ -9,33 +9,32 @@
 import Foundation
 import UIKit
 
-enum UIBarButtonItemPotition {
+internal enum UIBarButtonItemPotition {
     case right
     case left
 }
 
-final class CustomBarItemButton: UIButton {
-
-    @IBInspectable var top: CGFloat {
+internal final class CustomBarItemButton: UIButton {
+    @IBInspectable internal var top: CGFloat {
         get { return insets.top }
         set { insets.top = newValue }
     }
-    @IBInspectable var left: CGFloat {
+    @IBInspectable internal var left: CGFloat {
         get { return insets.left }
         set { insets.left = newValue }
     }
-    @IBInspectable var bottom: CGFloat {
+    @IBInspectable internal var bottom: CGFloat {
         get { return insets.bottom }
         set { insets.bottom = newValue }
     }
-    @IBInspectable var right: CGFloat {
+    @IBInspectable internal var right: CGFloat {
         get { return insets.right }
         set { insets.right = newValue }
     }
 
-    var insets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    internal var insets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 
-    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+    override internal func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         var rect = bounds
         rect.origin.x -= insets.left
         rect.origin.y -= insets.top
@@ -47,7 +46,6 @@ final class CustomBarItemButton: UIButton {
 }
 
 extension UIBarButtonItem {
-
     ///
     /// - Parameters:
     ///   - image: Bar Button Icon Image
@@ -55,7 +53,7 @@ extension UIBarButtonItem {
     ///   - target: Tapした時に呼ばれるTarget
     ///   - action: Tapした時に呼ばれるAction
     /// - Returns: UIBarButtonItem
-    static func createBarButton(image: UIImage?, position: UIBarButtonItemPotition, target: Any?, action: Selector) -> UIBarButtonItem {
+    internal static func createBarButton(image: UIImage?, position: UIBarButtonItemPotition, target: Any?, action: Selector) -> UIBarButtonItem {
         let button = CustomBarItemButton()
         if #available(iOS 11, *) {
             button.frame = CGRect(x: 0, y: 0, width: 40, height: 28)
@@ -63,6 +61,7 @@ extension UIBarButtonItem {
             case .left:
                 button.insets = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
                 button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 18)
+
             case .right:
                 button.insets = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
                 button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 0)
@@ -75,6 +74,7 @@ extension UIBarButtonItem {
                 // 左にずらす
                 button.insets = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: -4)
                 button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 10)
+
             case .right:
                 // 右にずらす
                 button.insets = UIEdgeInsets(top: 10, left: -4, bottom: 10, right: 0)
