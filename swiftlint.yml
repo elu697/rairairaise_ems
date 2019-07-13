@@ -112,15 +112,15 @@ opt_in_rules:
 
 # Lint対象に追加するパス
 included:
-- ems/
+- ems/ems/
 
 # Lint対象から除外するパス
 excluded:
-- Pods/
-- /ems/R.generated.swift
-- /ems/Utility/
-- /ems/Constants.swift
-- /ems/AppDelegate.swift
+- ems/Pods/
+- ems/ems/R.generated.swift
+- ems/ems/Utility/
+- ems/ems/Constants.swift
+- ems/ems/AppDelegate.swift
 
 # 1行の文字列制限
 line_length:
