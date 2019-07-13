@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MenuView: UIView {
+internal class MenuView: UIView {
     // MARK: - Property
     // MARK: - Default
     // MARK: - Layout

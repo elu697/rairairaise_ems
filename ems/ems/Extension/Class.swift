@@ -1,5 +1,5 @@
 //
-//  ClassEx.swift
+// Class.swift swiftlint:disable:this 
 //  FiMap
 //
 //  Created by AmamiYou on 2018/09/23.

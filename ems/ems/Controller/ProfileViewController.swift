@@ -8,10 +8,10 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+internal class ProfileViewController: UIViewController {
     // MARK: - Property
     // MARK: - Default
-    override func viewDidLoad() {
+    override internal func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .clear
         self.controllerSetting()

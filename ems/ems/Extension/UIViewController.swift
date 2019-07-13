@@ -1,5 +1,5 @@
 //
-//  UIViewControllerEx.swift
+//  UIViewController.swift
 //  FiMap
 //
 //  Created by AmamiYou on 2018/10/09.
@@ -14,7 +14,7 @@ extension UIViewController {
 
     /// Sets the navigation bar menu on the left bar button.
     /// Also add the left gesture.
-    func setLeftBackBarButtonItem(action: Selector = #selector(tappedBackButton), image: UIImage? = Constants.image.back) {
+    internal func setLeftBackBarButtonItem(action: Selector = #selector(tappedBackButton), image: UIImage? = Constants.Image.back) {
         let barButtonItem = UIBarButtonItem()
         let button = UIButton(type: .system)
         button.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 30.0)
@@ -30,7 +30,7 @@ extension UIViewController {
 
     /// Sets the navigation bar menu on the left bar button.
     /// Also add the left gesture.
-    func setRightCloseBarButtonItem(action: Selector = #selector(tappedCloseButton), image: UIImage? = Constants.image.back) {
+    internal func setRightCloseBarButtonItem(action: Selector = #selector(tappedCloseButton), image: UIImage? = Constants.Image.back) {
         let barButtonItem = UIBarButtonItem()
         let button = UIButton(type: .system)
         button.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 30.0)
@@ -44,7 +44,8 @@ extension UIViewController {
         self.navigationItem.rightBarButtonItem = barButtonItem
     }
 
-    @objc private func tappedBackButton() {
+    @objc
+    private func tappedBackButton() {
         if self.navigationController?.viewControllers.count ?? 0 > 1 {
             self.navigationController?.popViewController(animated: true)
         } else {
@@ -52,7 +53,8 @@ extension UIViewController {
         }
     }
 
-    @objc private func tappedCloseButton() {
+    @objc
+    private func tappedCloseButton() {
         if self.navigationController?.viewControllers.count ?? 0 > 1 {
             self.navigationController?.popToRootViewController(animated: true)
         } else {
@@ -60,7 +62,7 @@ extension UIViewController {
         }
     }
 
-    func setNavigationBarTitleString(title: String) {
+    internal func setNavigationBarTitleString(title: String) {
         let titleLbl = UILabel()
         titleLbl.font = UIFont.boldSystemFont(ofSize: 18)
         titleLbl.text = title
@@ -71,7 +73,7 @@ extension UIViewController {
         self.navigationItem.titleView = titleLbl
     }
 
-    func hideNavigationWhenSwipeView() {
+    internal func hideNavigationWhenSwipeView() {
         let _: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dissmissView))
 
         let swipe = UISwipeGestureRecognizer(target: self, action: #selector(dissmissView))
@@ -80,7 +82,7 @@ extension UIViewController {
         view.addGestureRecognizer(swipe)
     }
 
-    func hideKeyboardWhenTappedAround() {
+    internal func hideKeyboardWhenTappedAround() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
@@ -90,15 +92,17 @@ extension UIViewController {
         view.addGestureRecognizer(pan)
     }
 
-    @objc func dismissKeyboard() {
+    @objc
+    internal func dismissKeyboard() {
         view.endEditing(true)
     }
 
-    @objc func dissmissView() {
+    @objc
+    internal func dissmissView() {
         self.dismiss(animated: true, completion: nil)
     }
 
-    func pushNewNavigationController(rootViewController: UIViewController) {
+    internal func pushNewNavigationController(rootViewController: UIViewController) {
         self.present(UINavigationController(rootViewController: rootViewController), animated: true, completion: nil)
     }
 

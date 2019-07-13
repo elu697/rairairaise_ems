@@ -11,22 +11,22 @@ import Foundation
 import Material
 import UIKit
 
-class ScanView: UIView {
+internal class ScanView: UIView {
     // MARK: - Property
-    let scanPreviewView = QRCodeReaderView()
-    let scanBtn = UIButton(type: .system)
-    let profileBtn = IconButton()
-    let menuBtn = IconButton()
-    let settingBtn = IconButton()
-    let flashBtn = UIButton(type: .system)
-    let qrInfoLbl = UILabel()
-    let scanInfoLbl = UILabel()
+    internal let scanPreviewView = QRCodeReaderView()
+    internal let scanBtn = UIButton(type: .system)
+    internal let profileBtn = IconButton()
+    internal let menuBtn = IconButton()
+    internal let settingBtn = IconButton()
+    internal let flashBtn = UIButton(type: .system)
+    internal let qrInfoLbl = UILabel()
+    internal let scanInfoLbl = UILabel()
 
     private var scanCode: String = ""
     private var scanFlag = true
 
     // MARK: - Default
-    override init(frame: CGRect) {
+    override internal init(frame: CGRect) {
         super.init(frame: .zero)
         self.addSubview(self.scanPreviewView)
         self.addSubview(self.scanBtn)
@@ -47,11 +47,12 @@ class ScanView: UIView {
         self.scanInfoLblLayoutSetting()
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    @available(*, unavailable)
+    internal required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
+    override internal func layoutSubviews() {
         super.layoutSubviews()
         //        self.clipsToBounds = true
         self.flashBtn.snp.makeConstraints { make in
@@ -106,7 +107,7 @@ class ScanView: UIView {
         self.scanBtn.borderWidth = 5
         self.scanBtn.borderColor = .gray
         self.scanBtn.tintColor = .white
-        self.scanBtn.setImage(Constants.image.qr, for: .normal)
+        self.scanBtn.setImage(Constants.Image.back, for: .normal)
         self.scanBtn.setBackgroundColor(color: .clear, forState: .normal)
         self.scanBtn.contentMode = .scaleAspectFit
         self.scanBtn.contentHorizontalAlignment = .fill
@@ -117,27 +118,27 @@ class ScanView: UIView {
 
     private func flashBtnLayoutSetting() {
         self.flashBtn.tintColor = .white
-        self.flashBtn.setImage(Constants.image.flashOn, for: .normal)
+        self.flashBtn.setImage(Constants.Image.flashOn, for: .normal)
         self.flashBtn.translatesAutoresizingMaskIntoConstraints = false
         self.flashBtn.addShadow(direction: .bottom)
     }
 
     private func profileBtnLayoutSetting() {
-        self.profileBtn.image = Constants.image.user
+        self.profileBtn.image = Constants.Image.user
         self.profileBtn.tintColor = .white
         self.profileBtn.pulseColor = .white
         self.profileBtn.addShadow(direction: .bottom, radius: 2, color: .black, opacity: 0.5)
     }
 
     private func menuBtnLayoutSetting() {
-        self.menuBtn.image = Constants.image.menu
+        self.menuBtn.image = Constants.Image.menu
         self.menuBtn.tintColor = .white
         self.menuBtn.pulseColor = .white
         self.menuBtn.addShadow(direction: .bottom, radius: 2, color: .black, opacity: 0.5)
     }
 
     private func settingBtnLayoutSetting() {
-        self.settingBtn.image = Constants.image.setting
+        self.settingBtn.image = Constants.Image.setting
         self.settingBtn.tintColor = .white
         self.settingBtn.pulseColor = .white
         self.settingBtn.addShadow(direction: .bottom, radius: 2, color: .black, opacity: 0.5)

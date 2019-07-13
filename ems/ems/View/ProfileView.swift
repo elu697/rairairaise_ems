@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileView: UIView {
+internal class ProfileView: UIView {
     // MARK: - Property
     // MARK: - Default
     // MARK: - Layout

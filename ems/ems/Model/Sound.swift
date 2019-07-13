@@ -9,8 +9,9 @@
 import AVFoundation
 import Foundation
 
-class Sound {
-    enum SoundMode: Int {
+// swiftlint:disable:next convenience_type
+internal class Sound {
+    internal enum SoundMode: Int {
         ///フゥォオン
         case success = 1_050
         ///ヴィ
@@ -39,7 +40,7 @@ class Sound {
         case twotone2 = 1_264
     }
 
-    static func tone(mode: SoundMode) {
+    internal static func tone(mode: SoundMode) {
         AudioServicesPlaySystemSound(SystemSoundID(mode.rawValue))
     }
 }

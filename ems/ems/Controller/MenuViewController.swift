@@ -9,17 +9,16 @@
 import Material
 import UIKit
 
-class MenuViewController: UIViewController {
+internal class MenuViewController: UIViewController {
     // MARK: - Property
-    let menuView = MenuView()
+    internal let menuView = MenuView()
 
     // MARK: - Default
-    override func loadView() {
-        super.loadView()
+    override internal func loadView() {
         self.view = self.menuView
     }
 
-    override func viewDidLoad() {
+    override internal func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         self.controllerSetting()
@@ -29,7 +28,7 @@ class MenuViewController: UIViewController {
 
     // MARK: - Layout
     private func controllerSetting() {
-        self.setLeftBackBarButtonItem(image: Constants.image.back)
+        self.setLeftBackBarButtonItem(image: Constants.Image.back)
         self.setNavigationBarTitleString(title: R.string.localized.menuViewNavigationTitle())
     }
 

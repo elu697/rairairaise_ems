@@ -1,5 +1,5 @@
 //
-//  UITextFieldEx.swift
+//  UITextField.swift
 //  SalesIncome
 //
 //  Created by AmamiYou on 2018/11/01.
@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension UITextField {
-    func addUnderline() {
+    internal func addUnderline() {
         self.borderStyle = .none
         self.layer.backgroundColor = UIColor.white.cgColor
         self.layer.masksToBounds = false

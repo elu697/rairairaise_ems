@@ -4,13 +4,12 @@
 disabled_rules:
 - multiple_closures_with_trailing_closure # 複数のクロージャーの場合でも、trailing closureを利用したいため
 - empty_enum_arguments # enumの引数を省略したいため
-
+# - fatal_error_message # メッセージは不要なため
 # opt-inルールの中で無効にするルール
 - conditional_returns_on_newline # ガード文などは簡潔に一行で記述したいため
 - discouraged_optional_collection # PHImageManagerの既存仕様のため
 - explicit_enum_raw_value # 暗黙的なraw値で問題ないため
 - explicit_type_interface # 型推論を利用したいため
-- fatal_error_message # メッセージは不要なため
 - file_header # ヘッダには特に決まりがないため
 - lower_acl_than_parent # 対応不可のため
 - no_extension_access_modifier # extension_access_modifierを優先するため
@@ -18,6 +17,8 @@ disabled_rules:
 - strict_fileprivate # fileprivateを利用したいため
 - switch_case_on_newline # caseと同じ行に記述したいため
 - trailing_closure # RxSwiftのOnNextでwarningが出るため
+- file_name # うざい
+- missing_docs # 今回は不要
 
 # defaultルール以外にopt-inから採用するルール
 opt_in_rules:
@@ -47,7 +48,6 @@ opt_in_rules:
 - fallthrough
 - fatal_error_message
 - file_header
-- file_name
 - first_where
 - force_unwrapping
 - function_default_parameter_at_end
@@ -112,11 +112,15 @@ opt_in_rules:
 
 # Lint対象に追加するパス
 included:
-- ems
+- ems/
 
 # Lint対象から除外するパス
 excluded:
-- Pods
+- Pods/
+- /ems/R.generated.swift
+- /ems/Utility/
+- /ems/Constants.swift
+- /ems/AppDelegate.swift
 
 # 1行の文字列制限
 line_length:
@@ -144,7 +148,7 @@ type_name:
 
 identifier_name:
   min_length: # only min_length
-    error: 2 # only error
+    error: 1 # only error
   excluded: # excluded via string array
     - id
     - URL
@@ -152,4 +156,11 @@ identifier_name:
     - y
     - vc
     - on
+    - r
+    - g
+    - b
+    - iPhones_4_4S
+    - iPhones_5_5s_5c_SE
+    - iPhones_6_6s_7_8
+    - iPhones_6Plus_6sPlus_7Plus_8Plus
   reporter: "xcode"

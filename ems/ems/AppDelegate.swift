@@ -1,4 +1,3 @@
-//
 //  AppDelegate.swift
 //  ems
 //
@@ -6,15 +5,15 @@
 //  Copyright © 2019 RaiRaiRaise. All rights reserved.
 //
 
-//MARKコメント使い方
+// MARK: コメント使い方
 // MARK: - 区切り付きマークアップコメント
 // MARK: マークアップコメント
 
-//TODO: - 区切り付きマークアップTODO
-//TODO: マークアップTODO
+// TODO: - 区切り付きマークアップTODO
+// TODO: マークアップTODO
 
-//FIXME: - 区切り付きマークアップ修正箇所
-//FIXME: マークアップ修正箇所
+// FIXME: - 区切り付きマークアップ修正箇所
+// FIXME: マークアップ修正箇所
 
 // MARK: - Property //変数定義
 // MARK: - Default //init,viewdidload等標準関数

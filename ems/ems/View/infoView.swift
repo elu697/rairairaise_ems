@@ -1,5 +1,5 @@
 //
-//  infoView.swift
+//  IinfoView.swift
 //  ems
 //
 //  Created by El You on 2019/07/06.
@@ -8,23 +8,24 @@
 
 import UIKit
 
-class infoView: UIView {
+internal class InfoView: UIView {
     // MARK: - Property
-    let scanCountLbl = UILabel()
-    let infoMsgLbl = UILabel()
+    internal let scanCountLbl = UILabel()
+    internal let infoMsgLbl = UILabel()
 
     // MARK: - Default
-    override init(frame: CGRect) {
+    override internal init(frame: CGRect) {
         super.init(frame: .zero)
         self.addSubview(self.scanCountLbl)
         self.addSubview(self.infoMsgLbl)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    @available(*, unavailable)
+    internal required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
+    override internal func layoutSubviews() {
         super.layoutSubviews()
         self.scanCountLblLayoutSetting()
         self.infoMsgLblLayoutSetting()

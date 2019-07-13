@@ -11,36 +11,36 @@ import Foundation
 import SPPermission
 import UIKit
 
-class ScanViewController: UIViewController {
+internal class ScanViewController: UIViewController {
     // MARK: - Property
-    let scanView = ScanView()
-    let scanReader = QRCodeReader(metadataObjectTypes: [AVMetadataObject.ObjectType.qr], captureDevicePosition: .back)
+    internal let scanView = ScanView()
+    internal let scanReader = QRCodeReader(metadataObjectTypes: [AVMetadataObject.ObjectType.qr], captureDevicePosition: .back)
 
     // MARK: - Default
-    override func loadView() {
-        super.loadView()
+    override internal func loadView() {
         //self.viewとself.scanViewは同じメモリアドレスだからself.scanViewがsuperView
         self.view = self.scanView
     }
 
-    override var prefersHomeIndicatorAutoHidden: Bool {
+    override internal var prefersHomeIndicatorAutoHidden: Bool {
         return true
     }
 
-    override func viewDidLoad() {
+    override internal func viewDidLoad() {
+        super.viewDidLoad()
         self.scanView.backgroundColor = .white
         self.actionSetting()
         setNeedsUpdateOfHomeIndicatorAutoHidden()
         // Do any additional setup after loading the view.
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override internal func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Permission(vc: self).checkCameraPermission()
         self.scanReader.startScanning()
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
+    override internal func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.scanReader.stopScanning()
     }
@@ -54,27 +54,32 @@ class ScanViewController: UIViewController {
         self.scanView.menuBtn.addTarget(self, action: #selector(tappedMenuBtn), for: .touchUpInside)
         self.scanView.settingBtn.addTarget(self, action: #selector(tappedSettingBtn), for: .touchUpInside)
 
-        self.scanView.scanerSetting(scaner: self.scanReader, { result in
-            print(result.value)
-            self.scanView.previewQrInfo(msg: result.value)
-        }) {
-            self.scanView.previewQrInfo(msg: "error")
-        }
+        self.scanView.scanerSetting(
+            // swiftlint:disable:next multiline_arguments
+            scaner: self.scanReader, { result in
+                self.scanView.previewQrInfo(msg: result.value)
+            }, {
+                self.scanView.previewQrInfo(msg: "error")
+            }
+        )
     }
 
     // MARK: - Action
-    @objc private func tappedScanBtn() {
+    @objc
+    private func tappedScanBtn() {
         Sound.tone(mode: .success)//ok
         //        Sound.tone(mode: .ringing)//error
 
     }
 
-    @objc private func tappedFlashBtn() {
+    @objc
+    private func tappedFlashBtn() {
         self.scanReader.toggleTorch()
         Sound.tone(mode: .x3dtouch)
     }
 
-    @objc private func tappedProfileBtn() {
+    @objc
+    private func tappedProfileBtn() {
         let contentVC = ProfileViewController()
         contentVC.modalPresentationStyle = .popover
         contentVC.preferredContentSize = CGSize(width: self.view.bounds.width * 0.8, height: self.view.bounds.height * 0.7)
@@ -85,11 +90,13 @@ class ScanViewController: UIViewController {
         present(contentVC, animated: true, completion: nil)
     }
 
-    @objc private func tappedMenuBtn() {
+    @objc
+    private func tappedMenuBtn() {
         self.pushNewNavigationController(rootViewController: MenuViewController())
     }
 
-    @objc private func tappedSettingBtn() {
+    @objc
+    private func tappedSettingBtn() {
         self.pushNewNavigationController(rootViewController: SettingViewController())
     }
 
@@ -105,7 +112,7 @@ class ScanViewController: UIViewController {
 }
 
 extension ScanViewController: UIPopoverPresentationControllerDelegate {
-    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+    internal func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return .none
     }
 }

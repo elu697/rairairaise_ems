@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeView: UIView {
+internal class HomeView: UIView {
     // MARK: - Property
     // MARK: - Default
     // MARK: - Layout

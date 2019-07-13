@@ -1,5 +1,5 @@
 //
-//  UIViewEx.swift
+//  UIView.swift
 //  FiMap
 //
 //  Created by AmamiYou on 2018/09/23.
@@ -9,9 +9,10 @@
 import Foundation
 import UIKit
 
-public extension UIView {
+/// UIViewの拡張
+extension UIView {
     // 枠線の色
-    @IBInspectable var borderColor: UIColor? {
+    @IBInspectable public var borderColor: UIColor? {
         get {
             return layer.borderColor.map { UIColor(cgColor: $0) }
         }
@@ -21,7 +22,7 @@ public extension UIView {
     }
 
     // 枠線のWidth
-    @IBInspectable var borderWidth: CGFloat {
+    @IBInspectable public var borderWidth: CGFloat {
         get {
             return layer.borderWidth
         }
@@ -30,7 +31,7 @@ public extension UIView {
         }
     }
 
-    var roundRadius: CGFloat {
+    internal var roundRadius: CGFloat {
         set {
             self.layer.cornerRadius = newValue
             self.layer.masksToBounds = true
@@ -40,7 +41,7 @@ public extension UIView {
         }
     }
 
-    var viewController: UIViewController? {
+    internal var viewController: UIViewController? {
         var parent: UIResponder? = self
         while parent != nil {
             parent = parent?.next
@@ -51,7 +52,7 @@ public extension UIView {
         return nil
     }
 
-    var isHiddenWithInteraction: Bool {
+    internal var isHiddenWithInteraction: Bool {
         set {
             self.isHidden = newValue
             self.isUserInteractionEnabled = !newValue
@@ -61,20 +62,23 @@ public extension UIView {
         }
     }
 
-    var isHiddenWithAlphaAnimation: CGFloat {
+    internal var isHiddenWithAlphaAnimation: CGFloat {
         set {
-            UIView.animate(withDuration: 1.0, animations: {
-                self.alpha = newValue
-            }, completion: { _ in
-                self.isUserInteractionEnabled = newValue.isEqual(to: 0.0)
-            })
+            UIView.animate(
+                withDuration: 1.0,
+                animations: {
+                    self.alpha = newValue
+                }, completion: { _ in
+                    self.isUserInteractionEnabled = newValue.isEqual(to: 0.0)
+                }
+            )
         }
         get {
             return self.alpha
         }
     }
 
-    var isHiddenWithAlpha: CGFloat {
+    internal var isHiddenWithAlpha: CGFloat {
         set {
             self.alpha = newValue
             self.isHidden = alpha.isEqual(to: 0.0)
@@ -85,7 +89,7 @@ public extension UIView {
         }
     }
 
-    enum ShadowDirection {
+    internal enum ShadowDirection {
         case top
         case bottom
     }
@@ -93,10 +97,12 @@ public extension UIView {
     //https://stackoverflow.com/questions/39624675/add-shadow-on-uiview-using-swift-3
 
     /// Soft Shadow
-    func addShadow(direction: ShadowDirection,
-                   radius: CGFloat = 2.5,
-                   color: UIColor = UIColor.gray,
-                   opacity: Float = 0.5) {
+    internal func addShadow(
+        direction: ShadowDirection,
+        radius: CGFloat = 2.5,
+        color: UIColor = UIColor.gray,
+        opacity: Float = 0.5
+        ) {
         switch direction {
         case .top:
             self.layer.shadowOffset = CGSize(width: 0.0, height: -1)

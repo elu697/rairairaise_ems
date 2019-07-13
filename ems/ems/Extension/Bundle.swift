@@ -1,5 +1,5 @@
 //
-//  BundleEx.swift
+//  Bundle.swift
 //  ems
 //
 //  Created by El You on 2019/06/30.
@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension Bundle {
-    var releaseVersionNumber: String {
+    internal var releaseVersionNumber: String {
         if let infoDict = Bundle.main.infoDictionary,
             let versionString = infoDict["CFBundleShortVersionString"] as? String {
             return versionString
@@ -18,7 +18,7 @@ extension Bundle {
         return ""
     }
 
-    var buildVersionNumber: String {
+    internal var buildVersionNumber: String {
         if let infoDict = Bundle.main.infoDictionary,
             let versionString = infoDict["CFBundleVersion"] as? String {
             return versionString
@@ -26,7 +26,7 @@ extension Bundle {
         return ""
     }
 
-    var productName: String {
+    internal var productName: String {
         if let infoDict = Bundle.main.infoDictionary,
             let productName = infoDict["CFBundleName"] as? String {
             return productName
@@ -34,7 +34,7 @@ extension Bundle {
         return ""
     }
 
-    var bundleIdName: String {
+    internal var bundleIdName: String {
         if let bundleIdName = Bundle.main.bundleIdentifier {
             return bundleIdName
         }

@@ -1,5 +1,5 @@
 //
-//  CALayerEx.swift
+//  CALayer.swift
 //  FiMap
 //
 //  Created by AmamiYou on 2018/09/23.
@@ -9,5 +9,6 @@
 import Foundation
 import UIKit
 
-public extension CALayer {
+/// CALayerの拡張
+extension CALayer {
 }

@@ -1,5 +1,5 @@
 //
-//  UIFontEx.swift
+//  UIFont.swift
 //  FiMap
 //
 //  Created by AmamiYou on 2018/10/07.

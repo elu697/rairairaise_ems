@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingView: UIView {
+internal class SettingView: UIView {
     // MARK: - Property
     // MARK: - Default
     // MARK: - Layout

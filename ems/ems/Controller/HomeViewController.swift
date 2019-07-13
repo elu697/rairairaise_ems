@@ -10,7 +10,7 @@ import AVFoundation
 import SVProgressHUD
 import UIKit
 
-class HomeViewController: UIViewController {
+internal class HomeViewController: UIViewController {
     // MARK: - Property
     // MARK: - Default
     //    override func loadView() {
@@ -19,13 +19,13 @@ class HomeViewController: UIViewController {
     //
     //    }
 
-    override func viewDidLoad() {
+    override internal func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         // Do any additional setup after loading the view.
     }
 
-    override func viewDidAppear(_ animated: Bool) {
+    override internal func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         SVProgressHUD.show()
         SVProgressHUD.dismiss()

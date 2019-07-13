@@ -8,10 +8,10 @@
 
 import UIKit
 
-class SettingViewController: UIViewController {
+internal class SettingViewController: UIViewController {
     // MARK: - Property
     // MARK: - Default
-    override func viewDidLoad() {
+    override internal func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         self.controllerSetting()
@@ -21,7 +21,7 @@ class SettingViewController: UIViewController {
 
     // MARK: - Layout
     private func controllerSetting() {
-        self.setLeftBackBarButtonItem(image: Constants.image.back)
+        self.setLeftBackBarButtonItem(image: Constants.Image.back)
         self.setNavigationBarTitleString(title: R.string.localized.settingViewNavigationTitle())
     }
 

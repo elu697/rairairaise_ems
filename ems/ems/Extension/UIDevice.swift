@@ -1,5 +1,5 @@
 //
-//  UIDeviceEx.swift
+//  UIDevice.swift
 //  ems
 //
 //  Created by El You on 2019/06/30.
@@ -11,7 +11,7 @@ import UIKit
 
 /// screen type
 extension UIDevice {
-    enum ScreenType: String {
+     internal enum ScreenType: String {
         case iPhones_4_4S = "iPhone 4 or iPhone 4S"
         case iPhones_5_5s_5c_SE = "iPhone 5, iPhone 5s, iPhone 5c or iPhone SE"
         case iPhones_6_6s_7_8 = "iPhone 6, iPhone 6S, iPhone 7 or iPhone 8"
@@ -21,7 +21,7 @@ extension UIDevice {
         case unknown
     }
 
-    static var screenType: ScreenType {
+    internal static var screenType: ScreenType {
         if UIDevice.current.userInterfaceIdiom == .phone {
             switch UIScreen.main.nativeBounds.height {
             case 960:
