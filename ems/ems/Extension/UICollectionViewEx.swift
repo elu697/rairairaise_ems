@@ -9,14 +9,12 @@
 import Foundation
 import UIKit
 
-
-
 // MARK: - Usage
 /*
  collectionView.register(cellType: MyCell.self)
  collectionView.register(cellTypes: [MyCell1.self, MyCell2.self])
  let cell = collectionView.dequeueReusableCell(with: MyCell.self, for: indexPath)
- 
+
  collectionView.register(reusableViewType: MyReusableView.self)
  collectionView.register(reusableViewTypes: [MyReusableView1.self, MyReusableView2.self])
  let view = collectionView.dequeueReusableView(with: MyReusableView.self, for: indexPath)

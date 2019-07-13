@@ -6,18 +6,18 @@
 //  Copyright © 2019 RaiRaiRaise. All rights reserved.
 //
 
-import UIKit
 import AVFoundation
 import SVProgressHUD
+import UIKit
 
 class HomeViewController: UIViewController {
-    //MARK: - Property
-    //MARK: - Default
-//    override func loadView() {
-//        super.loadView()
-////        self.view = HomeView()
-//
-//    }
+    // MARK: - Property
+    // MARK: - Default
+    //    override func loadView() {
+    //        super.loadView()
+    ////        self.view = HomeView()
+    //
+    //    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,21 +30,19 @@ class HomeViewController: UIViewController {
         SVProgressHUD.show()
         SVProgressHUD.dismiss()
         self.present(ScanViewController(), animated: true, completion: nil)
-
     }
 
-    //MARK: - Layout
-    //MARK: - Function
-    //MARK: - Action
+    // MARK: - Layout
+    // MARK: - Function
+    // MARK: - Action
 
     /*
-    // MARK: - Navigation
+     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
 }

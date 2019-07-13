@@ -61,8 +61,10 @@ public final class ReaderOverlayView: UIView {
             switch state {
             case .normal:
                 overlay.strokeColor = defaultColor.cgColor
+
             case .valid:
                 overlay.strokeColor = highlightValidColor.cgColor
+
             case .wrong:
                 overlay.strokeColor = highlightWrongColor.cgColor
             }
@@ -86,7 +88,7 @@ public final class ReaderOverlayView: UIView {
         setupOverlay()
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
         setupOverlay()
@@ -98,13 +100,13 @@ public final class ReaderOverlayView: UIView {
         layer.addSublayer(overlay)
     }
 
-    var rectOfInterest: CGRect = CGRect(x: 0, y: 0, width: 1, height: 1) {
+    var rectOfInterest = CGRect(x: 0, y: 0, width: 1, height: 1) {
         didSet {
             setNeedsDisplay()
         }
     }
 
-    public override func draw(_ rect: CGRect) {
+    override public func draw(_ rect: CGRect) {
         let innerRect = CGRect(
             x: rect.width * rectOfInterest.minX,
             y: rect.height * rectOfInterest.minY,

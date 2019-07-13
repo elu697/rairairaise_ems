@@ -26,7 +26,7 @@
 
 import UIKit
 
-final public class QRCodeReaderView: UIView, QRCodeReaderDisplayable {
+public final class QRCodeReaderView: UIView, QRCodeReaderDisplayable {
     public lazy var overlayView: QRCodeReaderViewOverlay? = {
         let ov = ReaderOverlayView()
 
@@ -93,8 +93,7 @@ final public class QRCodeReaderView: UIView, QRCodeReaderDisplayable {
         if builder.showCancelButton {
             addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[cv][cb(40)]|", options: [], metrics: nil, views: views))
             addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[cb]-|", options: [], metrics: nil, views: views))
-        }
-        else {
+        } else {
             addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[cv]|", options: [], metrics: nil, views: views))
         }
 
@@ -117,7 +116,7 @@ final public class QRCodeReaderView: UIView, QRCodeReaderDisplayable {
         }
     }
 
-    public override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
 
         reader?.previewLayer.frame = bounds
@@ -161,9 +160,9 @@ final public class QRCodeReaderView: UIView, QRCodeReaderDisplayable {
 
     private func addComponents() {
         #if swift(>=4.2)
-            let notificationName = UIDevice.orientationDidChangeNotification
+        let notificationName = UIDevice.orientationDidChangeNotification
         #else
-            let notificationName = NSNotification.Name.UIDeviceOrientationDidChange
+        let notificationName = NSNotification.Name.UIDeviceOrientationDidChange
         #endif
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.setNeedsUpdateOrientation), name: notificationName, object: nil)

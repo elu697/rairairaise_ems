@@ -7,31 +7,28 @@
 //
 
 //MARKコメント使い方
-//MARK: - 区切り付きマークアップコメント
-//MARK: マークアップコメント
+// MARK: - 区切り付きマークアップコメント
+// MARK: マークアップコメント
 
 //TODO: - 区切り付きマークアップTODO
 //TODO: マークアップTODO
 
-
 //FIXME: - 区切り付きマークアップ修正箇所
 //FIXME: マークアップ修正箇所
 
-//MARK: - Property //変数定義
-//MARK: - Default //init,viewdidload等標準関数
-//MARK: - Layout //snpを使ったレイアウトの設定
-//MARK: - Function  //通信処理や計算などの処理
-//MARK: - Action //addtargetの対象となるようなユーザーに近い処理
+// MARK: - Property //変数定義
+// MARK: - Default //init,viewdidload等標準関数
+// MARK: - Layout //snpを使ったレイアウトの設定
+// MARK: - Function  //通信処理や計算などの処理
+// MARK: - Action //addtargetの対象となるようなユーザーに近い処理
 
-import UIKit
 import SnapKit
 import SVProgressHUD
+import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         sleep(1) //スプラッシュ画面をわざとみせるだけ
@@ -71,4 +68,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.makeKeyAndVisible()
     }
 }
-

@@ -6,14 +6,14 @@
 //  Copyright © 2019 RaiRaiRaise. All rights reserved.
 //
 
-import UIKit
 import Material
+import UIKit
 
 class MenuViewController: UIViewController {
-    //MARK: - Property
+    // MARK: - Property
     let menuView = MenuView()
 
-    //MARK: - Default
+    // MARK: - Default
     override func loadView() {
         super.loadView()
         self.view = self.menuView
@@ -26,24 +26,23 @@ class MenuViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-    
-    //MARK: - Layout
+
+    // MARK: - Layout
     private func controllerSetting() {
         self.setLeftBackBarButtonItem(image: Constants.image.back)
         self.setNavigationBarTitleString(title: R.string.localized.menuViewNavigationTitle())
     }
-    
-    //MARK: - Function
-    //MARK: - Action
+
+    // MARK: - Function
+    // MARK: - Action
 
     /*
-    // MARK: - Navigation
+     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
 }

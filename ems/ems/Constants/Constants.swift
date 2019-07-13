@@ -44,7 +44,6 @@ struct Constants {
         // Aqua blue
         static let AppleAquaBlue = UIColor(red255: 37, green255: 218, blue255: 234)
         static let AppleAquaBlueShadow = UIColor(red255: 18, green255: 132, blue255: 201)
-
     }
 
     struct image {

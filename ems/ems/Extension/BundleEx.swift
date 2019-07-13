@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 
 extension Bundle {
-
     var releaseVersionNumber: String {
         if let infoDict = Bundle.main.infoDictionary,
             let versionString = infoDict["CFBundleShortVersionString"] as? String {
@@ -42,4 +41,3 @@ extension Bundle {
         return ""
     }
 }
-

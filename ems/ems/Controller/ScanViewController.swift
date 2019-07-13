@@ -6,17 +6,17 @@
 //  Copyright © 2019 RaiRaiRaise. All rights reserved.
 //
 
-import UIKit
-import Foundation
 import AVFoundation
+import Foundation
 import SPPermission
+import UIKit
 
 class ScanViewController: UIViewController {
-    //MARK: - Property
+    // MARK: - Property
     let scanView = ScanView()
     let scanReader = QRCodeReader(metadataObjectTypes: [AVMetadataObject.ObjectType.qr], captureDevicePosition: .back)
 
-    //MARK: - Default
+    // MARK: - Default
     override func loadView() {
         super.loadView()
         //self.viewとself.scanViewは同じメモリアドレスだからself.scanViewがsuperView
@@ -45,8 +45,8 @@ class ScanViewController: UIViewController {
         self.scanReader.stopScanning()
     }
 
-    //MARK: - Layout
-    //MARK: - Function
+    // MARK: - Layout
+    // MARK: - Function
     private func actionSetting() {
         self.scanView.flashBtn.addTarget(self, action: #selector(tappedFlashBtn), for: .touchUpInside)
         self.scanView.scanBtn.addTarget(self, action: #selector(tappedScanBtn), for: .touchUpInside)
@@ -54,7 +54,7 @@ class ScanViewController: UIViewController {
         self.scanView.menuBtn.addTarget(self, action: #selector(tappedMenuBtn), for: .touchUpInside)
         self.scanView.settingBtn.addTarget(self, action: #selector(tappedSettingBtn), for: .touchUpInside)
 
-        self.scanView.scanerSetting(scaner: self.scanReader, { (result) in
+        self.scanView.scanerSetting(scaner: self.scanReader, { result in
             print(result.value)
             self.scanView.previewQrInfo(msg: result.value)
         }) {
@@ -62,10 +62,10 @@ class ScanViewController: UIViewController {
         }
     }
 
-    //MARK: - Action
+    // MARK: - Action
     @objc private func tappedScanBtn() {
         Sound.tone(mode: .success)//ok
-//        Sound.tone(mode: .ringing)//error
+        //        Sound.tone(mode: .ringing)//error
 
     }
 
@@ -91,20 +91,17 @@ class ScanViewController: UIViewController {
 
     @objc private func tappedSettingBtn() {
         self.pushNewNavigationController(rootViewController: SettingViewController())
-
     }
-
 
     /*
-    // MARK: - Navigation
+     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
 }
 
 extension ScanViewController: UIPopoverPresentationControllerDelegate {

@@ -22,6 +22,7 @@ PODS:
     - SPPermission/Core
   - SPPermission/Core (4.0.5)
   - SVProgressHUD (2.2.5)
+  - SwiftLint (0.33.0)
 
 DEPENDENCIES:
   - DynamicButton (~> 6.1.0)
@@ -31,6 +32,7 @@ DEPENDENCIES:
   - SnapKit (~> 5.0.0)
   - SPPermission/Camera
   - SVProgressHUD (~> 2.2.5)
+  - SwiftLint
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -45,6 +47,7 @@ SPEC REPOS:
     - SnapKit
     - SPPermission
     - SVProgressHUD
+    - SwiftLint
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
@@ -58,7 +61,8 @@ SPEC CHECKSUMS:
   SnapKit: fd22d10eb9aff484d79a8724eab922c1ddf89bcf
   SPPermission: ef54994522bdf471ce1fe6aea267bf471a9de701
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  SwiftLint: fed9c66336e41fc74dc48a73678380718f0c8b0e
 
-PODFILE CHECKSUM: 27f943bfc5ff29807f3b5568f6a0ed057981195a
+PODFILE CHECKSUM: c8b46aa727b3fc158107f24864a2910e05fe6ade
 
 COCOAPODS: 1.5.3

@@ -31,12 +31,12 @@ import Foundation
  */
 public struct QRCodeReaderResult {
     /**
-   The error corrected data decoded into a human-readable string.
-   */
+     The error corrected data decoded into a human-readable string.
+     */
     public let value: String
 
     /**
-   The type of the metadata.
-   */
+     The type of the metadata.
+     */
     public let metadataType: String
 }

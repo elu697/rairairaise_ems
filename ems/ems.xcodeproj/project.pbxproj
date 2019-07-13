@@ -222,8 +222,8 @@
 		892BD7F922AFE590005DBA8F /* ems */ = {
 			isa = PBXGroup;
 			children = (
-				8995F3AC22C86E4B00830300 /* Resource */,
 				892BD85422AFEE7D005DBA8F /* R.generated.swift */,
+				8995F3AC22C86E4B00830300 /* Resource */,
 				892BD82E22AFEC30005DBA8F /* Constants */,
 				892BD82B22AFEBC1005DBA8F /* Controller */,
 				892BD82A22AFEBBC005DBA8F /* View */,
@@ -388,6 +388,7 @@
 				892BD7F422AFE590005DBA8F /* Frameworks */,
 				892BD7F522AFE590005DBA8F /* Resources */,
 				C20154DB8002833632A85BE6 /* [CP] Embed Pods Frameworks */,
+				8958D28122D98C14002337F3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -600,6 +601,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/$PROJECT_NAME/R.generated.swift\"\n";
+		};
+		8958D28122D98C14002337F3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n    ${PODS_ROOT}/SwiftLint/swiftlint autocorrect --format\nelse\n    \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		C20154DB8002833632A85BE6 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

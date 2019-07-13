@@ -47,10 +47,10 @@ public protocol QRCodeReaderDisplayable {
     func setNeedsUpdateOrientation()
 
     /**
-   Method called by the container to allows you to layout your view properly using the QR code reader builder.
+     Method called by the container to allows you to layout your view properly using the QR code reader builder.
 
-   - Parameter builder: A QR code reader builder.
-   */
+     - Parameter builder: A QR code reader builder.
+     */
     func setupComponents(with builder: QRCodeReaderViewControllerBuilder)
 }
 
@@ -60,10 +60,10 @@ public struct QRCodeReaderContainer {
     let displayable: QRCodeReaderDisplayable
 
     /**
-   Creates a QRCode container object that embeds a given displayable view.
+     Creates a QRCode container object that embeds a given displayable view.
 
-   - Parameter displayable: An UIView conforms to the `QRCodeReaderDisplayable` protocol.
-   */
+     - Parameter displayable: An UIView conforms to the `QRCodeReaderDisplayable` protocol.
+     */
     public init<T: QRCodeReaderDisplayable>(displayable: T) where T: UIView {
         self.view = displayable
         self.displayable = displayable

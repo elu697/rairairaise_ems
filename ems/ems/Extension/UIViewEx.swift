@@ -19,7 +19,7 @@ public extension UIView {
             layer.borderColor = newValue?.cgColor
         }
     }
-    
+
     // 枠線のWidth
     @IBInspectable var borderWidth: CGFloat {
         get {
@@ -29,7 +29,7 @@ public extension UIView {
             layer.borderWidth = newValue
         }
     }
-    
+
     var roundRadius: CGFloat {
         set {
             self.layer.cornerRadius = newValue
@@ -39,7 +39,7 @@ public extension UIView {
             return self.layer.cornerRadius
         }
     }
-    
+
     var viewController: UIViewController? {
         var parent: UIResponder? = self
         while parent != nil {
@@ -51,7 +51,6 @@ public extension UIView {
         return nil
     }
 
-    
     var isHiddenWithInteraction: Bool {
         set {
             self.isHidden = newValue
@@ -74,7 +73,7 @@ public extension UIView {
             return self.alpha
         }
     }
-    
+
     var isHiddenWithAlpha: CGFloat {
         set {
             self.alpha = newValue
@@ -98,10 +97,10 @@ public extension UIView {
                    radius: CGFloat = 2.5,
                    color: UIColor = UIColor.gray,
                    opacity: Float = 0.5) {
-
         switch direction {
         case .top:
             self.layer.shadowOffset = CGSize(width: 0.0, height: -1)
+
         case .bottom:
             self.layer.shadowOffset = CGSize(width: 0.0, height: 1)
         }
@@ -111,10 +110,9 @@ public extension UIView {
         self.layer.shadowOpacity = opacity
         self.layer.shadowRadius = radius
 
-//        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        //        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
         let scale = true
         layer.shouldRasterize = true
         layer.rasterizationScale = scale ? UIScreen.main.scale : 1
-
     }
 }

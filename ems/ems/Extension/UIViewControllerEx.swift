@@ -50,7 +50,6 @@ extension UIViewController {
         } else {
             self.dismiss(animated: true, completion: nil)
         }
-
     }
 
     @objc private func tappedCloseButton() {
@@ -74,19 +73,19 @@ extension UIViewController {
 
     func hideNavigationWhenSwipeView() {
         let _: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dissmissView))
-        
-        let swipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(dissmissView))
+
+        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(dissmissView))
         swipe.direction = .down
         swipe.cancelsTouchesInView = false
         view.addGestureRecognizer(swipe)
     }
 
     func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
 
-        let pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         pan.cancelsTouchesInView = false
         view.addGestureRecognizer(pan)
     }
@@ -103,9 +102,9 @@ extension UIViewController {
         self.present(UINavigationController(rootViewController: rootViewController), animated: true, completion: nil)
     }
 
-//    func setNavigationBarTitleLogo() {
-//        let logoView = UIImageView(image: UIImage(named: "logo_pay_header"))
-//        logoView.contentMode = .scaleAspectFit
-//        self.navigationItem.titleView = logoView
-//    }
+    //    func setNavigationBarTitleLogo() {
+    //        let logoView = UIImageView(image: UIImage(named: "logo_pay_header"))
+    //        logoView.contentMode = .scaleAspectFit
+    //        self.navigationItem.titleView = logoView
+    //    }
 }

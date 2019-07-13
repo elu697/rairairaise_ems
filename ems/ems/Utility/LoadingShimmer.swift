@@ -22,16 +22,15 @@ private let kScreenHeight = UIScreen.main.bounds.size.height
 private let safeAreaTopHeight = (kScreenHeight == 812.0 || kScreenHeight == 896.0) ? 88 : 64
 
 public class LoadingShimmer: NSObject {
-
     public static let shared = LoadingShimmer()
 
-    private override init() { }
+    override private init() { }
 
     private var _viewCover: UIView?
     private var viewCover: UIView? {
         if _viewCover == nil {
             _viewCover = UIView()
-            _viewCover?.tag = 1024
+            _viewCover?.tag = 1_024
             _viewCover?.backgroundColor = UIColor.clear
         }
         return _viewCover
@@ -59,19 +58,17 @@ public class LoadingShimmer: NSObject {
         shared.removeSubviews(view)
     }
 
-
     func removeSubviews(_ view: UIView?) {
-        view?.viewWithTag(1024)?.removeFromSuperview()
+        view?.viewWithTag(1_024)?.removeFromSuperview()
     }
 
     func coverSubviews(_ view: UIView?) {
-
         if view == nil {
             return
         }
 
         for subview in view?.subviews ?? [] {
-            if subview.tag == 1127 {
+            if subview.tag == 1_127 {
                 return
             }
         }
@@ -89,7 +86,6 @@ public class LoadingShimmer: NSObject {
 
         if (view?.subviews.count ?? 0) > 0 {
             for subview in view?.subviews ?? [] {
-
                 var defaultCoverblePath = UIBezierPath(roundedRect: subview.bounds, cornerRadius: subview.frame.size.height / 2.0)
                 if type(of: subview) === UILabel.self || type(of: subview) === UITextView.self {
                     defaultCoverblePath = UIBezierPath(roundedRect: subview.bounds, cornerRadius: 4)
@@ -104,14 +100,10 @@ public class LoadingShimmer: NSObject {
             }
             addCover(view)
         }
-
     }
 
-
     func getTableViewPath(_ view: UIView?, index i: Int, coverableCellsIds: [Any]?) {
-
         let tableView = view as? UITableView
-
 
         let cell: UITableViewCell? = tableView?.dequeueReusableCell(withIdentifier: coverableCellsIds?[i] as? String ?? "")
         let headerOffset = getHeaderOffset()
@@ -135,7 +127,6 @@ public class LoadingShimmer: NSObject {
 
             totalCoverablePath?.append(defaultCoverblePath)
         }
-
     }
 
     func addCover(_ view: UIView?) {
@@ -183,7 +174,6 @@ public class LoadingShimmer: NSObject {
         animation.repeatCount = HUGE
         animation.isRemovedOnCompletion = false
         colorLayer.add(animation, forKey: "locations-layer")
-
     }
 
     func getHeaderOffset() -> CGFloat {
@@ -212,5 +202,4 @@ public class LoadingShimmer: NSObject {
     func currentNavigationController() -> UINavigationController? {
         return currentViewController()?.navigationController
     }
-
 }

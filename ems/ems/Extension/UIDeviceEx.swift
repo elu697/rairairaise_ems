@@ -11,7 +11,6 @@ import UIKit
 
 /// screen type
 extension UIDevice {
-
     enum ScreenType: String {
         case iPhones_4_4S = "iPhone 4 or iPhone 4S"
         case iPhones_5_5s_5c_SE = "iPhone 5, iPhone 5s, iPhone 5c or iPhone SE"
@@ -27,14 +26,19 @@ extension UIDevice {
             switch UIScreen.main.nativeBounds.height {
             case 960:
                 return .iPhones_4_4S
-            case 1136:
+
+            case 1_136:
                 return .iPhones_5_5s_5c_SE
-            case 1334:
+
+            case 1_334:
                 return .iPhones_6_6s_7_8
-            case 1920, 2208:
+
+            case 1_920, 2_208:
                 return .iPhones_6Plus_6sPlus_7Plus_8Plus
-            case 2436:
+
+            case 2_436:
                 return .iPhoneX
+
             default:
                 return .unknown
             }

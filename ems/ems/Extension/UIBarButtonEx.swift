@@ -15,7 +15,6 @@ enum UIBarButtonItemPotition {
 }
 
 final class CustomBarItemButton: UIButton {
-
     @IBInspectable var top: CGFloat {
         get { return insets.top }
         set { insets.top = newValue }
@@ -47,7 +46,6 @@ final class CustomBarItemButton: UIButton {
 }
 
 extension UIBarButtonItem {
-
     ///
     /// - Parameters:
     ///   - image: Bar Button Icon Image
@@ -63,6 +61,7 @@ extension UIBarButtonItem {
             case .left:
                 button.insets = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
                 button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 18)
+
             case .right:
                 button.insets = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
                 button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 0)
@@ -75,6 +74,7 @@ extension UIBarButtonItem {
                 // 左にずらす
                 button.insets = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: -4)
                 button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 10)
+
             case .right:
                 // 右にずらす
                 button.insets = UIEdgeInsets(top: 10, left: -4, bottom: 10, right: 0)
