@@ -22,7 +22,6 @@ class ScanView: UIView {
     let qrInfoLbl = UILabel()
     let scanInfoLbl = UILabel()
 
-    private var scanReader = QRCodeReader()
     private var scanCode: String = ""
     private var scanFlag = true
 
@@ -166,13 +165,11 @@ class ScanView: UIView {
     
     //MARK: - Function
     public func scanerSetting(scaner: QRCodeReader, _ find: @escaping (QRCodeReaderResult) -> (), _ fail: @escaping () -> ()) {
-        self.scanReader = scaner
-
         let widthRect = 0.6
         let heightRect = Double(UIScreen.main.bounds.width) * widthRect / Double(UIScreen.main.bounds.height)
 
         let scanViewBuild = QRCodeReaderViewControllerBuilder { (build) in
-            build.reader = self.scanReader
+            build.reader = scaner
             build.showTorchButton = false
             build.showSwitchCameraButton = false
             build.showCancelButton = false
@@ -183,7 +180,7 @@ class ScanView: UIView {
             build.preferredStatusBarStyle = .default
         }
         self.scanPreviewView.setupComponents(with: scanViewBuild)
-        self.scanReader.didFindCode = { (result) in
+        scaner.didFindCode = { (result) in
             if self.scanFlag {
                 self.scanFlag = false
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
@@ -203,7 +200,7 @@ class ScanView: UIView {
                 }
             }
         }
-        self.scanReader.didFailDecoding = { () in
+        scaner.didFailDecoding = { () in
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
                 self.scanPreviewView.overlayView?.setState(.normal)
             }
@@ -212,8 +209,8 @@ class ScanView: UIView {
             fail()
         }
 
-        self.scanReader.stopScanningWhenCodeIsFound = false
-        self.scanReader.startScanning()
+        scaner.stopScanningWhenCodeIsFound = false
+        scaner.startScanning()
     }
 
     public func previewQrInfo(msg: String) {

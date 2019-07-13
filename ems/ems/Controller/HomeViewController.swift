@@ -28,10 +28,8 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         SVProgressHUD.show()
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(0)) {
-            SVProgressHUD.dismiss()
-            self.present(ScanViewController(), animated: true, completion: nil)
-        }
+        SVProgressHUD.dismiss()
+        self.present(ScanViewController(), animated: true, completion: nil)
 
     }
 

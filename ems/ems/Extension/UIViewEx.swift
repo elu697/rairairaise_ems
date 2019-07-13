@@ -67,7 +67,7 @@ public extension UIView {
             UIView.animate(withDuration: 1.0, animations: {
                 self.alpha = newValue
             }, completion: { _ in
-//                self.isUserInteractionEnabled = newValue.isEqual(to: 0.0)
+                self.isUserInteractionEnabled = newValue.isEqual(to: 0.0)
             })
         }
         get {
