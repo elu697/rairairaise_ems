@@ -1,4 +1,3 @@
-//
 //  AppDelegate.swift
 //  ems
 //
@@ -6,6 +5,24 @@
 //  Copyright © 2019 RaiRaiRaise. All rights reserved.
 //
 
+// MARK: コメント使い方
+// MARK: - 区切り付きマークアップコメント
+// MARK: マークアップコメント
+
+// TODO: - 区切り付きマークアップTODO
+// TODO: マークアップTODO
+
+// FIXME: - 区切り付きマークアップ修正箇所
+// FIXME: マークアップ修正箇所
+
+// MARK: - Property //変数定義
+// MARK: - Default //init,viewdidload等標準関数
+// MARK: - Layout //snpを使ったレイアウトの設定
+// MARK: - Function  //通信処理や計算などの処理
+// MARK: - Action //addtargetの対象となるようなユーザーに近い処理
+
+import SnapKit
+import SVProgressHUD
 import UIKit
 
 @UIApplicationMain
@@ -13,6 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        sleep(1) //スプラッシュ画面をわざとみせるだけ
+        self.initializedApplication()
+
         // Override point for customization after application launch.
         return true
     }
@@ -37,5 +57,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+
+    private func initializedApplication() {
+        let rootVC = HomeViewController()
+
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        self.window?.rootViewController = rootVC
+        self.window?.makeKeyAndVisible()
     }
 }

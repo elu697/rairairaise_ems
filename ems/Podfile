@@ -8,6 +8,12 @@ def install_pods
     pod 'R.swift'       , '~> 5.0.3'
     pod 'SnapKit'       , '~> 5.0.0'
     pod 'SVProgressHUD' , '~> 2.2.5'
+    pod 'Moya', '~> 13.0'
+    pod 'DynamicButton' , '~> 6.1.0'
+    pod 'SPPermission/Camera'
+    pod 'Material', '~> 3.1.0'
+    pod 'SwiftLint'
+
     #Pods for FiMap
 
  target 'emsTests' do
@@ -27,7 +33,6 @@ end
 
 
 swift3_names = [
-
 ]
 
 swift4_names = [
