@@ -33,14 +33,6 @@
 		892BD85722B33595005DBA8F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892BD85622B33595005DBA8F /* HomeView.swift */; };
 		892BD85922B35C75005DBA8F /* LoadingShimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892BD85822B35C75005DBA8F /* LoadingShimmer.swift */; };
 		8958D28422D9A3C2002337F3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8958D28322D9A3C2002337F3 /* Constants.swift */; };
-		897AB94B22D026D9006E1F70 /* icons8-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 897AB94A22D026D9006E1F70 /* icons8-back.png */; };
-		897AB94D22D02711006E1F70 /* icons8-delete_sign.png in Resources */ = {isa = PBXBuildFile; fileRef = 897AB94C22D02711006E1F70 /* icons8-delete_sign.png */; };
-		897AB94F22D0271E006E1F70 /* icons8-menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 897AB94E22D0271E006E1F70 /* icons8-menu.png */; };
-		897AB95122D02726006E1F70 /* icons8-user.png in Resources */ = {isa = PBXBuildFile; fileRef = 897AB95022D02726006E1F70 /* icons8-user.png */; };
-		897AB95522D0273C006E1F70 /* icons8-settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 897AB95422D0273C006E1F70 /* icons8-settings.png */; };
-		897AB95922D027CD006E1F70 /* icons8-flash_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 897AB95822D027CD006E1F70 /* icons8-flash_on.png */; };
-		897AB95B22D027D2006E1F70 /* icons8-flash_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 897AB95A22D027D2006E1F70 /* icons8-flash_off.png */; };
-		897AB95D22D0288C006E1F70 /* icons8-qr_code.png in Resources */ = {isa = PBXBuildFile; fileRef = 897AB95C22D0288C006E1F70 /* icons8-qr_code.png */; };
 		897AB95F22D03824006E1F70 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897AB95E22D03824006E1F70 /* InfoView.swift */; };
 		8995F3C822C8905800830300 /* Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3C722C8905800830300 /* Permission.swift */; };
 		8995F3CA22C8A1C800830300 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3C922C8A1C800830300 /* SettingViewController.swift */; };
@@ -64,6 +56,14 @@
 		89AB15E622C76F1B000632E4 /* QRCodeReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB15DC22C76F1B000632E4 /* QRCodeReaderViewController.swift */; };
 		89AB15E722C76F1B000632E4 /* ToggleTorchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB15DD22C76F1B000632E4 /* ToggleTorchButton.swift */; };
 		89AB15E822C76F1B000632E4 /* ReaderOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB15DE22C76F1B000632E4 /* ReaderOverlayView.swift */; };
+		89C33CFA22DF019A005C2D23 /* icons8-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33CF922DF019A005C2D23 /* icons8-back.png */; };
+		89C33CFC22DF01C4005C2D23 /* icons8-delete_sign.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33CFB22DF01C4005C2D23 /* icons8-delete_sign.png */; };
+		89C33CFE22DF01D7005C2D23 /* icons8-menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33CFD22DF01D7005C2D23 /* icons8-menu.png */; };
+		89C33D0222DF01F4005C2D23 /* icons8-user.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33D0122DF01F4005C2D23 /* icons8-user.png */; };
+		89C33D0422DF01FF005C2D23 /* icons8-settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33D0322DF01FF005C2D23 /* icons8-settings.png */; };
+		89C33D0622DF0209005C2D23 /* icons8-flash_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33D0522DF0209005C2D23 /* icons8-flash_on.png */; };
+		89C33D0822DF0210005C2D23 /* icons8-flash_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33D0722DF0210005C2D23 /* icons8-flash_off.png */; };
+		89C33D0A22DF0217005C2D23 /* icons8-qr_code.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33D0922DF0217005C2D23 /* icons8-qr_code.png */; };
 		B514D3166CB174592B66A618 /* Pods_emsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91381340DF8BAB98AF52B54E /* Pods_emsUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -121,14 +121,6 @@
 		892BD85622B33595005DBA8F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		892BD85822B35C75005DBA8F /* LoadingShimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingShimmer.swift; sourceTree = "<group>"; };
 		8958D28322D9A3C2002337F3 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		897AB94A22D026D9006E1F70 /* icons8-back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-back.png"; path = "../../../../../../Documents/com.visualpharm.Icons8/ios_glyphs/Arrows/100/ffffff/icons8-back.png"; sourceTree = "<group>"; };
-		897AB94C22D02711006E1F70 /* icons8-delete_sign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-delete_sign.png"; path = "../../../../../../Documents/com.visualpharm.Icons8/ios_glyphs/Popular/100/ffffff/icons8-delete_sign.png"; sourceTree = "<group>"; };
-		897AB94E22D0271E006E1F70 /* icons8-menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-menu.png"; path = "../../../../../../Documents/com.visualpharm.Icons8/ios_glyphs/Popular/100/ffffff/icons8-menu.png"; sourceTree = "<group>"; };
-		897AB95022D02726006E1F70 /* icons8-user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-user.png"; path = "../../../../../../Documents/com.visualpharm.Icons8/ios_glyphs/Profile/100/ffffff/icons8-user.png"; sourceTree = "<group>"; };
-		897AB95422D0273C006E1F70 /* icons8-settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-settings.png"; path = "../../../../../../Documents/com.visualpharm.Icons8/ios_glyphs/Popular/100/ffffff/icons8-settings.png"; sourceTree = "<group>"; };
-		897AB95822D027CD006E1F70 /* icons8-flash_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-flash_on.png"; path = "../../../../../../Documents/com.visualpharm.Icons8/ios_glyphs/Photo and Video/100/ffffff/icons8-flash_on.png"; sourceTree = "<group>"; };
-		897AB95A22D027D2006E1F70 /* icons8-flash_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-flash_off.png"; path = "../../../../../../Documents/com.visualpharm.Icons8/ios_glyphs/Photo and Video/100/ffffff/icons8-flash_off.png"; sourceTree = "<group>"; };
-		897AB95C22D0288C006E1F70 /* icons8-qr_code.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-qr_code.png"; path = "../../../../../../Documents/com.visualpharm.Icons8/ios_glyphs/Ecommerce/100/ffffff/icons8-qr_code.png"; sourceTree = "<group>"; };
 		897AB95E22D03824006E1F70 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		8995F3C722C8905800830300 /* Permission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Permission.swift; sourceTree = "<group>"; };
 		8995F3C922C8A1C800830300 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +144,14 @@
 		89AB15DC22C76F1B000632E4 /* QRCodeReaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeReaderViewController.swift; sourceTree = "<group>"; };
 		89AB15DD22C76F1B000632E4 /* ToggleTorchButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleTorchButton.swift; sourceTree = "<group>"; };
 		89AB15DE22C76F1B000632E4 /* ReaderOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReaderOverlayView.swift; sourceTree = "<group>"; };
+		89C33CF922DF019A005C2D23 /* icons8-back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-back.png"; sourceTree = "<group>"; };
+		89C33CFB22DF01C4005C2D23 /* icons8-delete_sign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-delete_sign.png"; sourceTree = "<group>"; };
+		89C33CFD22DF01D7005C2D23 /* icons8-menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-menu.png"; sourceTree = "<group>"; };
+		89C33D0122DF01F4005C2D23 /* icons8-user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-user.png"; sourceTree = "<group>"; };
+		89C33D0322DF01FF005C2D23 /* icons8-settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-settings.png"; sourceTree = "<group>"; };
+		89C33D0522DF0209005C2D23 /* icons8-flash_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-flash_on.png"; sourceTree = "<group>"; };
+		89C33D0722DF0210005C2D23 /* icons8-flash_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-flash_off.png"; sourceTree = "<group>"; };
+		89C33D0922DF0217005C2D23 /* icons8-qr_code.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-qr_code.png"; sourceTree = "<group>"; };
 		8D6DCFA2983FF745BC8E5F93 /* Pods-ems.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ems.release.xcconfig"; path = "Pods/Target Support Files/Pods-ems/Pods-ems.release.xcconfig"; sourceTree = "<group>"; };
 		91381340DF8BAB98AF52B54E /* Pods_emsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_emsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A92B0D5A814C15FABCD9CA /* Pods_ems.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ems.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -222,9 +222,9 @@
 		892BD7F922AFE590005DBA8F /* ems */ = {
 			isa = PBXGroup;
 			children = (
+				89C33CF622DF0147005C2D23 /* Resource */,
 				8958D28322D9A3C2002337F3 /* Constants.swift */,
 				892BD85422AFEE7D005DBA8F /* R.generated.swift */,
-				8995F3AC22C86E4B00830300 /* Resource */,
 				892BD82B22AFEBC1005DBA8F /* Controller */,
 				892BD82A22AFEBBC005DBA8F /* View */,
 				892BD82922AFEBB0005DBA8F /* Model */,
@@ -322,21 +322,6 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
-		8995F3AC22C86E4B00830300 /* Resource */ = {
-			isa = PBXGroup;
-			children = (
-				897AB94A22D026D9006E1F70 /* icons8-back.png */,
-				897AB94C22D02711006E1F70 /* icons8-delete_sign.png */,
-				897AB94E22D0271E006E1F70 /* icons8-menu.png */,
-				897AB95022D02726006E1F70 /* icons8-user.png */,
-				897AB95422D0273C006E1F70 /* icons8-settings.png */,
-				897AB95822D027CD006E1F70 /* icons8-flash_on.png */,
-				897AB95A22D027D2006E1F70 /* icons8-flash_off.png */,
-				897AB95C22D0288C006E1F70 /* icons8-qr_code.png */,
-			);
-			path = Resource;
-			sourceTree = "<group>";
-		};
 		89AB15D422C76F1B000632E4 /* QRCodeReader */ = {
 			isa = PBXGroup;
 			children = (
@@ -352,6 +337,21 @@
 				89AB15DE22C76F1B000632E4 /* ReaderOverlayView.swift */,
 			);
 			path = QRCodeReader;
+			sourceTree = "<group>";
+		};
+		89C33CF622DF0147005C2D23 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				89C33D0922DF0217005C2D23 /* icons8-qr_code.png */,
+				89C33D0722DF0210005C2D23 /* icons8-flash_off.png */,
+				89C33D0522DF0209005C2D23 /* icons8-flash_on.png */,
+				89C33D0322DF01FF005C2D23 /* icons8-settings.png */,
+				89C33D0122DF01F4005C2D23 /* icons8-user.png */,
+				89C33CF922DF019A005C2D23 /* icons8-back.png */,
+				89C33CFB22DF01C4005C2D23 /* icons8-delete_sign.png */,
+				89C33CFD22DF01D7005C2D23 /* icons8-menu.png */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		DD942DEB58719D80BB8F9417 /* Pods */ = {
@@ -478,16 +478,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				897AB95922D027CD006E1F70 /* icons8-flash_on.png in Resources */,
-				897AB95522D0273C006E1F70 /* icons8-settings.png in Resources */,
-				897AB94B22D026D9006E1F70 /* icons8-back.png in Resources */,
-				897AB95122D02726006E1F70 /* icons8-user.png in Resources */,
-				897AB95D22D0288C006E1F70 /* icons8-qr_code.png in Resources */,
-				897AB94D22D02711006E1F70 /* icons8-delete_sign.png in Resources */,
+				89C33D0622DF0209005C2D23 /* icons8-flash_on.png in Resources */,
+				89C33D0422DF01FF005C2D23 /* icons8-settings.png in Resources */,
+				89C33CFA22DF019A005C2D23 /* icons8-back.png in Resources */,
+				89C33D0222DF01F4005C2D23 /* icons8-user.png in Resources */,
+				89C33D0A22DF0217005C2D23 /* icons8-qr_code.png in Resources */,
+				89C33CFC22DF01C4005C2D23 /* icons8-delete_sign.png in Resources */,
 				892BD84D22AFEDA5005DBA8F /* Localized.strings in Resources */,
-				897AB95B22D027D2006E1F70 /* icons8-flash_off.png in Resources */,
+				89C33D0822DF0210005C2D23 /* icons8-flash_off.png in Resources */,
 				892BD80522AFE591005DBA8F /* LaunchScreen.storyboard in Resources */,
-				897AB94F22D0271E006E1F70 /* icons8-menu.png in Resources */,
+				89C33CFE22DF01D7005C2D23 /* icons8-menu.png in Resources */,
 				892BD80222AFE591005DBA8F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
