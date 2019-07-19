@@ -107,7 +107,7 @@ internal class ScanView: UIView {
         self.scanBtn.borderWidth = 5
         self.scanBtn.borderColor = .gray
         self.scanBtn.tintColor = .white
-        self.scanBtn.setImage(Constants.Image.back, for: .normal)
+        self.scanBtn.setImage(Constants.Image.qr, for: .normal)
         self.scanBtn.setBackgroundColor(color: .clear, forState: .normal)
         self.scanBtn.contentMode = .scaleAspectFit
         self.scanBtn.contentHorizontalAlignment = .fill
