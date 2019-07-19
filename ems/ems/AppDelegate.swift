@@ -24,6 +24,7 @@
 import SnapKit
 import SVProgressHUD
 import UIKit
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -60,6 +61,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func initializedApplication() {
+        FirebaseApp.configure()
+        
         let rootVC = HomeViewController()
 
         self.window = UIWindow(frame: UIScreen.main.bounds)
