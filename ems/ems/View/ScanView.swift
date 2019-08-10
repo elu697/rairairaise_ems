@@ -218,6 +218,7 @@ internal class ScanView: UIView {
         if msg.isEmpty {
             self.qrInfoLbl.alpha = 0.0
             self.qrInfoLbl.text = msg
+            self.scanCode = msg
         } else {
             self.qrInfoLbl.text = msg
             self.qrInfoLbl.alpha = 1.0

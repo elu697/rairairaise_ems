@@ -68,6 +68,7 @@ internal class ScanViewController: UIViewController {
     @objc
     private func tappedScanBtn() {
         Sound.tone(mode: .success)//ok
+        self.scanView.previewQrInfo(msg: "")
         //        Sound.tone(mode: .ringing)//error
 
     }
