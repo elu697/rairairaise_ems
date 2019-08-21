@@ -34,7 +34,7 @@ protocol QRCodeReaderLifeCycleDelegate: AnyObject {
 
 /// Reader object base on the `AVCaptureDevice` to read / scan 1D and 2D codes.
 public final class QRCodeReader: NSObject, AVCaptureMetadataOutputObjectsDelegate {
-    private let sessionQueue = DispatchQueue(label: "session queue")
+    private let sessionQueue = DispatchQueue(label: "session queue", qos: .userInitiated)
     private let metadataObjectsQueue = DispatchQueue(label: "com.yannickloriot.qr", attributes: [], target: nil)
 
     let defaultDevice: AVCaptureDevice? = AVCaptureDevice.default(for: .video)
@@ -169,6 +169,9 @@ public final class QRCodeReader: NSObject, AVCaptureMetadataOutputObjectsDelegat
         metadataOutput.metadataObjectTypes = filtered
         previewLayer.videoGravity = .resizeAspectFill
 
+        if session.canSetSessionPreset(.photo) {
+            session.sessionPreset = .photo
+        }
         session.commitConfiguration()
     }
 
