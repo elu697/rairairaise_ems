@@ -16,6 +16,9 @@ internal class ScanViewController: UIViewController {
     internal let scanView = ScanView()
     internal let scanReader = QRCodeReader(metadataObjectTypes: [AVMetadataObject.ObjectType.qr], captureDevicePosition: .back)
 
+    private var scanQrData = String()
+    private var scanQrDatas = [String]()
+
     // MARK: - Default
     override internal func loadView() {
         //self.viewとself.scanViewは同じメモリアドレスだからself.scanViewがsuperView
@@ -58,6 +61,7 @@ internal class ScanViewController: UIViewController {
             // swiftlint:disable:next multiline_arguments
             scaner: self.scanReader, { result in
                 self.scanView.previewQrInfo(msg: result.value)
+                self.scanQrData = result.value
             }, {
                 self.scanView.previewQrInfo(msg: "error")
             }
@@ -67,10 +71,16 @@ internal class ScanViewController: UIViewController {
     // MARK: - Action
     @objc
     private func tappedScanBtn() {
-        Sound.tone(mode: .success)//ok
-        self.scanView.previewQrInfo(msg: "")
-        //        Sound.tone(mode: .ringing)//error
-
+        if scanQrData.isEmpty {
+            Sound.tone(mode: .fail)
+            self.scanView.previewQrInfo(msg: "QRコードが読み込まれていません")
+        } else {
+            Sound.tone(mode: .accept)//ok
+            self.scanQrDatas.append(self.scanQrData)
+            self.scanQrData.removeAll()
+            self.scanView.previewQrInfo(msg: "")
+            self.scanView.previewScanInfo(msg: "\(scanQrDatas.count)品スキャン済み")
+        }
     }
 
     @objc

@@ -22,7 +22,7 @@ internal class ScanView: UIView {
     internal let qrInfoLbl = UILabel()
     internal let scanInfoLbl = UILabel()
 
-    private var scanCode: String = ""
+    private var scanCode: String = "" //スキャンタイミング時に以前のQRと照らし合わせるための
     private var scanFlag = true
 
     // MARK: - Default
@@ -73,10 +73,12 @@ internal class ScanView: UIView {
             make.width.equalToSuperview().multipliedBy(0.5).offset(50)
         }
         self.scanInfoLbl.snp.makeConstraints { make in
+//            make.centerX.equalToSuperview()
+//            make.height.equalTo(40)
+//            make.width.equalToSuperview().multipliedBy(0.5).offset(100)
             make.bottom.equalTo(self.scanBtn.snp.top).offset(-20)
             make.centerX.equalToSuperview()
-            make.height.equalTo(40)
-            make.width.equalToSuperview().multipliedBy(0.5).offset(100)
+            make.width.equalToSuperview().multipliedBy(0.5).offset(50)
         }
         self.scanBtn.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -158,7 +160,14 @@ internal class ScanView: UIView {
     }
 
     private func scanInfoLblLayoutSetting() {
+        self.scanInfoLbl.isHiddenWithAlphaAnimation = 0.0
+        self.scanInfoLbl.textAlignment = .center
+        self.scanInfoLbl.numberOfLines = 0
+        self.scanInfoLbl.font = Font.boldSystemFont(ofSize: 15)
+        self.scanInfoLbl.textColor = Color.darkText.primary
         self.scanInfoLbl.backgroundColor = .white
+        self.scanInfoLbl.sizeToFit()
+        self.scanInfoLbl.lineBreakMode = NSLineBreakMode.byWordWrapping
         self.scanInfoLbl.addShadow(direction: .bottom)
         self.scanInfoLbl.roundRadius = 2
     }
@@ -214,25 +223,16 @@ internal class ScanView: UIView {
     }
 
     public func previewQrInfo(msg: String) {
-        print(msg)
+        self.qrInfoLbl.text = msg
+         self.qrInfoLbl.alpha = msg.isEmpty ? 0.0 : 1.0
         if msg.isEmpty {
-            self.qrInfoLbl.alpha = 0.0
-            self.qrInfoLbl.text = msg
-            self.scanCode = msg
-        } else {
-            self.qrInfoLbl.text = msg
-            self.qrInfoLbl.alpha = 1.0
+            self.scanCode = msg //スキャン情報保持を上書き
         }
     }
 
     public func previewScanInfo(msg: String) {
-        if msg.isEmpty {
-            self.scanInfoLbl.isHiddenWithAlphaAnimation = 0.0
-            self.scanInfoLbl.text = msg
-        } else {
-            self.scanInfoLbl.text = msg
-            self.scanInfoLbl.isHiddenWithAlphaAnimation = 1.0
-        }
+        self.scanInfoLbl.text = msg
+        self.scanInfoLbl.alpha = msg.isEmpty ? 0.0 : 1.0
     }
 
     private func convertRectOfInterest(rect: CGRect) -> CGRect {
