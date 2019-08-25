@@ -33,6 +33,7 @@
 		892BD85522AFEE7D005DBA8F /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892BD85422AFEE7D005DBA8F /* R.generated.swift */; };
 		892BD85722B33595005DBA8F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892BD85622B33595005DBA8F /* HomeView.swift */; };
 		892BD85922B35C75005DBA8F /* LoadingShimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892BD85822B35C75005DBA8F /* LoadingShimmer.swift */; };
+		894BB3C8230E60D40055FD3D /* ScanInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894BB3C7230E60D40055FD3D /* ScanInfoView.swift */; };
 		8958D28422D9A3C2002337F3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8958D28322D9A3C2002337F3 /* Constants.swift */; };
 		897AB95F22D03824006E1F70 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897AB95E22D03824006E1F70 /* InfoView.swift */; };
 		8995F3C822C8905800830300 /* Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3C722C8905800830300 /* Permission.swift */; };
@@ -122,6 +123,7 @@
 		892BD85422AFEE7D005DBA8F /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		892BD85622B33595005DBA8F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		892BD85822B35C75005DBA8F /* LoadingShimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingShimmer.swift; sourceTree = "<group>"; };
+		894BB3C7230E60D40055FD3D /* ScanInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanInfoView.swift; sourceTree = "<group>"; };
 		8958D28322D9A3C2002337F3 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		897AB95E22D03824006E1F70 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		8995F3C722C8905800830300 /* Permission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Permission.swift; sourceTree = "<group>"; };
@@ -273,12 +275,12 @@
 		892BD82A22AFEBBC005DBA8F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				894BB3C9230E61000055FD3D /* Scan */,
 				892BD85622B33595005DBA8F /* HomeView.swift */,
-				89AB156C22C72CC6000632E4 /* ScanView.swift */,
+				897AB95E22D03824006E1F70 /* InfoView.swift */,
 				8995F3D322C8A2DF00830300 /* SettingView.swift */,
 				8995F3D522C8A2E900830300 /* MenuView.swift */,
 				8995F3D722C8A2F700830300 /* ProfileView.swift */,
-				897AB95E22D03824006E1F70 /* InfoView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -323,6 +325,15 @@
 				892BD85822B35C75005DBA8F /* LoadingShimmer.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		894BB3C9230E61000055FD3D /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				89AB156C22C72CC6000632E4 /* ScanView.swift */,
+				894BB3C7230E60D40055FD3D /* ScanInfoView.swift */,
+			);
+			path = Scan;
 			sourceTree = "<group>";
 		};
 		89AB15D422C76F1B000632E4 /* QRCodeReader */ = {
@@ -592,7 +603,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				$SRCROOT/$PROJECT_NAME/R.generated.swift,
+				"$SRCROOT/$PROJECT_NAME/R.generated.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -621,42 +632,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ems/Pods-ems-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/DynamicButton/DynamicButton.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/Material/Material.framework",
-				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
-				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
-				"${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework",
-				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
-				"${BUILT_PRODUCTS_DIR}/SPPermission/SPPermission.framework",
-				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-ems/Pods-ems-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DynamicButton.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rswift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SPPermission.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-ems/Pods-ems-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ems/Pods-ems-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ems/Pods-ems-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -675,6 +659,7 @@
 				8995F3D622C8A2E900830300 /* MenuView.swift in Sources */,
 				892BD84522AFEC91005DBA8F /* UIViewController.swift in Sources */,
 				8995F3D422C8A2DF00830300 /* SettingView.swift in Sources */,
+				894BB3C8230E60D40055FD3D /* ScanInfoView.swift in Sources */,
 				89AB15E422C76F1B000632E4 /* QRCodeReaderResult.swift in Sources */,
 				8995F3CA22C8A1C800830300 /* SettingViewController.swift in Sources */,
 				8958D28422D9A3C2002337F3 /* Constants.swift in Sources */,
@@ -897,7 +882,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = RaiRaiRaise.org.ems;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -916,7 +901,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = RaiRaiRaise.org.ems;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

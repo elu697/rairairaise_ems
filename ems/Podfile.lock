@@ -46,6 +46,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.2.3):
     - GoogleUtilities/Logger
+  - IQKeyboardManagerSwift (6.4.0)
   - Material (3.1.6):
     - Material/Core (= 3.1.6)
   - Material/Core (3.1.6):
@@ -77,6 +78,7 @@ PODS:
 DEPENDENCIES:
   - DynamicButton (~> 6.1.0)
   - Firebase/Core
+  - IQKeyboardManagerSwift
   - Material (~> 3.1.0)
   - Moya (~> 13.0)
   - R.swift (~> 5.0.3)
@@ -95,6 +97,7 @@ SPEC REPOS:
     - FirebaseInstanceID
     - GoogleAppMeasurement
     - GoogleUtilities
+    - IQKeyboardManagerSwift
     - Material
     - Motion
     - Moya
@@ -116,6 +119,7 @@ SPEC CHECKSUMS:
   FirebaseInstanceID: 9782fcfb89e4d7da76cc28eac4b8543dc7be4a4b
   GoogleAppMeasurement: 1e45fa601e6280c180880d57010390f6679cd971
   GoogleUtilities: d2b0e277a95962e09bb27f5cd42f5f0b6a506c7d
+  IQKeyboardManagerSwift: ed9b04ee0e3067ffba543283462d619f944b05e5
   Material: 9b30613deb1b79487eeede5e4f90cbff084311ea
   Motion: f115b33f36cc52472a25a965daa89b3859817de0
   Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
@@ -128,6 +132,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLint: fed9c66336e41fc74dc48a73678380718f0c8b0e
 
-PODFILE CHECKSUM: 62cd0fb2c7c8eff17e863ce6ba2e877907cf108c
+PODFILE CHECKSUM: af4d8960b445218620183846f9f2241785be4c0e
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.7.5

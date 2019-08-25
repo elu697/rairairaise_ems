@@ -6,6 +6,7 @@
 //  Copyright © 2019 RaiRaiRaise. All rights reserved.
 //
 
+import Material
 import UIKit
 
 internal class InfoView: UIView {

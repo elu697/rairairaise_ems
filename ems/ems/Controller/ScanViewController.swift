@@ -34,6 +34,7 @@ internal class ScanViewController: UIViewController {
         self.scanView.backgroundColor = .white
         self.actionSetting()
         setNeedsUpdateOfHomeIndicatorAutoHidden()
+        hideKeyboardWhenTappedAround()
         // Do any additional setup after loading the view.
     }
 
