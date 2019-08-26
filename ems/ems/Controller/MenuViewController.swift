@@ -28,7 +28,7 @@ internal class MenuViewController: UIViewController {
 
     // MARK: - Layout
     private func controllerSetting() {
-        self.setLeftBackBarButtonItem(image: Constants.Image.back)
+        self.setRightCloseBarButtonItem()
         self.setNavigationBarTitleString(title: R.string.localized.menuViewNavigationTitle())
     }
 

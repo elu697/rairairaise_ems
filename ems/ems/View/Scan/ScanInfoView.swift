@@ -10,24 +10,18 @@ import Material
 import UIKit
 
 internal class ScanInfoView: UIView {
-    private let codeTxf = TextField()
-    private let nameTxf = TextField()
-    private let adminTxf = TextField()
-    private let userTxf = TextField()
-    private let placeTxf = TextField()
+    internal let codeTxf = TextField()
+    internal let nameTxf = TextField()
+    internal let adminTxf = TextField()
+    internal let userTxf = TextField()
+    internal let placeTxf = TextField()
 
     private let lostTitleLbl = UILabel()
     private let lostSwitch = Switch(state: .off, size: .custom(width: 60, height: 30))
     private let discardTitleLbl = UILabel()
     private let discardSwitch = Switch(state: .off, size: .custom(width: 60, height: 30))
 
-    private var code = "testcode01"
-    private var name = "test name"
-    private var admin = "test master"
-    private var user = "test user"
-    private var place = "test hole"
-    private var lostFlag = false
-    private var discardFlag = false
+    private var assetData = Asset()
 
     // MARK: - Default
     override internal init(frame: CGRect) {
@@ -112,23 +106,23 @@ internal class ScanInfoView: UIView {
     // MARK: - Layout
     private func componentSetting() {
         self.codeTxf.placeholder = "資産コード"
-        self.codeTxf.text = self.code
+        self.codeTxf.text = self.assetData.code
         self.codeTxf.isEnabled = false
 
         self.nameTxf.placeholder = "資産名"
-        self.nameTxf.text = self.name
+        self.nameTxf.text = self.assetData.name
         self.nameTxf.isEnabled = true
 
         self.adminTxf.placeholder = "管理者"
-        self.adminTxf.text = self.admin
+        self.adminTxf.text = self.assetData.admin
         self.adminTxf.isEnabled = true
 
         self.userTxf.placeholder = "使用者"
-        self.userTxf.text = self.user
+        self.userTxf.text = self.assetData.user
         self.userTxf.isEnabled = true
 
         self.placeTxf.placeholder = "管理場所"
-        self.placeTxf.text = self.place
+        self.placeTxf.text = self.assetData.place
         self.placeTxf.isEnabled = true
 
         self.lostTitleLbl.text = "紛失"
@@ -138,7 +132,7 @@ internal class ScanInfoView: UIView {
         self.lostSwitch.buttonOnColor = Color.red.accent2
         self.lostSwitch.trackOffColor = Color.lightGray
         self.lostSwitch.trackOnColor = Color.red.accent1
-//        self.lostSwitch.isOn = self.lostFlag
+        self.lostSwitch.isOn = self.assetData.lostFlag
 
         self.discardTitleLbl.text = "廃棄"
         self.discardTitleLbl.font = .systemFont(ofSize: 13)
@@ -147,9 +141,14 @@ internal class ScanInfoView: UIView {
         self.discardSwitch.buttonOnColor = Color.red.accent2
         self.discardSwitch.trackOffColor = Color.lightGray
         self.discardSwitch.trackOnColor = Color.red.accent1
-//        self.discardSwitch.isOn = self.discardFlag
+        self.discardSwitch.isOn = self.assetData.discardFlag
     }
+
     // MARK: - Function
+    internal func setAssetData(data: Asset) {
+        self.assetData = data
+    }
+
     // MARK: - Action
 
     /*

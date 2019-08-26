@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -36,6 +36,8 @@
 		894BB3C8230E60D40055FD3D /* ScanInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894BB3C7230E60D40055FD3D /* ScanInfoView.swift */; };
 		8958D28422D9A3C2002337F3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8958D28322D9A3C2002337F3 /* Constants.swift */; };
 		897AB95F22D03824006E1F70 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897AB95E22D03824006E1F70 /* InfoView.swift */; };
+		8984472F2313990F008865A4 /* icons8-delete_sign.png in Resources */ = {isa = PBXBuildFile; fileRef = 8984472E2313990F008865A4 /* icons8-delete_sign.png */; };
+		8984473123139B82008865A4 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8984473023139B82008865A4 /* Asset.swift */; };
 		8995F3C822C8905800830300 /* Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3C722C8905800830300 /* Permission.swift */; };
 		8995F3CA22C8A1C800830300 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3C922C8A1C800830300 /* SettingViewController.swift */; };
 		8995F3CC22C8A1F300830300 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3CB22C8A1F300830300 /* MenuViewController.swift */; };
@@ -59,7 +61,6 @@
 		89AB15E722C76F1B000632E4 /* ToggleTorchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB15DD22C76F1B000632E4 /* ToggleTorchButton.swift */; };
 		89AB15E822C76F1B000632E4 /* ReaderOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB15DE22C76F1B000632E4 /* ReaderOverlayView.swift */; };
 		89C33CFA22DF019A005C2D23 /* icons8-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33CF922DF019A005C2D23 /* icons8-back.png */; };
-		89C33CFC22DF01C4005C2D23 /* icons8-delete_sign.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33CFB22DF01C4005C2D23 /* icons8-delete_sign.png */; };
 		89C33CFE22DF01D7005C2D23 /* icons8-menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33CFD22DF01D7005C2D23 /* icons8-menu.png */; };
 		89C33D0222DF01F4005C2D23 /* icons8-user.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33D0122DF01F4005C2D23 /* icons8-user.png */; };
 		89C33D0422DF01FF005C2D23 /* icons8-settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33D0322DF01FF005C2D23 /* icons8-settings.png */; };
@@ -126,6 +127,8 @@
 		894BB3C7230E60D40055FD3D /* ScanInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanInfoView.swift; sourceTree = "<group>"; };
 		8958D28322D9A3C2002337F3 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		897AB95E22D03824006E1F70 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		8984472E2313990F008865A4 /* icons8-delete_sign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-delete_sign.png"; path = "../../../../../../Documents/com.visualpharm.Icons8/android_l/Popular/100/ffffff/icons8-delete_sign.png"; sourceTree = "<group>"; };
+		8984473023139B82008865A4 /* Asset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
 		8995F3C722C8905800830300 /* Permission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Permission.swift; sourceTree = "<group>"; };
 		8995F3C922C8A1C800830300 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		8995F3CB22C8A1F300830300 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -149,7 +152,6 @@
 		89AB15DD22C76F1B000632E4 /* ToggleTorchButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleTorchButton.swift; sourceTree = "<group>"; };
 		89AB15DE22C76F1B000632E4 /* ReaderOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReaderOverlayView.swift; sourceTree = "<group>"; };
 		89C33CF922DF019A005C2D23 /* icons8-back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-back.png"; sourceTree = "<group>"; };
-		89C33CFB22DF01C4005C2D23 /* icons8-delete_sign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-delete_sign.png"; sourceTree = "<group>"; };
 		89C33CFD22DF01D7005C2D23 /* icons8-menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-menu.png"; sourceTree = "<group>"; };
 		89C33D0122DF01F4005C2D23 /* icons8-user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-user.png"; sourceTree = "<group>"; };
 		89C33D0322DF01FF005C2D23 /* icons8-settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-settings.png"; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 			children = (
 				89AB156E22C752E7000632E4 /* Sound.swift */,
 				8995F3C722C8905800830300 /* Permission.swift */,
+				8984473023139B82008865A4 /* Asset.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -356,13 +359,13 @@
 		89C33CF622DF0147005C2D23 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				8984472E2313990F008865A4 /* icons8-delete_sign.png */,
 				89C33D0922DF0217005C2D23 /* icons8-qr_code.png */,
 				89C33D0722DF0210005C2D23 /* icons8-flash_off.png */,
 				89C33D0522DF0209005C2D23 /* icons8-flash_on.png */,
 				89C33D0322DF01FF005C2D23 /* icons8-settings.png */,
 				89C33D0122DF01F4005C2D23 /* icons8-user.png */,
 				89C33CF922DF019A005C2D23 /* icons8-back.png */,
-				89C33CFB22DF01C4005C2D23 /* icons8-delete_sign.png */,
 				89C33CFD22DF01D7005C2D23 /* icons8-menu.png */,
 			);
 			path = Resource;
@@ -495,10 +498,10 @@
 				89C33D0622DF0209005C2D23 /* icons8-flash_on.png in Resources */,
 				89C33D0422DF01FF005C2D23 /* icons8-settings.png in Resources */,
 				89C33CFA22DF019A005C2D23 /* icons8-back.png in Resources */,
+				8984472F2313990F008865A4 /* icons8-delete_sign.png in Resources */,
 				89C33D0222DF01F4005C2D23 /* icons8-user.png in Resources */,
 				89C33D0A22DF0217005C2D23 /* icons8-qr_code.png in Resources */,
 				0845480122E1606D00D79616 /* GoogleService-Info.plist in Resources */,
-				89C33CFC22DF01C4005C2D23 /* icons8-delete_sign.png in Resources */,
 				892BD84D22AFEDA5005DBA8F /* Localized.strings in Resources */,
 				89C33D0822DF0210005C2D23 /* icons8-flash_off.png in Resources */,
 				892BD80522AFE591005DBA8F /* LaunchScreen.storyboard in Resources */,
@@ -603,7 +606,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$SRCROOT/$PROJECT_NAME/R.generated.swift",
+				$SRCROOT/$PROJECT_NAME/R.generated.swift,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -664,6 +667,7 @@
 				8995F3CA22C8A1C800830300 /* SettingViewController.swift in Sources */,
 				8958D28422D9A3C2002337F3 /* Constants.swift in Sources */,
 				8995F3CE22C8A21200830300 /* ProfileViewController.swift in Sources */,
+				8984473123139B82008865A4 /* Asset.swift in Sources */,
 				892BD84022AFEC91005DBA8F /* UIButton.swift in Sources */,
 				892BD84122AFEC91005DBA8F /* Class.swift in Sources */,
 				89AB15E622C76F1B000632E4 /* QRCodeReaderViewController.swift in Sources */,

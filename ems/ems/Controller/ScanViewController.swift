@@ -61,7 +61,9 @@ internal class ScanViewController: UIViewController {
         self.scanView.scanerSetting(
             // swiftlint:disable:next multiline_arguments
             scaner: self.scanReader, { result in
+                // TODO: TODO Network
                 self.scanView.previewQrInfo(msg: result.value)
+                self.scanView.scanInfoView.setAssetData(data: Asset())
                 self.scanQrData = result.value
             }, {
                 self.scanView.previewQrInfo(msg: "error")
