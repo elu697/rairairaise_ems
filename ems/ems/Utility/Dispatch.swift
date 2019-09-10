@@ -8,15 +8,15 @@
 
 import Foundation
 
-class Dispatch {
+internal class Dispatch {
     private var group: DispatchGroup
     private var queues: [String: DispatchQueue] = [:]
     
-    init() {
+    internal init() {
         group = DispatchGroup()
     }
     
-    func async(label: String, _ imp: @escaping () -> Void) {
+    internal func async(label: String, _ imp: @escaping () -> Void) {
         group.enter()
         if let queue = queues[label] {
             queue.async(group: group, qos: .unspecified, flags: [], execute: imp)
@@ -26,7 +26,7 @@ class Dispatch {
         }
     }
     
-    func notify(label: String, imp: @escaping () -> Void) {
+    internal func notify(label: String, imp: @escaping () -> Void) {
         if let queue = queues[label] {
             group.notify(queue: queue, execute: imp)
         } else {
@@ -34,7 +34,7 @@ class Dispatch {
         }
     }
     
-    func leave() {
+    internal func leave() {
         group.leave()
     }
 }

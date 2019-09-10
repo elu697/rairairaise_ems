@@ -10,7 +10,7 @@ import FirebaseFirestore
 import Foundation
 
 internal class DBStore {
-    static let shared = DBStore()
+    internal static let shared = DBStore()
     private let fireStore = Firestore.firestore()
 
     private var convertId: [(collection: Collection, asset: Asset.AssetID)] {
@@ -52,18 +52,11 @@ internal class DBStore {
     internal func updateAsset(asset: Asset, _ completion: @escaping () -> Void, error: @escaping (Error) -> Void) {
         existDocumentProcess(user: asset.user, admin: asset.admin, assetName: asset.name, location: asset.location) {[weak self] userRef, adminRef, assetNameRef, locationRef in
             var data: [AnyHashable: Any] = asset.data
-            if let userRef = userRef {
-                data[Asset.AssetID.user.key] = userRef
-            }
-            if let adminRef = adminRef {
-                data[Asset.AssetID.admin.key] = adminRef
-            }
-            if let assetNameRef = assetNameRef {
-                data[Asset.AssetID.name.key] = assetNameRef
-            }
-            if let locationRef = locationRef {
-                data[Asset.AssetID.location.key] = locationRef
-            }
+            if let userRef = userRef { data[Asset.AssetID.user.key] = userRef }
+            if let adminRef = adminRef { data[Asset.AssetID.admin.key] = adminRef }
+            if let assetNameRef = assetNameRef { data[Asset.AssetID.name.key] = assetNameRef }
+            if let locationRef = locationRef { data[Asset.AssetID.location.key] = locationRef }
+
             data[Asset.AssetID.updateDate.key] = FieldValue.serverTimestamp()
             guard let self = self else { return }
             self.fireStore.collection(Collection.assets.name).whereField(Asset.AssetID.code.key, isEqualTo: asset.code).getDocuments { querySnapshot, err in
@@ -137,7 +130,7 @@ internal class DBStore {
                         "loss": asset.loss,
                         "discard": asset.discard,
                         "location": locationRef ?? "",
-                        "quantity": asset.quantity,
+                        "quantity": asset.quantity as Any,
                         "createdDate": FieldValue.serverTimestamp(),
                         "updateDate": FieldValue.serverTimestamp()
                     ]) { err in
