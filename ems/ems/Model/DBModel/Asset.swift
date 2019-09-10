@@ -1,5 +1,5 @@
 //
-//  User.swift
+//  Asset.swift
 //  ems
 //
 //  Created by 吉野瑠 on 2019/08/10.
