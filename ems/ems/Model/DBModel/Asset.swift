@@ -9,19 +9,19 @@
 import FirebaseFirestore
 import Foundation
 
-struct Asset {
-    let code: String
-    let name: String?
-    let admin: String?
-    let user: String?
-    let loss: Bool?
-    let discard: Bool?
-    let location: String?
-    let quantity: Int?
-    let createdDate: Timestamp?
-    let updateDate: Timestamp?
+internal struct Asset {
+    internal let code: String
+    internal let name: String?
+    internal let admin: String?
+    internal let user: String?
+    internal let loss: Bool?
+    internal let discard: Bool?
+    internal let location: String?
+    internal let quantity: Int?
+    internal let createdDate: Timestamp?
+    internal let updateDate: Timestamp?
 
-    enum AssetID: String {
+    internal enum AssetID: String {
         case code
         case name
         case admin
@@ -33,12 +33,12 @@ struct Asset {
         case createdDate
         case updateDate
 
-        var key: String {
+        internal var key: String {
             return self.rawValue
         }
     }
 
-    var data: [AnyHashable: Any] {
+    internal var data: [AnyHashable: Any] {
         get {
             var asset: [AnyHashable: Any] = [:]
             asset[AssetID.code.key] = code
@@ -68,7 +68,7 @@ struct Asset {
         }
     }
 
-    init(code: String, name: String? = nil, admin: String? = nil, user: String? = nil, loss: Bool? = nil, discard: Bool? = nil, location: String? = nil, quantity: Int? = nil) {
+    internal init(code: String, name: String? = nil, admin: String? = nil, user: String? = nil, loss: Bool? = nil, discard: Bool? = nil, location: String? = nil, quantity: Int? = nil) {
         self.code = code
         self.name = name
         self.admin = admin
@@ -81,7 +81,7 @@ struct Asset {
         self.updateDate = nil
     }
 
-    init?(data: [String: Any]) {
+    internal init?(data: [String: Any]) {
         guard let code = data[AssetID.code.key] as? String,
               let createdDate = data[AssetID.createdDate.key] as? Timestamp,
               let updateDate = data[AssetID.updateDate.key] as? Timestamp else { return nil }

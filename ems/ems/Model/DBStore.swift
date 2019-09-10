@@ -1,5 +1,5 @@
 //
-//  DBStore.swift
+//  fireStoreStore.swift
 //  ems
 //
 //  Created by 吉野瑠 on 2019/08/08.
@@ -11,7 +11,7 @@ import Foundation
 
 internal class DBStore {
     static let shared = DBStore()
-    private let db = Firestore.firestore()
+    private let fireStore = Firestore.firestore()
 
     private var convertId: [(collection: Collection, asset: Asset.AssetID)] {
         return [
@@ -24,7 +24,7 @@ internal class DBStore {
 
     private init() {}
 
-    enum Collection: String {
+    private enum Collection: String {
         case assets
         case users
         case admins
@@ -49,7 +49,7 @@ internal class DBStore {
         }
     }
 
-    func updateAsset(asset: Asset, _ completion: @escaping () -> Void, error: @escaping (Error) -> Void) {
+    internal func updateAsset(asset: Asset, _ completion: @escaping () -> Void, error: @escaping (Error) -> Void) {
         existDocumentProcess(user: asset.user, admin: asset.admin, assetName: asset.name, location: asset.location) {[weak self] userRef, adminRef, assetNameRef, locationRef in
             var data: [AnyHashable: Any] = asset.data
             if let userRef = userRef {
@@ -66,14 +66,14 @@ internal class DBStore {
             }
             data[Asset.AssetID.updateDate.key] = FieldValue.serverTimestamp()
             guard let self = self else { return }
-            self.db.collection(Collection.assets.name).whereField(Asset.AssetID.code.key, isEqualTo: asset.code).getDocuments { querySnapshot, err in
+            self.fireStore.collection(Collection.assets.name).whereField(Asset.AssetID.code.key, isEqualTo: asset.code).getDocuments { querySnapshot, err in
                 if let err = err {
                     error(err)
                     return
                 } else {
                     guard let querySnapshot = querySnapshot else { return }
                     if !querySnapshot.isEmpty {
-                        self.db.collection(Collection.assets.name).document(querySnapshot.documents[0].documentID).updateData(data) { err in
+                        self.fireStore.collection(Collection.assets.name).document(querySnapshot.documents[0].documentID).updateData(data) { err in
                             if let err = err {
                                 error(err)
                             } else {
@@ -86,11 +86,11 @@ internal class DBStore {
         }
     }
 
-    func getAsset(code: String? = nil, _ completion: @escaping ([Asset]) -> Void, _ error: @escaping (Error) -> Void) {
+    internal func getAsset(code: String? = nil, _ completion: @escaping ([Asset]) -> Void, _ error: @escaping (Error) -> Void) {
         var query: Query?
 
         if let code = code {
-            query = db.collection(Collection.assets.name).whereField(Asset.AssetID.code.key, isEqualTo: code)
+            query = fireStore.collection(Collection.assets.name).whereField(Asset.AssetID.code.key, isEqualTo: code)
         }
 
         if let query = query {
@@ -108,7 +108,7 @@ internal class DBStore {
                 }
             }
         } else {
-            db.collection(Collection.assets.name).getDocuments { [weak self] querySnapshot, err in
+            fireStore.collection(Collection.assets.name).getDocuments { [weak self] querySnapshot, err in
                 if let err = err {
                     error(err)
                     return
@@ -123,18 +123,13 @@ internal class DBStore {
         }
     }
 
-    func setAssets(asset: Asset, _ completion: @escaping () -> Void, _ error: @escaping (Error) -> Void) {
+    internal func setAssets(asset: Asset, _ completion: @escaping () -> Void, _ error: @escaping (Error) -> Void) {
         existDocumentProcess(user: asset.user, admin: asset.admin, assetName: asset.name, location: asset.location) { [weak self] userRef, adminRef, assetNameRef, locationRef in
-            print("add userRef: \(userRef!)")
-            print("add adminRef: \(adminRef!)")
-            print("add assetNameRef: \(assetNameRef!)")
-            print("add locationRef: \(locationRef!)")
-
             guard let self = self else { return }
-            self.db.collection(Collection.assets.name).whereField(Asset.AssetID.code.key, isEqualTo: asset.code).getDocuments { [weak self] querySnapshot, err in
+            self.fireStore.collection(Collection.assets.name).whereField(Asset.AssetID.code.key, isEqualTo: asset.code).getDocuments { [weak self] querySnapshot, err in
                 guard let self = self, let querySnapshot = querySnapshot, err == nil else { return }
                 if querySnapshot.isEmpty {
-                    self.db.collection(Collection.assets.name).addDocument(data: [
+                    self.fireStore.collection(Collection.assets.name).addDocument(data: [
                         "code": asset.code,
                         "name": assetNameRef ?? "",
                         "admin": adminRef ?? "",
@@ -147,10 +142,8 @@ internal class DBStore {
                         "updateDate": FieldValue.serverTimestamp()
                     ]) { err in
                         if let err = err {
-                            print("Error adding document: \(err)")
                             error(err)
                         } else {
-                            print("Document added")
                             completion()
                         }
                     }
@@ -160,11 +153,11 @@ internal class DBStore {
     }
 }
 
-// MARK - Utile
+// MARK: - Utile
 extension DBStore {
     private func convert(documents: [QueryDocumentSnapshot], _ completion: @escaping ([Asset]) -> Void) {
         let dispatch = Dispatch()
-        
+
         var assets: [Asset] = []
         for document in documents {
             dispatch.async(label: "completion") { [weak self] in
@@ -176,22 +169,22 @@ extension DBStore {
                 }
             }
         }
-        
+
         dispatch.notify(label: "completion") {
             print("notify: completion")
             completion(assets)
         }
     }
-    
+
     private func convertAsset(document: QueryDocumentSnapshot, comp: @escaping (Asset) -> Void) {
         let dispatch = Dispatch()
-        
+
         var data = document.data()
         for id in convertId {
             if let docId = data[id.asset.key] as? String {
                 dispatch.async(label: "convert") { [weak self] in
                     guard let self = self else { dispatch.leave(); return }
-                    self.db.collection(id.collection.name).document(docId).getDocument { doc, _ in
+                    self.fireStore.collection(id.collection.name).document(docId).getDocument { doc, _ in
                         guard let doc = doc else { dispatch.leave(); return }
                         data[id.asset.key] = doc.data()?[id.collection.docFieldName] as? String
                         dispatch.leave()
@@ -199,7 +192,7 @@ extension DBStore {
                 }
             }
         }
-        
+
         dispatch.notify(label: "convert") {
             print("notify: convert")
             print("data: \(data)")
@@ -208,12 +201,12 @@ extension DBStore {
             }
         }
     }
-    
+
     private func addDocumentWithExist(collection: Collection, item: String, _ comp: @escaping (String) -> Void) {
-        db.collection(collection.name).whereField(collection.docFieldName, isEqualTo: item).getDocuments { [weak self] querySnapshot, err in
+        fireStore.collection(collection.name).whereField(collection.docFieldName, isEqualTo: item).getDocuments { [weak self] querySnapshot, err in
             guard let self = self, let querySnapshot = querySnapshot, err == nil else { return }
             if querySnapshot.isEmpty {
-                let docRef = self.db.collection(collection.name).addDocument(data: [collection.docFieldName: item])
+                let docRef = self.fireStore.collection(collection.name).addDocument(data: [collection.docFieldName: item])
                 comp(docRef.documentID)
             } else {
                 comp(querySnapshot.documents[0].documentID)
