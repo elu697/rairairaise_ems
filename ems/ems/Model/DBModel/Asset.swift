@@ -6,6 +6,7 @@
 //  Copyright © 2019 RaiRaiRaise. All rights reserved.
 //
 
+import FirebaseFirestore
 import Foundation
 
 struct Asset {
@@ -17,8 +18,8 @@ struct Asset {
     let discard: Bool?
     let location: String?
     let quantity: Int?
-    let createdDate: String?
-    let updateDate: String?
+    let createdDate: Timestamp?
+    let updateDate: Timestamp?
 
     enum AssetID: String {
         case code
@@ -82,8 +83,8 @@ struct Asset {
 
     init?(data: [String: Any]) {
         guard let code = data[AssetID.code.key] as? String,
-              let createdDate = data[AssetID.createdDate.key] as? String,
-              let updateDate = data[AssetID.updateDate.key] as? String else { return nil }
+              let createdDate = data[AssetID.createdDate.key] as? Timestamp,
+              let updateDate = data[AssetID.updateDate.key] as? Timestamp else { return nil }
 
         self.code = code
         self.createdDate = createdDate
