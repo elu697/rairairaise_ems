@@ -13,13 +13,27 @@ import UIKit
 
 internal class ScanViewController: UIViewController {
     // MARK: - Property
-    internal let scanView = ScanView()
+    internal enum ScanMode {
+        case home
+        case manage
+    }
+    
+    internal var scanView: ScanView
     internal let scanReader = QRCodeReader(metadataObjectTypes: [AVMetadataObject.ObjectType.qr], captureDevicePosition: .back)
 
     private var scanQrData = String()
     private var scanQrDatas = [String]()
 
     // MARK: - Default
+    internal init(withScanInfo: Bool) {
+        self.scanView = ScanView(withScaninfo: withScanInfo)
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override internal func loadView() {
         //self.viewとself.scanViewは同じメモリアドレスだからself.scanViewがsuperView
         self.view = self.scanView
