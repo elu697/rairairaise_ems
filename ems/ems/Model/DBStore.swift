@@ -13,19 +13,29 @@ internal class DBStore {
     static let shared = DBStore()
     private let db = Firestore.firestore()
 
+    private var convertId: [(collection: Collection, asset: Asset.AssetID)] {
+        return [
+            (.users, .user),
+            (.admins, .admin),
+            (.assetNames, .name),
+            (.locations, .location)
+        ]
+    }
+
     private init() {}
 
-    enum DBID: String {
+    enum Collection: String {
+        case assets
         case users
         case admins
         case assetNames
         case locations
 
-        internal var key: String {
+        internal var name: String {
             return self.rawValue
         }
 
-        internal var field: String {
+        internal var docFieldName: String {
             switch self {
             case .users, .admins:
                 return "name"
@@ -33,104 +43,197 @@ internal class DBStore {
                 return "assetName"
             case .locations:
                 return "location"
+            case .assets:
+                return "code"
             }
         }
     }
-    
-    func updateAsset() {
-        
-    }
 
-    func getAssets(code: String, completion: @escaping ([Asset]) -> Void, error: @escaping (Error) -> Void) {
-        db.collection("assets").getDocuments {[weak self] querySnapshot, err in
+    func updateAsset(asset: Asset, error: @escaping (Error) -> Void) {
+        db.collection(Collection.assets.name).whereField(Asset.AssetID.code.key, isEqualTo: asset.code).limit(to: 1).getDocuments { [weak self] querySnapshot, err in
             if let err = err {
                 error(err)
+                return
             } else {
                 guard let self = self, let querySnapshot = querySnapshot else { return }
-                var assets: [Asset] = []
-
-                let docDispatchGroup = DispatchGroup()
-                let docDispatchQueue = DispatchQueue(label: "docQueue", attributes: .concurrent)
-
-                for document in querySnapshot.documents {
-                    var data = document.data()
-                    docDispatchGroup.enter()
-                    docDispatchQueue.async(group: docDispatchGroup) { [weak self] in
-                        guard let self = self else { docDispatchGroup.leave(); return }
-                        self.convert(data: data) { converted in
-                            if let conv = converted[Asset.AssetID.user.key] { data[Asset.AssetID.user.key] = conv }
-                            if let conv = converted[Asset.AssetID.admin.key] { data[Asset.AssetID.admin.key] = conv }
-                            if let conv = converted[Asset.AssetID.name.key] { data[Asset.AssetID.name.key] = conv }
-                            if let conv = converted[Asset.AssetID.location.key] { data[Asset.AssetID.location.key] = conv }
-
-                            if let asset = Asset(data: data) {
-                                assets.append(asset)
-                            }
-                            docDispatchGroup.leave()
+                if !querySnapshot.isEmpty {
+                    self.db.collection(Collection.assets.name).document(querySnapshot.documents[0].documentID).updateData(asset.data) { err in
+                        if let err = err {
+                            error(err)
                         }
                     }
                 }
-                docDispatchGroup.notify(queue: .main) {
-                    completion(assets)
-                }
             }
         }
     }
 
-    private func convert(data: [String: Any], _ completion: @escaping ([String: String?]) -> Void) {
-        let convertId: [(collection: DBID, asset: Asset.AssetID)] = [
-                                                                 (.users, .user),
-                                                                 (.admins, .admin),
-                                                                 (.assetNames, .name),
-                                                                 (.locations, .location)
-        ]
+    func getAsset(code: String?, completion: @escaping ([Asset]) -> Void, error: @escaping (Error) -> Void) {
+        var query: Query?
 
-        var conv: [String: String?] = [:]
-        let dispatchGroup = DispatchGroup()
-        let dispatchQueue = DispatchQueue(label: "queue", attributes: .concurrent)
-        for id in convertId {
-            if let docId = data[id.asset.key] as? String {
-                dispatchGroup.enter()
-                dispatchQueue.async(group: dispatchGroup) { [weak self] in
-                    guard let self = self else { dispatchGroup.leave(); return }
-                    self.db.collection(id.collection.key).document(docId).getDocument { doc, _ in
-                        guard let doc = doc else { return }
-                        conv[id.asset.key] = doc.data()?[id.collection.field] as? String
-                        dispatchGroup.leave()
+        if let code = code {
+            query = db.collection(Collection.assets.name).whereField(Asset.AssetID.code.key, isEqualTo: code)
+        }
+
+        if let query = query {
+            query.getDocuments { [weak self] querySnapshot, err in
+                if let err = err {
+                    error(err)
+                    return
+                } else {
+                    guard let self = self, let querySnapshot = querySnapshot else { return }
+                    self.convert(documents: querySnapshot.documents) { items in
+                        print("items count: \(items.count)")
+                        completion(items)
+                    }
+                }
+            }
+        } else {
+            db.collection(Collection.assets.name).getDocuments { [weak self] querySnapshot, err in
+                if let err = err {
+                    error(err)
+                    return
+                } else {
+                    guard let self = self, let querySnapshot = querySnapshot else { return }
+                    self.convert(documents: querySnapshot.documents) { items in
+                        print("items count: \(items.count)")
+                        completion(items)
                     }
                 }
             }
         }
-        dispatchGroup.notify(queue: dispatchQueue) {
-            completion(conv)
+    }
+
+    private func convert(documents: [QueryDocumentSnapshot], _ completion: @escaping ([Asset]) -> Void) {
+        let dispatch = Dispatch()
+
+        var assets: [Asset] = []
+        for document in documents {
+            dispatch.async(label: "completion") { [weak self] in
+                guard let self = self else { dispatch.leave(); return }
+                self.convertAsset(document: document) { asset in
+                    assets.append(asset)
+                    dispatch.leave()
+                }
+            }
+        }
+
+        dispatch.notify(label: "completion") {
+            completion(assets)
         }
     }
 
-    func setAssets(asset: Asset) {
-        let userRef = db.collection(DBID.users.key).addDocument(data: [DBID.users.field: asset.user])
+    private func convertAsset(document: QueryDocumentSnapshot, comp: @escaping (Asset) -> Void) {
+        let dispatch = Dispatch()
 
-        let adminRef = db.collection(DBID.admins.key).addDocument(data: [DBID.admins.field: asset.admin])
+        var data = document.data()
+        for id in convertId {
+            if let docId = data[id.asset.key] as? String {
+                dispatch.async(label: "convert") { [weak self] in
+                    guard let self = self else { dispatch.leave(); return }
+                    self.db.collection(id.collection.name).document(docId).getDocument { doc, _ in
+                        guard let doc = doc else { dispatch.leave(); return }
+                        data[id.asset.key] = doc.data()?[id.collection.docFieldName] as? String
+                        dispatch.leave()
+                    }
+                }
+            }
+        }
 
-        let assetNameRef = db.collection(DBID.assetNames.key).addDocument(data: [DBID.assetNames.field: asset.name])
+        dispatch.notify(label: "convert") {
+            print("notify")
+            if let asset = Asset(data: data) {
+                comp(asset)
+            }
+        }
+    }
 
-        let locationRef = db.collection(DBID.locations.key).addDocument(data: [DBID.locations.field: asset.location])
-
-        db.collection("assets").addDocument(data: [
-            "code": asset.code,
-            "name": assetNameRef.documentID,
-            "admin": adminRef.documentID,
-            "user": userRef.documentID,
-            "loss": asset.loss,
-            "discard": asset.discard,
-            "location": locationRef.documentID,
-            "quantity": asset.quantity,
-            "createdDate": asset.createdDate,
-            "updateDate": asset.updateDate
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
+    private func addDocumentWithExist(collection: Collection, item: String, comp: @escaping (String) -> Void) {
+        db.collection(collection.name).whereField(collection.docFieldName, isEqualTo: item).getDocuments { [weak self] querySnapshot, err in
+            guard let self = self, let querySnapshot = querySnapshot, err == nil else { return }
+            if querySnapshot.isEmpty {
+                let docRef = self.db.collection(collection.name).addDocument(data: [collection.docFieldName: item])
+                comp(docRef.documentID)
             } else {
-                print("Document added")
+                comp(querySnapshot.documents[0].documentID)
+            }
+        }
+    }
+
+    func setAssets(asset: Asset, _ error: @escaping (Error) -> Void) {
+        var userRef: String?
+        var adminRef: String?
+        var assetNameRef: String?
+        var locationRef: String?
+
+        let dispatch = Dispatch()
+
+        if let user = asset.user {
+            dispatch.async(label: "add") { [weak self] in
+                guard let self = self else { return }
+                self.addDocumentWithExist(collection: .users, item: user) { docId in
+                    userRef = docId
+                    dispatch.leave()
+                }
+            }
+        }
+        if let admin = asset.admin {
+            dispatch.async(label: "add") { [weak self] in
+                guard let self = self else { return }
+                self.addDocumentWithExist(collection: .admins, item: admin) { docId in
+                    adminRef = docId
+                    dispatch.leave()
+                }
+            }
+        }
+        if let assetName = asset.name {
+            dispatch.async(label: "add") { [weak self] in
+                guard let self = self else { return }
+                self.addDocumentWithExist(collection: .assetNames, item: assetName) { docId in
+                    assetNameRef = docId
+                    dispatch.leave()
+                }
+            }
+        }
+        if let location = asset.location {
+            dispatch.async(label: "add") { [weak self] in
+                guard let self = self else { return }
+                self.addDocumentWithExist(collection: .locations, item: location) { docId in
+                    locationRef = docId
+                    dispatch.leave()
+                }
+            }
+        }
+
+        dispatch.notify(label: "add") { [weak self] in
+            print("add userRef: \(userRef!)")
+            print("add adminRef: \(adminRef!)")
+            print("add assetNameRef: \(assetNameRef!)")
+            print("add locationRef: \(locationRef!)")
+
+            guard let self = self else { return }
+            self.db.collection(Collection.assets.name).whereField(Asset.AssetID.code.key, isEqualTo: asset.code).getDocuments { [weak self] querySnapshot, err in
+                guard let self = self, let querySnapshot = querySnapshot, err == nil else { return }
+                if querySnapshot.isEmpty {
+                    self.db.collection(Collection.assets.name).addDocument(data: [
+                        "code": asset.code,
+                        "name": assetNameRef ?? "",
+                        "admin": adminRef ?? "",
+                        "user": userRef ?? "",
+                        "loss": asset.loss,
+                        "discard": asset.discard,
+                        "location": locationRef ?? "",
+                        "quantity": asset.quantity,
+                        "createdDate": FieldValue.serverTimestamp(),
+                        "updateDate": FieldValue.serverTimestamp()
+                    ]) { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                            error(err)
+                        } else {
+                            print("Document added")
+                        }
+                    }
+                }
             }
         }
     }
