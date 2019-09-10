@@ -24,27 +24,36 @@ internal class ScanView: UIView {
     internal let scanInfoLbl = UILabel()
 
     internal let scanInfoView = ScanInfoView()
-    private var isPreviewScanInfo = false
+    private var scanViewType: ScanViewType
 
     private var scanCode: String = "" //スキャンタイミング時に以前のQRと照らし合わせるための
     private var scanFlag = true
 
-    internal init(withScaninfo: Bool) {
+    internal init(scanType: ScanViewType) {
+        self.scanViewType = scanType
         super.init(frame: .zero)
-        self.isPreviewScanInfo = withScaninfo
-//        super.layoutSubviews()
-        if self.isPreviewScanInfo {
+        switch self.scanViewType {
+        case .home:
             self.addSubview(self.scanInfoView)
-        }
-        self.addSubview(self.scanPreviewView)
-        self.addSubview(self.scanBtn)
-        self.addSubview(self.flashBtn)
-        self.addSubview(self.profileBtn)
-        self.addSubview(self.menuBtn)
-        self.addSubview(self.settingBtn)
-        self.addSubview(self.qrInfoLbl)
-        self.addSubview(self.scanInfoLbl)
+            self.addSubview(self.scanPreviewView)
+            self.addSubview(self.scanBtn)
+            self.addSubview(self.flashBtn)
+            self.addSubview(self.profileBtn)
+            self.addSubview(self.menuBtn)
+            self.addSubview(self.settingBtn)
+            self.addSubview(self.qrInfoLbl)
+            self.addSubview(self.scanInfoLbl)
 
+        case .manage:
+            self.addSubview(self.scanPreviewView)
+            self.addSubview(self.scanBtn)
+            self.addSubview(self.flashBtn)
+            self.addSubview(self.profileBtn)
+            self.addSubview(self.menuBtn)
+            self.addSubview(self.settingBtn)
+            self.addSubview(self.qrInfoLbl)
+            self.addSubview(self.scanInfoLbl)
+        }
         self.scanPreviewViewLayoutSetting()
         self.scanBtnLayoutSetting()
         self.profileBtnLayoutSetting()
@@ -68,12 +77,14 @@ internal class ScanView: UIView {
 
     override internal func updateConstraints() {
         super.updateConstraints()
-        if isPreviewScanInfo {
+        switch self.scanViewType {
+        case .home:
             self.scanPreviewView.snp.makeConstraints { make in
                 make.top.left.right.equalToSuperview()
                 make.bottom.equalToSuperview().multipliedBy(0.45)
             }
-        } else {
+
+        case .manage:
             self.scanPreviewView.snp.makeConstraints { make in
                 make.top.left.right.equalToSuperview()
                 make.bottom.equalToSuperview()
@@ -99,42 +110,41 @@ internal class ScanView: UIView {
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.8)
         }
-        if isPreviewScanInfo {
+        self.scanBtn.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-10 - safeAreaInsets.bottom)
+            make.width.height.equalTo(70)
+        }
+        switch self.scanViewType {
+        case .home:
             self.qrInfoLbl.snp.makeConstraints { make in
                 //            make.top.equalTo(self.scanPreviewView.overlayView!.snp.bottom).offset(20)//safe
                 make.bottom.equalTo(self.scanPreviewView.snp.bottom).offset(-15)
                 make.centerX.equalToSuperview()
                 make.width.equalToSuperview().multipliedBy(0.8)
             }
-        } else {
+            self.menuBtn.snp.makeConstraints { make in
+                make.centerY.equalTo(self.scanBtn.snp.centerY)
+                make.left.equalTo(self.scanBtn.snp.right).offset(40)
+                make.width.height.equalTo(40)
+            }
+            self.settingBtn.snp.makeConstraints { make in
+                make.centerY.equalTo(self.scanBtn.snp.centerY)
+                make.right.equalTo(self.scanBtn.snp.left).offset(-42)
+                make.width.height.equalTo(40)
+            }
+            self.scanInfoView.snp.makeConstraints { make in
+                make.top.equalTo(self.scanPreviewView.snp.bottom)
+                make.left.right.equalToSuperview()
+                make.bottom.equalTo(self.scanBtn.snp.top).offset(-5)
+            }
+
+        case .manage:
             self.qrInfoLbl.snp.makeConstraints { make in
                 //            make.top.equalTo(self.scanPreviewView.overlayView!.snp.bottom).offset(20)//safe
                 make.bottom.equalTo(self.scanInfoLbl.snp.top).offset(-5)
                 make.centerX.equalToSuperview()
                 make.width.equalToSuperview().multipliedBy(0.8)
-            }
-        }
-        self.scanBtn.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-10 - safeAreaInsets.bottom)
-            make.width.height.equalTo(70)
-        }
-        self.menuBtn.snp.makeConstraints { make in
-            make.centerY.equalTo(self.scanBtn.snp.centerY)
-            make.left.equalTo(self.scanBtn.snp.right).offset(40)
-            make.width.height.equalTo(40)
-        }
-        self.settingBtn.snp.makeConstraints { make in
-            make.centerY.equalTo(self.scanBtn.snp.centerY)
-            make.right.equalTo(self.scanBtn.snp.left).offset(-42)
-            make.width.height.equalTo(40)
-        }
-
-        if isPreviewScanInfo {
-            self.scanInfoView.snp.makeConstraints { make in
-                make.top.equalTo(self.scanPreviewView.snp.bottom)
-                make.left.right.equalToSuperview()
-                make.bottom.equalTo(self.scanBtn.snp.top).offset(-5)
             }
         }
     }
@@ -221,7 +231,7 @@ internal class ScanView: UIView {
     // MARK: - Function
     internal func scanerSetting(scaner: QRCodeReader, _ find: @escaping (QRCodeReaderResult) -> Void, _ fail: @escaping () -> Void) {
         let widthRect = 0.5
-        let heightRect = widthRect * (Double(UIScreen.main.bounds.width) / Double(UIScreen.main.bounds.height * (self.isPreviewScanInfo ? 0.45 : 1.0)))
+        let heightRect = widthRect * (Double(UIScreen.main.bounds.width) / Double(UIScreen.main.bounds.height * ((self.scanViewType == .home) ? 0.45 : 1.0)))
 
         let scanViewBuild = QRCodeReaderViewControllerBuilder { build in
             build.reader = scaner
@@ -230,7 +240,7 @@ internal class ScanView: UIView {
             build.showCancelButton = false
             build.showOverlayView = true
             build.handleOrientationChange = true
-            build.rectOfInterest = CGRect(x: (1.0 - widthRect) / 2.0, y: (1.0 - heightRect) / (self.isPreviewScanInfo ? 2.0 : 4.0), width: widthRect, height: heightRect)
+            build.rectOfInterest = CGRect(x: (1.0 - widthRect) / 2.0, y: (1.0 - heightRect) / ((self.scanViewType == .home) ? 2.0 : 4.0), width: widthRect, height: heightRect)
             //            build.rectOfInterest = convertRectOfInterest(rect: CGRect(x: 0.9, y: 0.9, width: 100, height: 100))
             build.preferredStatusBarStyle = .default
         }
@@ -266,43 +276,43 @@ internal class ScanView: UIView {
 
         scaner.stopScanningWhenCodeIsFound = false
         scaner.startScanning()
-        }
+    }
 
-        internal func previewQrInfo(msg: String) {
-            self.qrInfoLbl.text = msg
-            self.qrInfoLbl.alpha = msg.isEmpty ? 0.0 : 1.0
-            if msg.isEmpty {
-                self.scanCode = msg //スキャン情報保持を上書き
-            }
+    internal func previewQrInfo(msg: String) {
+        self.qrInfoLbl.text = msg
+        self.qrInfoLbl.alpha = msg.isEmpty ? 0.0 : 1.0
+        if msg.isEmpty {
+            self.scanCode = msg //スキャン情報保持を上書き
         }
+    }
 
-        internal func previewScanInfo(msg: String) {
-            self.scanInfoLbl.text = msg
-            self.scanInfoLbl.alpha = msg.isEmpty ? 0.0 : 1.0
-        }
+    internal func previewScanInfo(msg: String) {
+        self.scanInfoLbl.text = msg
+        self.scanInfoLbl.alpha = msg.isEmpty ? 0.0 : 1.0
+    }
 
 //    internal func previewAssetInfo(asset: Asset){
 //        self.scanInfoView.setAssetData(data: asset)
 //    }
 
-        private func convertRectOfInterest(rect: CGRect) -> CGRect {
-            let screenRect = self.frame
-            let screenWidth = screenRect.width
-            let screenHeight = screenRect.height
-            let newX = 1 / (screenWidth / rect.minX)
-            let newY = 1 / (screenHeight / rect.minY)
-            let newWidth = 1 / (screenWidth / rect.width)
-            let newHeight = 1 / (screenHeight / rect.height)
-            return CGRect(x: newX, y: newY, width: newWidth, height: newHeight)
-        }
+    private func convertRectOfInterest(rect: CGRect) -> CGRect {
+        let screenRect = self.frame
+        let screenWidth = screenRect.width
+        let screenHeight = screenRect.height
+        let newX = 1 / (screenWidth / rect.minX)
+        let newY = 1 / (screenHeight / rect.minY)
+        let newWidth = 1 / (screenWidth / rect.width)
+        let newHeight = 1 / (screenHeight / rect.height)
+        return CGRect(x: newX, y: newY, width: newWidth, height: newHeight)
+    }
 
-        // MARK: - Action
+    // MARK: - Action
 
-        /*
+    /*
      // Only override draw() if you perform custom drawing.
      // An empty implementation adversely affects performance during animation.
      override func draw(_ rect: CGRect) {
      // Drawing code
      }
      */
-    }
+}

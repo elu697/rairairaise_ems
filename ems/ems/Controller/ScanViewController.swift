@@ -11,13 +11,14 @@ import Foundation
 import SPPermission
 import UIKit
 
+internal enum ScanViewType {
+    case home
+    case manage
+}
+
 internal class ScanViewController: UIViewController {
     // MARK: - Property
-    internal enum ScanMode {
-        case home
-        case manage
-    }
-    
+
     internal var scanView: ScanView
     internal let scanReader = QRCodeReader(metadataObjectTypes: [AVMetadataObject.ObjectType.qr], captureDevicePosition: .back)
 
@@ -25,8 +26,8 @@ internal class ScanViewController: UIViewController {
     private var scanQrDatas = [String]()
 
     // MARK: - Default
-    internal init(withScanInfo: Bool) {
-        self.scanView = ScanView(withScaninfo: withScanInfo)
+    internal init(scanType: ScanViewType) {
+        self.scanView = ScanView(scanType: scanType)
         super.init(nibName: nil, bundle: nil)
     }
 
