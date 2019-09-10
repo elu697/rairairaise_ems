@@ -15,7 +15,8 @@ def install_pods
     pod 'SwiftLint'
     pod 'IQKeyboardManagerSwift'
     
-    pod 'Firebase/Core' 
+    pod 'Firebase/Core'
+    pod 'Firebase/Firestore' 
 
     #Pods for FiMap
 

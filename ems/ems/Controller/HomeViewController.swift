@@ -29,11 +29,7 @@ internal class HomeViewController: UIViewController {
         super.viewDidAppear(animated)
         SVProgressHUD.show()
         SVProgressHUD.dismiss()
-//        self.present(ScanViewController(scanType: .home), animated: true, completion: nil)
-        let a = ScanViewController(scanType: .manage)
-        a.setNavigationBarTitleString(title: "test")
-        a.setRightCloseBarButtonItem()
-        self.pushNewNavigationController(rootViewController: a)
+        self.present(ScanViewController(scanType: .home), animated: true, completion: nil)
     }
 
     // MARK: - Layout
