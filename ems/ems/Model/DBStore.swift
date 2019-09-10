@@ -122,7 +122,8 @@ internal class DBStore {
             self.fireStore.collection(Collection.assets.name).whereField(Asset.AssetID.code.key, isEqualTo: asset.code).getDocuments { [weak self] querySnapshot, err in
                 guard let self = self, let querySnapshot = querySnapshot, err == nil else { return }
                 if querySnapshot.isEmpty {
-                    self.fireStore.collection(Collection.assets.name).addDocument(data: [
+                    self.fireStore.collection(Collection.assets.name).addDocument(
+                        data: [
                         "code": asset.code,
                         "name": assetNameRef ?? "",
                         "admin": adminRef ?? "",
@@ -133,12 +134,10 @@ internal class DBStore {
                         "quantity": asset.quantity as Any,
                         "createdDate": FieldValue.serverTimestamp(),
                         "updateDate": FieldValue.serverTimestamp()
-                    ]) { err in
+                        ]) { err in
                         if let err = err {
                             error(err)
-                        } else {
-                            completion()
-                        }
+                        } else { completion() }
                     }
                 }
             }
