@@ -17,9 +17,9 @@ internal class ScanInfoView: UIView {
     internal let placeTxf = TextField()
 
     private let lostTitleLbl = UILabel()
-    private let lostSwitch = Switch(state: .off, size: .custom(width: 60, height: 30))
+    private let lostSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
     private let discardTitleLbl = UILabel()
-    private let discardSwitch = Switch(state: .off, size: .custom(width: 60, height: 30))
+    private let discardSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
 
 //    private var assetData = Asset()
 
@@ -129,18 +129,18 @@ internal class ScanInfoView: UIView {
         self.lostTitleLbl.font = .systemFont(ofSize: 13)
         self.lostTitleLbl.textColor = Color.lightGray
         self.lostSwitch.buttonOffColor = Color.gray
-        self.lostSwitch.buttonOnColor = Color.red.accent2
+        self.lostSwitch.buttonOnColor = Color.red.accent3
         self.lostSwitch.trackOffColor = Color.lightGray
-        self.lostSwitch.trackOnColor = Color.red.accent1
+        self.lostSwitch.trackOnColor = Color.red.accent2
 //        self.lostSwitch.isOn = self.assetData.lostFlag
 
         self.discardTitleLbl.text = "廃棄"
         self.discardTitleLbl.font = .systemFont(ofSize: 13)
         self.discardTitleLbl.textColor = Color.lightGray
         self.discardSwitch.buttonOffColor = Color.gray
-        self.discardSwitch.buttonOnColor = Color.red.accent2
+        self.discardSwitch.buttonOnColor = Color.red.accent3
         self.discardSwitch.trackOffColor = Color.lightGray
-        self.discardSwitch.trackOnColor = Color.red.accent1
+        self.discardSwitch.trackOnColor = Color.red.accent2
 //        self.discardSwitch.isOn = self.assetData.discardFlag
     }
 
