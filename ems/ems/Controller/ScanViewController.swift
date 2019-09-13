@@ -11,15 +11,30 @@ import Foundation
 import SPPermission
 import UIKit
 
+internal enum ScanViewType {
+    case home
+    case manage
+}
+
 internal class ScanViewController: UIViewController {
     // MARK: - Property
-    internal let scanView = ScanView()
+
+    internal var scanView: ScanView
     internal let scanReader = QRCodeReader(metadataObjectTypes: [AVMetadataObject.ObjectType.qr], captureDevicePosition: .back)
 
     private var scanQrData = String()
     private var scanQrDatas = [String]()
 
     // MARK: - Default
+    internal init(scanType: ScanViewType) {
+        self.scanView = ScanView(scanType: scanType)
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override internal func loadView() {
         //self.viewとself.scanViewは同じメモリアドレスだからself.scanViewがsuperView
         self.view = self.scanView
@@ -34,6 +49,7 @@ internal class ScanViewController: UIViewController {
         self.scanView.backgroundColor = .white
         self.actionSetting()
         setNeedsUpdateOfHomeIndicatorAutoHidden()
+        hideKeyboardWhenTappedAround()
         // Do any additional setup after loading the view.
     }
 
@@ -60,7 +76,9 @@ internal class ScanViewController: UIViewController {
         self.scanView.scanerSetting(
             // swiftlint:disable:next multiline_arguments
             scaner: self.scanReader, { result in
+                // TODO: TODO Network
                 self.scanView.previewQrInfo(msg: result.value)
+//                self.scanView.scanInfoView.setAssetData(data: Asset())
                 self.scanQrData = result.value
             }, {
                 self.scanView.previewQrInfo(msg: "error")
@@ -80,6 +98,7 @@ internal class ScanViewController: UIViewController {
             self.scanQrData.removeAll()
             self.scanView.previewQrInfo(msg: "")
             self.scanView.previewScanInfo(msg: "\(scanQrDatas.count)品スキャン済み")
+            self.scanView.scanInfoView.setAssetData(data: Asset(code: "0001", name: "テスト机", admin: "テスター", user: "テスター", loss: true, discard: true, location: "nil", quantity: 1))
         }
     }
 
@@ -126,4 +145,7 @@ extension ScanViewController: UIPopoverPresentationControllerDelegate {
     internal func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return .none
     }
+}
+
+internal protocol ScanViewControllerDelegate: UIViewController {
 }

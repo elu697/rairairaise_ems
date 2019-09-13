@@ -23,14 +23,14 @@ extension UIViewController {
         button.contentMode = .scaleAspectFit
         button.addTarget(self, action: action, for: .touchUpInside)
         barButtonItem.customView = button
-        barButtonItem.customView?.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
-        barButtonItem.customView?.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+        barButtonItem.customView?.widthAnchor.constraint(equalToConstant: 25.0).isActive = true
+        barButtonItem.customView?.heightAnchor.constraint(equalToConstant: 25.0).isActive = true
         self.navigationItem.leftBarButtonItem = barButtonItem
     }
 
     /// Sets the navigation bar menu on the left bar button.
     /// Also add the left gesture.
-    internal func setRightCloseBarButtonItem(action: Selector = #selector(tappedCloseButton), image: UIImage? = Constants.Image.back) {
+    internal func setRightCloseBarButtonItem(action: Selector = #selector(tappedCloseButton), image: UIImage? = Constants.Image.deleate) {
         let barButtonItem = UIBarButtonItem()
         let button = UIButton(type: .system)
         button.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 30.0)
@@ -39,8 +39,8 @@ extension UIViewController {
         button.contentMode = .scaleAspectFit
         button.addTarget(self, action: action, for: .touchUpInside)
         barButtonItem.customView = button
-        barButtonItem.customView?.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
-        barButtonItem.customView?.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+        barButtonItem.customView?.widthAnchor.constraint(equalToConstant: 25.0).isActive = true
+        barButtonItem.customView?.heightAnchor.constraint(equalToConstant: 25.0).isActive = true
         self.navigationItem.rightBarButtonItem = barButtonItem
     }
 

@@ -14,7 +14,7 @@ internal class HomeViewController: UIViewController {
     // MARK: - Property
     // MARK: - Default
     //    override func loadView() {
-    //        super.loadView()
+    //        super.loadView() t
     ////        self.view = HomeView()
     //
     //    }
@@ -29,7 +29,7 @@ internal class HomeViewController: UIViewController {
         super.viewDidAppear(animated)
         SVProgressHUD.show()
         SVProgressHUD.dismiss()
-        self.present(ScanViewController(), animated: true, completion: nil)
+        self.present(ScanViewController(scanType: .home), animated: true, completion: nil)
     }
 
     // MARK: - Layout

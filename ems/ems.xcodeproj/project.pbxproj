@@ -35,8 +35,10 @@
 		892BD85522AFEE7D005DBA8F /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892BD85422AFEE7D005DBA8F /* R.generated.swift */; };
 		892BD85722B33595005DBA8F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892BD85622B33595005DBA8F /* HomeView.swift */; };
 		892BD85922B35C75005DBA8F /* LoadingShimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892BD85822B35C75005DBA8F /* LoadingShimmer.swift */; };
+		894BB3C8230E60D40055FD3D /* ScanInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894BB3C7230E60D40055FD3D /* ScanInfoView.swift */; };
 		8958D28422D9A3C2002337F3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8958D28322D9A3C2002337F3 /* Constants.swift */; };
 		897AB95F22D03824006E1F70 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897AB95E22D03824006E1F70 /* InfoView.swift */; };
+		8984472F2313990F008865A4 /* icons8-delete_sign.png in Resources */ = {isa = PBXBuildFile; fileRef = 8984472E2313990F008865A4 /* icons8-delete_sign.png */; };
 		8995F3C822C8905800830300 /* Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3C722C8905800830300 /* Permission.swift */; };
 		8995F3CA22C8A1C800830300 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3C922C8A1C800830300 /* SettingViewController.swift */; };
 		8995F3CC22C8A1F300830300 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3CB22C8A1F300830300 /* MenuViewController.swift */; };
@@ -60,13 +62,13 @@
 		89AB15E722C76F1B000632E4 /* ToggleTorchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB15DD22C76F1B000632E4 /* ToggleTorchButton.swift */; };
 		89AB15E822C76F1B000632E4 /* ReaderOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB15DE22C76F1B000632E4 /* ReaderOverlayView.swift */; };
 		89C33CFA22DF019A005C2D23 /* icons8-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33CF922DF019A005C2D23 /* icons8-back.png */; };
-		89C33CFC22DF01C4005C2D23 /* icons8-delete_sign.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33CFB22DF01C4005C2D23 /* icons8-delete_sign.png */; };
 		89C33CFE22DF01D7005C2D23 /* icons8-menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33CFD22DF01D7005C2D23 /* icons8-menu.png */; };
 		89C33D0222DF01F4005C2D23 /* icons8-user.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33D0122DF01F4005C2D23 /* icons8-user.png */; };
 		89C33D0422DF01FF005C2D23 /* icons8-settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33D0322DF01FF005C2D23 /* icons8-settings.png */; };
 		89C33D0622DF0209005C2D23 /* icons8-flash_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33D0522DF0209005C2D23 /* icons8-flash_on.png */; };
 		89C33D0822DF0210005C2D23 /* icons8-flash_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33D0722DF0210005C2D23 /* icons8-flash_off.png */; };
 		89C33D0A22DF0217005C2D23 /* icons8-qr_code.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33D0922DF0217005C2D23 /* icons8-qr_code.png */; };
+		89F9B74B23289A4A00F7C6EE /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F9B74A23289A4A00F7C6EE /* Profile.swift */; };
 		902344A31339993ECFEDEC8D /* Pods_emsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD94FCD716727ABC0F314FE /* Pods_emsUITests.framework */; };
 		D3ACDECB88778C561568325E /* Pods_ems.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD1E776C3D91DA77061B6BA2 /* Pods_ems.framework */; };
 /* End PBXBuildFile section */
@@ -129,8 +131,11 @@
 		892BD85422AFEE7D005DBA8F /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		892BD85622B33595005DBA8F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		892BD85822B35C75005DBA8F /* LoadingShimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingShimmer.swift; sourceTree = "<group>"; };
+		894BB3C7230E60D40055FD3D /* ScanInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanInfoView.swift; sourceTree = "<group>"; };
 		8958D28322D9A3C2002337F3 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		897AB95E22D03824006E1F70 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		8984472E2313990F008865A4 /* icons8-delete_sign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-delete_sign.png"; path = "../../../../../../Documents/com.visualpharm.Icons8/android_l/Popular/100/ffffff/icons8-delete_sign.png"; sourceTree = "<group>"; };
+		8984473023139B82008865A4 /* Asset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
 		8995F3C722C8905800830300 /* Permission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Permission.swift; sourceTree = "<group>"; };
 		8995F3C922C8A1C800830300 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		8995F3CB22C8A1F300830300 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -154,13 +159,13 @@
 		89AB15DD22C76F1B000632E4 /* ToggleTorchButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleTorchButton.swift; sourceTree = "<group>"; };
 		89AB15DE22C76F1B000632E4 /* ReaderOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReaderOverlayView.swift; sourceTree = "<group>"; };
 		89C33CF922DF019A005C2D23 /* icons8-back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-back.png"; sourceTree = "<group>"; };
-		89C33CFB22DF01C4005C2D23 /* icons8-delete_sign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-delete_sign.png"; sourceTree = "<group>"; };
 		89C33CFD22DF01D7005C2D23 /* icons8-menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-menu.png"; sourceTree = "<group>"; };
 		89C33D0122DF01F4005C2D23 /* icons8-user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-user.png"; sourceTree = "<group>"; };
 		89C33D0322DF01FF005C2D23 /* icons8-settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-settings.png"; sourceTree = "<group>"; };
 		89C33D0522DF0209005C2D23 /* icons8-flash_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-flash_on.png"; sourceTree = "<group>"; };
 		89C33D0722DF0210005C2D23 /* icons8-flash_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-flash_off.png"; sourceTree = "<group>"; };
 		89C33D0922DF0217005C2D23 /* icons8-qr_code.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-qr_code.png"; sourceTree = "<group>"; };
+		89F9B74A23289A4A00F7C6EE /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		9FD94FCD716727ABC0F314FE /* Pods_emsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_emsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4A3716338A6F7D6BDE2CA8D /* Pods-emsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-emsUITests.debug.xcconfig"; path = "Target Support Files/Pods-emsUITests/Pods-emsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		AD1E776C3D91DA77061B6BA2 /* Pods_ems.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ems.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -235,6 +240,7 @@
 				892BD7F822AFE590005DBA8F /* Products */,
 				1B08CC473B1211DE331CA862 /* Pods */,
 				50C6D705D905C1B4C58CC98E /* Frameworks */,
+				89F9B7492327F43700F7C6EE /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -292,9 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				0BB2865C22FE5284007B4E9D /* DBModel */,
-				89AB156E22C752E7000632E4 /* Sound.swift */,
-				8995F3C722C8905800830300 /* Permission.swift */,
-				0BB2865A22FC1F11007B4E9D /* DBStore.swift */,
+				89F9B74A23289A4A00F7C6EE /* Profile.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -302,12 +306,12 @@
 		892BD82A22AFEBBC005DBA8F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				894BB3C9230E61000055FD3D /* Scan */,
 				892BD85622B33595005DBA8F /* HomeView.swift */,
-				89AB156C22C72CC6000632E4 /* ScanView.swift */,
+				897AB95E22D03824006E1F70 /* InfoView.swift */,
 				8995F3D322C8A2DF00830300 /* SettingView.swift */,
 				8995F3D522C8A2E900830300 /* MenuView.swift */,
 				8995F3D722C8A2F700830300 /* ProfileView.swift */,
-				897AB95E22D03824006E1F70 /* InfoView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -348,11 +352,23 @@
 		892BD82D22AFEBE7005DBA8F /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				89AB156E22C752E7000632E4 /* Sound.swift */,
+				8995F3C722C8905800830300 /* Permission.swift */,
+				0BB2865A22FC1F11007B4E9D /* DBStore.swift */,
 				89AB15D422C76F1B000632E4 /* QRCodeReader */,
 				892BD85822B35C75005DBA8F /* LoadingShimmer.swift */,
 				0BC21817231BF16200D04E47 /* Dispatch.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		894BB3C9230E61000055FD3D /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				89AB156C22C72CC6000632E4 /* ScanView.swift */,
+				894BB3C7230E60D40055FD3D /* ScanInfoView.swift */,
+			);
+			path = Scan;
 			sourceTree = "<group>";
 		};
 		89AB15D422C76F1B000632E4 /* QRCodeReader */ = {
@@ -375,16 +391,24 @@
 		89C33CF622DF0147005C2D23 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				8984472E2313990F008865A4 /* icons8-delete_sign.png */,
 				89C33D0922DF0217005C2D23 /* icons8-qr_code.png */,
 				89C33D0722DF0210005C2D23 /* icons8-flash_off.png */,
 				89C33D0522DF0209005C2D23 /* icons8-flash_on.png */,
 				89C33D0322DF01FF005C2D23 /* icons8-settings.png */,
 				89C33D0122DF01F4005C2D23 /* icons8-user.png */,
 				89C33CF922DF019A005C2D23 /* icons8-back.png */,
-				89C33CFB22DF01C4005C2D23 /* icons8-delete_sign.png */,
 				89C33CFD22DF01D7005C2D23 /* icons8-menu.png */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		89F9B7492327F43700F7C6EE /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				8984473023139B82008865A4 /* Asset.swift */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -400,7 +424,8 @@
 				892BD7F422AFE590005DBA8F /* Frameworks */,
 				892BD7F522AFE590005DBA8F /* Resources */,
 				8958D28122D98C14002337F3 /* ShellScript */,
-				CFDA9B603FBA649154DA4C12 /* [CP] Embed Pods Frameworks */,
+				CFDA9B603FBA649154DA4C12 /* ShellScript */,
+				B0A41933EADF612A646ABC02 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -501,10 +526,10 @@
 				89C33D0622DF0209005C2D23 /* icons8-flash_on.png in Resources */,
 				89C33D0422DF01FF005C2D23 /* icons8-settings.png in Resources */,
 				89C33CFA22DF019A005C2D23 /* icons8-back.png in Resources */,
+				8984472F2313990F008865A4 /* icons8-delete_sign.png in Resources */,
 				89C33D0222DF01F4005C2D23 /* icons8-user.png in Resources */,
 				89C33D0A22DF0217005C2D23 /* icons8-qr_code.png in Resources */,
 				0845480122E1606D00D79616 /* GoogleService-Info.plist in Resources */,
-				89C33CFC22DF01C4005C2D23 /* icons8-delete_sign.png in Resources */,
 				892BD84D22AFEDA5005DBA8F /* Localized.strings in Resources */,
 				89C33D0822DF0210005C2D23 /* icons8-flash_off.png in Resources */,
 				892BD80522AFE591005DBA8F /* LaunchScreen.storyboard in Resources */,
@@ -565,7 +590,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$SRCROOT/$PROJECT_NAME/R.generated.swift",
+				$SRCROOT/$PROJECT_NAME/R.generated.swift,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -587,6 +612,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n    ${PODS_ROOT}/SwiftLint/swiftlint autocorrect\n    ${PODS_ROOT}/SwiftLint/swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		B0A41933EADF612A646ABC02 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ems/Pods-ems-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ems/Pods-ems-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ems/Pods-ems-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		CAC592673BF663C5FC8B2A35 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -610,7 +652,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CFDA9B603FBA649154DA4C12 /* [CP] Embed Pods Frameworks */ = {
+		CFDA9B603FBA649154DA4C12 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -637,32 +679,9 @@
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DynamicButton.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rswift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SPPermission.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ems/Pods-ems-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "if which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n    ${PODS_ROOT}/SwiftLint/swiftlint autocorrect\n    ${PODS_ROOT}/SwiftLint/swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		EC83D46DFD9948B5290886F2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -701,7 +720,9 @@
 				89AB15E822C76F1B000632E4 /* ReaderOverlayView.swift in Sources */,
 				8995F3D622C8A2E900830300 /* MenuView.swift in Sources */,
 				892BD84522AFEC91005DBA8F /* UIViewController.swift in Sources */,
+				89F9B74B23289A4A00F7C6EE /* Profile.swift in Sources */,
 				8995F3D422C8A2DF00830300 /* SettingView.swift in Sources */,
+				894BB3C8230E60D40055FD3D /* ScanInfoView.swift in Sources */,
 				89AB15E422C76F1B000632E4 /* QRCodeReaderResult.swift in Sources */,
 				8995F3CA22C8A1C800830300 /* SettingViewController.swift in Sources */,
 				8958D28422D9A3C2002337F3 /* Constants.swift in Sources */,
@@ -918,16 +939,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8D3QG49KS5;
+				DEVELOPMENT_TEAM = 4XKKKM86RN;
 				INFOPLIST_FILE = ems/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = RaiRaiRaise.org.ems.hiza;
+				PRODUCT_BUNDLE_IDENTIFIER = RaiRaiRaise.org.ems;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -937,16 +958,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8D3QG49KS5;
+				DEVELOPMENT_TEAM = 4XKKKM86RN;
 				INFOPLIST_FILE = ems/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = RaiRaiRaise.org.ems.hiza;
+				PRODUCT_BUNDLE_IDENTIFIER = RaiRaiRaise.org.ems;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
