@@ -98,6 +98,7 @@ internal class ScanViewController: UIViewController {
             self.scanQrData.removeAll()
             self.scanView.previewQrInfo(msg: "")
             self.scanView.previewScanInfo(msg: "\(scanQrDatas.count)品スキャン済み")
+            self.scanView.scanInfoView.setAssetData(data: Asset(code: "0001", name: "テスト机", admin: "テスター", user: "テスター", loss: true, discard: true, location: "nil", quantity: 1))
         }
     }
 
@@ -144,4 +145,7 @@ extension ScanViewController: UIPopoverPresentationControllerDelegate {
     internal func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return .none
     }
+}
+
+internal protocol ScanViewControllerDelegate: UIViewController {
 }

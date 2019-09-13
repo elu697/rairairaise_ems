@@ -21,7 +21,7 @@ internal class ScanInfoView: UIView {
     private let discardTitleLbl = UILabel()
     private let discardSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
 
-//    private var assetData = Asset()
+    private var assetData: Asset?
 
     // MARK: - Default
     override internal init(frame: CGRect) {
@@ -106,23 +106,23 @@ internal class ScanInfoView: UIView {
     // MARK: - Layout
     private func componentSetting() {
         self.codeTxf.placeholder = "資産コード"
-//        self.codeTxf.text = self.assetData.code
+        self.codeTxf.text = self.assetData?.code
         self.codeTxf.isEnabled = false
 
         self.nameTxf.placeholder = "資産名"
-//        self.nameTxf.text = self.assetData.name
+        self.nameTxf.text = self.assetData?.name
         self.nameTxf.isEnabled = true
 
         self.adminTxf.placeholder = "管理者"
-//        self.adminTxf.text = self.assetData.admin
+        self.adminTxf.text = self.assetData?.admin
         self.adminTxf.isEnabled = true
 
         self.userTxf.placeholder = "使用者"
-//        self.userTxf.text = self.assetData.user
+        self.userTxf.text = self.assetData?.user
         self.userTxf.isEnabled = true
 
         self.placeTxf.placeholder = "管理場所"
-//        self.placeTxf.text = self.assetData.place
+        self.placeTxf.text = self.assetData?.location
         self.placeTxf.isEnabled = true
 
         self.lostTitleLbl.text = "紛失"
@@ -132,7 +132,7 @@ internal class ScanInfoView: UIView {
         self.lostSwitch.buttonOnColor = Color.red.accent3
         self.lostSwitch.trackOffColor = Color.lightGray
         self.lostSwitch.trackOnColor = Color.red.accent2
-//        self.lostSwitch.isOn = self.assetData.lostFlag
+        self.lostSwitch.isOn = self.assetData?.loss ?? false
 
         self.discardTitleLbl.text = "廃棄"
         self.discardTitleLbl.font = .systemFont(ofSize: 13)
@@ -141,12 +141,21 @@ internal class ScanInfoView: UIView {
         self.discardSwitch.buttonOnColor = Color.red.accent3
         self.discardSwitch.trackOffColor = Color.lightGray
         self.discardSwitch.trackOnColor = Color.red.accent2
-//        self.discardSwitch.isOn = self.assetData.discardFlag
+        self.discardSwitch.isOn = self.assetData?.discard ?? false
     }
 
     // MARK: - Function
     internal func setAssetData(data: Asset) {
-//        self.assetData = data
+        self.assetData = data
+        UIView.animate(withDuration: 1.0) {
+            self.codeTxf.text = self.assetData?.code
+            self.nameTxf.text = self.assetData?.name
+            self.adminTxf.text = self.assetData?.admin
+            self.userTxf.text = self.assetData?.user
+            self.placeTxf.text = self.assetData?.location
+            self.lostSwitch.isOn = self.assetData?.loss ?? false
+            self.discardSwitch.isOn = self.assetData?.discard ?? false
+        }
     }
 
     // MARK: - Action

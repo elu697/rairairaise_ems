@@ -68,6 +68,7 @@
 		89C33D0622DF0209005C2D23 /* icons8-flash_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33D0522DF0209005C2D23 /* icons8-flash_on.png */; };
 		89C33D0822DF0210005C2D23 /* icons8-flash_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33D0722DF0210005C2D23 /* icons8-flash_off.png */; };
 		89C33D0A22DF0217005C2D23 /* icons8-qr_code.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33D0922DF0217005C2D23 /* icons8-qr_code.png */; };
+		89F9B74B23289A4A00F7C6EE /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F9B74A23289A4A00F7C6EE /* Profile.swift */; };
 		902344A31339993ECFEDEC8D /* Pods_emsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD94FCD716727ABC0F314FE /* Pods_emsUITests.framework */; };
 		D3ACDECB88778C561568325E /* Pods_ems.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD1E776C3D91DA77061B6BA2 /* Pods_ems.framework */; };
 /* End PBXBuildFile section */
@@ -164,6 +165,7 @@
 		89C33D0522DF0209005C2D23 /* icons8-flash_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-flash_on.png"; sourceTree = "<group>"; };
 		89C33D0722DF0210005C2D23 /* icons8-flash_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-flash_off.png"; sourceTree = "<group>"; };
 		89C33D0922DF0217005C2D23 /* icons8-qr_code.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-qr_code.png"; sourceTree = "<group>"; };
+		89F9B74A23289A4A00F7C6EE /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		9FD94FCD716727ABC0F314FE /* Pods_emsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_emsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4A3716338A6F7D6BDE2CA8D /* Pods-emsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-emsUITests.debug.xcconfig"; path = "Target Support Files/Pods-emsUITests/Pods-emsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		AD1E776C3D91DA77061B6BA2 /* Pods_ems.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ems.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -296,9 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				0BB2865C22FE5284007B4E9D /* DBModel */,
-				89AB156E22C752E7000632E4 /* Sound.swift */,
-				8995F3C722C8905800830300 /* Permission.swift */,
-				0BB2865A22FC1F11007B4E9D /* DBStore.swift */,
+				89F9B74A23289A4A00F7C6EE /* Profile.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -352,6 +352,9 @@
 		892BD82D22AFEBE7005DBA8F /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				89AB156E22C752E7000632E4 /* Sound.swift */,
+				8995F3C722C8905800830300 /* Permission.swift */,
+				0BB2865A22FC1F11007B4E9D /* DBStore.swift */,
 				89AB15D422C76F1B000632E4 /* QRCodeReader */,
 				892BD85822B35C75005DBA8F /* LoadingShimmer.swift */,
 				0BC21817231BF16200D04E47 /* Dispatch.swift */,
@@ -717,6 +720,7 @@
 				89AB15E822C76F1B000632E4 /* ReaderOverlayView.swift in Sources */,
 				8995F3D622C8A2E900830300 /* MenuView.swift in Sources */,
 				892BD84522AFEC91005DBA8F /* UIViewController.swift in Sources */,
+				89F9B74B23289A4A00F7C6EE /* Profile.swift in Sources */,
 				8995F3D422C8A2DF00830300 /* SettingView.swift in Sources */,
 				894BB3C8230E60D40055FD3D /* ScanInfoView.swift in Sources */,
 				89AB15E422C76F1B000632E4 /* QRCodeReaderResult.swift in Sources */,
@@ -941,7 +945,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = RaiRaiRaise.org.ems.hiza;
+				PRODUCT_BUNDLE_IDENTIFIER = RaiRaiRaise.org.ems;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -960,7 +964,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = RaiRaiRaise.org.ems.hiza;
+				PRODUCT_BUNDLE_IDENTIFIER = RaiRaiRaise.org.ems;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
