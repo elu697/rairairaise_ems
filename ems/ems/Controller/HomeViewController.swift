@@ -29,6 +29,15 @@ internal class HomeViewController: UIViewController {
         super.viewDidAppear(animated)
         SVProgressHUD.show()
         SVProgressHUD.dismiss()
+        DBStore.share.update(code: "0000", set: { asset in
+            asset.admin = "me"
+            asset.user = "you"
+            asset.name = "机"
+            asset.location = "123"
+            print("Assets: set")
+        }, complete: { error in
+            print("Assets completed: \(error?.localizedDescription ?? "sucess")")
+        })
         self.present(ScanViewController(scanType: .home), animated: true, completion: nil)
     }
 

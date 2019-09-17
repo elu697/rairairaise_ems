@@ -21,7 +21,7 @@ internal class ScanInfoView: UIView {
     private let discardTitleLbl = UILabel()
     private let discardSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
 
-    private var assetData: Asset?
+    private var assetData: Assets?
 
     // MARK: - Default
     override internal init(frame: CGRect) {
@@ -145,7 +145,7 @@ internal class ScanInfoView: UIView {
     }
 
     // MARK: - Function
-    internal func setAssetData(data: Asset) {
+    internal func setAssetData(data: Assets) {
         self.assetData = data
         UIView.animate(withDuration: 1.0) {
             self.codeTxf.text = self.assetData?.code
