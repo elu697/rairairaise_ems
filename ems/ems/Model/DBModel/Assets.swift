@@ -21,17 +21,11 @@ internal class Assets: Object {
     internal dynamic var location: String?
     internal dynamic var quantity: Int = 0
 
-    enum AnotherCollectionFields: CaseIterable {
+    private enum AnotherCollectionFields: CaseIterable {
         case name
         case admin
         case user
         case location
-
-        enum Collection {
-            case persons
-            case locations
-            case assetNames
-        }
 
         var collection: Collection {
             switch self {
@@ -47,8 +41,41 @@ internal class Assets: Object {
         }
     }
 
+    private enum Collection {
+        case persons
+        case locations
+        case assetNames
+    }
+
+    internal enum Field {
+        case code
+        case name
+        case admin
+        case user
+        case loss
+        case discard
+        case location
+        case quantity
+    }
+
     internal func updateWithSetParam(_ result: @escaping (Error?) -> Void) {
         print("Assets: updateWithSetParam")
+        setParam {
+            self.update { error in
+                result(error)
+            }
+        }
+    }
+
+    internal func saveWithSetParam(_ result: @escaping (Error?) -> Void) {
+        setParam {
+            self.save { _, error in
+                result(error)
+            }
+        }
+    }
+
+    private func setParam(_ complete: @escaping () -> Void) {
         let dispatch = Dispatch()
         let label = "validate"
 
@@ -57,20 +84,45 @@ internal class Assets: Object {
                 switch field.collection {
                 case .persons:
                     let value = field == .user ? self.user : self.admin
-                    Persons.isExist(keyPath: \Persons.name, value: value ?? "") { docId, _  in
+                    Persons.isExist(keyPath: \Persons.name, value: value) { docId, error in
+                        if error != nil { dispatch.leave(); return }
+                        guard let docId = docId else {
+                            self.createFieldCollection(collection: .persons, value: value) { docRef, _ in
+                                if field == .user { self.user = docRef?.documentID }
+                                if field == .admin { self.admin = docRef?.documentID }
+                                dispatch.leave()
+                            }
+                            return
+                        }
                         if field == .user { self.user = docId }
                         if field == .admin { self.admin = docId }
                         dispatch.leave()
                     }
 
                 case .locations:
-                    Locations.isExist(keyPath: \Locations.location, value: self.location ?? "") { docId, _ in
+                    Locations.isExist(keyPath: \Locations.location, value: self.location) { docId, error in
+                        if error != nil { dispatch.leave(); return }
+                        guard let docId = docId else {
+                            self.createFieldCollection(collection: .locations, value: self.location) { docRef, _ in
+                                self.location = docRef?.documentID
+                                dispatch.leave()
+                            }
+                            return
+                        }
                         self.location = docId
                         dispatch.leave()
                     }
 
                 case .assetNames:
-                    AssetNames.isExist(keyPath: \AssetNames.assetName, value: self.name ?? "") { docId, _ in
+                    AssetNames.isExist(keyPath: \AssetNames.assetName, value: self.name) { docId, error in
+                        if error != nil { dispatch.leave(); return }
+                        guard let docId = docId else {
+                            self.createFieldCollection(collection: .assetNames, value: self.name) { docRef, _ in
+                                self.name = docRef?.documentID
+                                dispatch.leave()
+                            }
+                            return
+                        }
                         self.name = docId
                         dispatch.leave()
                     }
@@ -78,10 +130,25 @@ internal class Assets: Object {
             }
         }
 
-        dispatch.notify(label: label) {
-            self.update { error in
-                result(error)
-            }
+        dispatch.notify(label: label, imp: complete)
+    }
+
+    private func createFieldCollection(collection: Collection, value: String?, _ complete: @escaping (DocumentReference?, Error?) -> Void) {
+        switch collection {
+        case .persons:
+            let person = Persons()
+            person.name = value
+            person.save(complete)
+
+        case .locations:
+            let location = Locations()
+            location.location = value
+            location.save(complete)
+
+        case .assetNames:
+            let assetName = AssetNames()
+            assetName.assetName = value
+            assetName.save(complete)
         }
     }
 }
