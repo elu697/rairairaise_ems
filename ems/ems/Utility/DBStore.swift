@@ -23,19 +23,14 @@ internal class DBStore {
     }
     
     func update(code: String, set: @escaping (Assets) -> Void, complete: @escaping (Error?) -> Void) {
-        Assets.where(\Assets.code, isEqualTo: code).limit(to: 1).get { snapShot, error in
-            guard let snapShot = snapShot else {
+        Assets.isExist(keyPath: \Assets.code, value: code) { docId, error in
+            guard let docId = docId else { complete(error); return }
+            print(docId)
+            let asset = Assets(id: docId, value: [:])
+            asset.code = code
+            set(asset)
+            asset.updateWithSetParam { error in
                 complete(error)
-                return
-            }
-            if !snapShot.isEmpty {
-                let asset = Assets(id: snapShot.documents[0].documentID, value: [:])
-                asset.code = code
-                set(asset)
-                asset.updateWithSetParam { error in
-                    print("Assets: updateWithSetParam completed")
-                    complete(error)
-                }
             }
         }
     }

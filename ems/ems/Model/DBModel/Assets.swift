@@ -21,48 +21,65 @@ internal class Assets: Object {
     internal dynamic var location: String?
     internal dynamic var quantity: Int = 0
 
+    enum AnotherCollectionFields: CaseIterable {
+        case name
+        case admin
+        case user
+        case location
+
+        enum Collection {
+            case persons
+            case locations
+            case assetNames
+        }
+
+        var collection: Collection {
+            switch self {
+            case .user, .admin:
+                return .persons
+
+            case .name:
+                return .assetNames
+
+            case .location:
+                return .locations
+            }
+        }
+    }
+
     internal func updateWithSetParam(_ result: @escaping (Error?) -> Void) {
         print("Assets: updateWithSetParam")
         let dispatch = Dispatch()
         let label = "validate"
 
-        dispatch.async(label: label) {
-            Persons.isExist(value: self.user) { docId, error in
-                if let error = error { print("Assets: \(error.localizedDescription)"); dispatch.leave(); return }
-                print("Assets: person(user): \(docId ?? "not Found")")
-                self.user = docId
-                dispatch.leave()
-            }
-        }
-        dispatch.async(label: label) {
-            Persons.isExist(value: self.admin) { docId, error in
-                if let error = error { print("Assets: \(error.localizedDescription)"); dispatch.leave(); return }
-                print("Assets: person(admin): \(docId ?? "not Found")")
-                self.admin = docId
-                dispatch.leave()
-            }
-        }
-        dispatch.async(label: label) {
-            Locations.isExist(value: self.location) { docId, error in
-                if let error = error { print("Assets: \(error.localizedDescription)"); dispatch.leave(); return }
-                print("Assets: Locations: \(docId ?? "not Found")")
-                self.location = docId
-                dispatch.leave()
-            }
-        }
-        dispatch.async(label: label) {
-            AssetNames.isExist(value: self.name) { docId, error in
-                if let error = error { print("Assets: \(error.localizedDescription)"); dispatch.leave(); return }
-                print("Assets: AssetNames: \(docId ?? "not Found")")
-                self.name = docId
-                dispatch.leave()
+        AnotherCollectionFields.allCases.forEach { field in
+            dispatch.async(label: label) {
+                switch field.collection {
+                case .persons:
+                    let value = field == .user ? self.user : self.admin
+                    Persons.isExist(keyPath: \Persons.name, value: value ?? "") { docId, _  in
+                        if field == .user { self.user = docId }
+                        if field == .admin { self.admin = docId }
+                        dispatch.leave()
+                    }
+
+                case .locations:
+                    Locations.isExist(keyPath: \Locations.location, value: self.location ?? "") { docId, _ in
+                        self.location = docId
+                        dispatch.leave()
+                    }
+
+                case .assetNames:
+                    AssetNames.isExist(keyPath: \AssetNames.assetName, value: self.name ?? "") { docId, _ in
+                        self.name = docId
+                        dispatch.leave()
+                    }
+                }
             }
         }
 
         dispatch.notify(label: label) {
-            print("Assets: notify")
             self.update { error in
-                print("Assets: update complete")
                 result(error)
             }
         }
