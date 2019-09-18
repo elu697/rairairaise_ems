@@ -25,7 +25,6 @@ internal class DBStore {
     func update(code: String, set: @escaping (Assets) -> Void, complete: @escaping (Error?) -> Void) {
         Assets.isExist(keyPath: \Assets.code, value: code) { docId, error in
             guard let docId = docId else { complete(error); return }
-            print(docId)
             let asset = Assets(id: docId, value: [:])
             asset.code = code
             set(asset)
@@ -35,15 +34,31 @@ internal class DBStore {
         }
     }
     
+    func set(_ set: @escaping (Assets) -> Void, _ complete: @escaping (Error?) -> Void) {
+        let asset = Assets()
+        set(asset)
+        if asset.code == "" {
+            return
+        }
+        
+        Assets.isExist(keyPath: \Assets.code, value: asset.code) { docId, error in
+            if docId == nil {
+                if let error = error {
+                    complete(error)
+                } else {
+                    asset.saveWithSetParam { error in
+                        complete(error)
+                    }
+                }
+            }
+        }
+    }
+    
     func delete() {
         
     }
     
-    func set() {
-        
-    }
-    
-    func get() {
+    func get(_ field: Assets.Field) {
         
     }
 }
