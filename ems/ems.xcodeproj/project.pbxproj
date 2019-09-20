@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0845480122E1606D00D79616 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0845480022E1606D00D79616 /* GoogleService-Info.plist */; };
+		08EF48E32334753B0015F46C /* UDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EF48E22334753B0015F46C /* UDManager.swift */; };
 		0BB2865B22FC1F11007B4E9D /* DBStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB2865A22FC1F11007B4E9D /* DBStore.swift */; };
 		0BB2865E22FE529B007B4E9D /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB2865D22FE529B007B4E9D /* Asset.swift */; };
 		0BC21818231BF16200D04E47 /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC21817231BF16200D04E47 /* Dispatch.swift */; };
@@ -93,6 +94,7 @@
 /* Begin PBXFileReference section */
 		00BC9CCE9A7BC52594591B68 /* Pods_emsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_emsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0845480022E1606D00D79616 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		08EF48E22334753B0015F46C /* UDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UDManager.swift; sourceTree = "<group>"; };
 		0BB2865A22FC1F11007B4E9D /* DBStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBStore.swift; sourceTree = "<group>"; };
 		0BB2865D22FE529B007B4E9D /* Asset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
 		0BC21817231BF16200D04E47 /* Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
@@ -358,6 +360,7 @@
 				89AB15D422C76F1B000632E4 /* QRCodeReader */,
 				892BD85822B35C75005DBA8F /* LoadingShimmer.swift */,
 				0BC21817231BF16200D04E47 /* Dispatch.swift */,
+				08EF48E22334753B0015F46C /* UDManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -742,6 +745,7 @@
 				892BD84322AFEC91005DBA8F /* UICollectionView.swift in Sources */,
 				89AB15DF22C76F1B000632E4 /* QRCodeReader.swift in Sources */,
 				0BC21818231BF16200D04E47 /* Dispatch.swift in Sources */,
+				08EF48E32334753B0015F46C /* UDManager.swift in Sources */,
 				892BD84622AFEC91005DBA8F /* CALayer.swift in Sources */,
 				89AB156D22C72CC6000632E4 /* ScanView.swift in Sources */,
 				892BD85322AFEE1D005DBA8F /* HomeViewController.swift in Sources */,
