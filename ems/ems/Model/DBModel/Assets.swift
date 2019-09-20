@@ -86,51 +86,67 @@ internal class Assets: Object {
                     let value = field == .user ? self.user : self.admin
                     Persons.isExist(keyPath: \Persons.name, value: value) { docId, error in
                         if error != nil { dispatch.leave(); return }
-                        guard let docId = docId else {
-                            self.createFieldCollection(collection: .persons, value: value) { docRef, _ in
-                                if field == .user { self.user = docRef?.documentID }
-                                if field == .admin { self.admin = docRef?.documentID }
-                                dispatch.leave()
-                            }
-                            return
+                        self.setPersonField(docId: docId, value: value, field: field) {
+                            dispatch.leave()
                         }
-                        if field == .user { self.user = docId }
-                        if field == .admin { self.admin = docId }
-                        dispatch.leave()
                     }
-
                 case .locations:
                     Locations.isExist(keyPath: \Locations.location, value: self.location) { docId, error in
                         if error != nil { dispatch.leave(); return }
-                        guard let docId = docId else {
-                            self.createFieldCollection(collection: .locations, value: self.location) { docRef, _ in
-                                self.location = docRef?.documentID
-                                dispatch.leave()
-                            }
-                            return
+                        self.setLocationField(docId: docId) {
+                            dispatch.leave()
                         }
-                        self.location = docId
-                        dispatch.leave()
                     }
-
                 case .assetNames:
                     AssetNames.isExist(keyPath: \AssetNames.assetName, value: self.name) { docId, error in
                         if error != nil { dispatch.leave(); return }
-                        guard let docId = docId else {
-                            self.createFieldCollection(collection: .assetNames, value: self.name) { docRef, _ in
-                                self.name = docRef?.documentID
-                                dispatch.leave()
-                            }
-                            return
+                        self.setAssetNameField(docId: docId) {
+                            dispatch.leave()
                         }
-                        self.name = docId
-                        dispatch.leave()
                     }
                 }
             }
         }
 
         dispatch.notify(label: label, imp: complete)
+    }
+    
+    private func setPersonField(docId: String?, value: String?, field: AnotherCollectionFields, _ complete: @escaping () -> Void) {
+        guard let docId = docId else {
+            createFieldCollection(collection: .persons, value: value) { docRef, _ in
+                if field == .user { self.user = docRef?.documentID }
+                if field == .admin { self.admin = docRef?.documentID }
+                complete()
+            }
+            return
+        }
+        if field == .user { user = docId }
+        if field == .admin { admin = docId }
+        complete()
+    }
+    
+    private func setLocationField(docId: String?, _ complete: @escaping () -> Void) {
+        guard let docId = docId else {
+            createFieldCollection(collection: .locations, value: location) { docRef, _ in
+                self.location = docRef?.documentID
+                complete()
+            }
+            return
+        }
+        location = docId
+        complete()
+    }
+    
+    private func setAssetNameField(docId: String?, _ complete: @escaping () -> Void) {
+        guard let docId = docId else {
+            createFieldCollection(collection: .assetNames, value: name) { docRef, _ in
+                self.name = docRef?.documentID
+                complete()
+            }
+            return
+        }
+        name = docId
+        complete()
     }
 
     private func createFieldCollection(collection: Collection, value: String?, _ complete: @escaping (DocumentReference?, Error?) -> Void) {
