@@ -17,6 +17,7 @@ def install_pods
     
     pod 'Firebase/Core'
     pod 'Firebase/Firestore' 
+    pod 'Eureka'
 
     #Pods for FiMap
 

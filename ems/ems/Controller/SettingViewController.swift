@@ -6,16 +6,16 @@
 //  Copyright © 2019 RaiRaiRaise. All rights reserved.
 //
 
+import Eureka
 import UIKit
 
-internal class SettingViewController: UIViewController {
+internal class SettingViewController: FormViewController {
     // MARK: - Property
     // MARK: - Default
     override internal func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         self.controllerSetting()
-
         // Do any additional setup after loading the view.
     }
 
@@ -23,6 +23,17 @@ internal class SettingViewController: UIViewController {
     private func controllerSetting() {
         self.setRightCloseBarButtonItem()
         self.setNavigationBarTitleString(title: R.string.localized.settingViewNavigationTitle())
+
+        self.form +++ Section("設定項目")
+        <<< SwitchRow("sound") { row in
+            row.title = "スキャン完了音"
+            row.value = true
+        }.onChange { row in
+            UDManager.setUD(key: .sound, value: row.value as Any)
+        }.cellSetup({ _, row in
+                row.value = UDManager.getUD(key: .sound) as? Bool ?? true
+            }
+        )
     }
 
     // MARK: - Function
