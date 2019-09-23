@@ -21,33 +21,14 @@ internal class Assets: Object {
     internal dynamic var location: String?
     internal dynamic var quantity: Int = 0
 
-    private enum AnotherCollectionFields: CaseIterable {
-        case name
-        case admin
-        case user
-        case location
-
-        var collection: Collection {
-            switch self {
-            case .user, .admin:
-                return .persons
-
-            case .name:
-                return .assetNames
-
-            case .location:
-                return .locations
-            }
-        }
-    }
-
-    private enum Collection {
+    enum Collection {
         case persons
         case locations
         case assetNames
+        case assets
     }
 
-    internal enum Field {
+    internal enum Field: CaseIterable {
         case code
         case name
         case admin
@@ -56,11 +37,45 @@ internal class Assets: Object {
         case discard
         case location
         case quantity
+
+        var type: Collection {
+            switch self {
+            case .admin, .user:
+                return .persons
+
+            case .location:
+                return .locations
+
+            case .name:
+                return .assetNames
+
+            default:
+                return .assets
+            }
+        }
+    }
+
+    private func getValue(field: Field) -> String? {
+        switch field {
+        case .user:
+            return user
+
+        case .admin:
+            return admin
+
+        case .location:
+            return location
+
+        case .name:
+            return name
+        default: return nil
+        }
     }
 
     internal func updateWithSetParam(_ result: @escaping (Error?) -> Void) {
         print("Assets: updateWithSetParam")
-        setParam {
+        convertValue { data in
+            self.setValue(data: data)
             self.update { error in
                 result(error)
             }
@@ -68,85 +83,80 @@ internal class Assets: Object {
     }
 
     internal func saveWithSetParam(_ result: @escaping (Error?) -> Void) {
-        setParam {
+        convertValue { data in
+            self.setValue(data: data)
             self.save { _, error in
                 result(error)
             }
         }
     }
 
-    private func setParam(_ complete: @escaping () -> Void) {
-        let dispatch = Dispatch()
-        let label = "validate"
+    internal static func getAssets(snapShots: [QueryDocumentSnapshot], _ complete: @escaping ([Assets]) -> Void) {
+        var assets: [Assets] = []
+        let dispatch = Dispatch(label: "assets")
 
-        AnotherCollectionFields.allCases.forEach { field in
-            dispatch.async(label: label) {
-                switch field.collection {
-                case .persons:
-                    let value = field == .user ? self.user : self.admin
-                    Persons.isExist(keyPath: \Persons.name, value: value) { docId, error in
-                        if error != nil { dispatch.leave(); return }
-                        self.setPersonField(docId: docId, value: value, field: field) {
-                            dispatch.leave()
-                        }
-                    }
-                case .locations:
-                    Locations.isExist(keyPath: \Locations.location, value: self.location) { docId, error in
-                        if error != nil { dispatch.leave(); return }
-                        self.setLocationField(docId: docId) {
-                            dispatch.leave()
-                        }
-                    }
-                case .assetNames:
-                    AssetNames.isExist(keyPath: \AssetNames.assetName, value: self.name) { docId, error in
-                        if error != nil { dispatch.leave(); return }
-                        self.setAssetNameField(docId: docId) {
-                            dispatch.leave()
-                        }
+        snapShots.forEach { docRef in
+            dispatch.async {
+                Assets.get(docRef.documentID) { asset, _ in
+                    guard let asset = asset else { dispatch.leave(); return }
+                    asset.setValue {
+                        assets.append(asset)
+                        dispatch.leave()
                     }
                 }
             }
         }
 
-        dispatch.notify(label: label, imp: complete)
+        dispatch.notify {
+            complete(assets)
+        }
     }
-    
-    private func setPersonField(docId: String?, value: String?, field: AnotherCollectionFields, _ complete: @escaping () -> Void) {
-        guard let docId = docId else {
-            createFieldCollection(collection: .persons, value: value) { docRef, _ in
-                if field == .user { self.user = docRef?.documentID }
-                if field == .admin { self.admin = docRef?.documentID }
-                complete()
+}
+
+// MARK: - private function
+extension Assets {
+    private func convertValue(_ complete: @escaping ([Field: DocumentReference?]) -> Void) {
+        let dispatch = Dispatch(label: "convert")
+
+        var data: [Field: DocumentReference?] = [:]
+        Field.allCases.forEach { field in
+            dispatch.async {
+                switch field.type {
+                case .persons:
+                    Persons.isExist(keyPath: \Persons.name, value: self.getValue(field: field)) { docRef, _ in
+                        data[field] = docRef
+                        dispatch.leave()
+                    }
+
+                case .assetNames:
+                    AssetNames.isExist(keyPath: \AssetNames.assetName, value: self.getValue(field: field)) { docRef, _ in
+                        data[field] = docRef
+                        dispatch.leave()
+                    }
+
+                case .locations:
+                    Locations.isExist(keyPath: \Locations.location, value: self.getValue(field: field)) { docRef, _ in
+                        data[field] = docRef
+                        dispatch.leave()
+                    }
+                default: dispatch.leave(); return
+                }
             }
+        }
+
+        dispatch.notify {
+            complete(data)
+        }
+    }
+
+    private func setDocRef(collection: Assets.Collection, value: String?, docRef: DocumentReference?, _ complete: @escaping (DocumentReference?) -> Void) {
+        if let docRef = docRef {
+            complete(docRef)
             return
         }
-        if field == .user { user = docId }
-        if field == .admin { admin = docId }
-        complete()
-    }
-    
-    private func setLocationField(docId: String?, _ complete: @escaping () -> Void) {
-        guard let docId = docId else {
-            createFieldCollection(collection: .locations, value: location) { docRef, _ in
-                self.location = docRef?.documentID
-                complete()
-            }
-            return
+        createFieldCollection(collection: collection, value: value) { newDocRef, _ in
+            complete(newDocRef)
         }
-        location = docId
-        complete()
-    }
-    
-    private func setAssetNameField(docId: String?, _ complete: @escaping () -> Void) {
-        guard let docId = docId else {
-            createFieldCollection(collection: .assetNames, value: name) { docRef, _ in
-                self.name = docRef?.documentID
-                complete()
-            }
-            return
-        }
-        name = docId
-        complete()
     }
 
     private func createFieldCollection(collection: Collection, value: String?, _ complete: @escaping (DocumentReference?, Error?) -> Void) {
@@ -165,6 +175,81 @@ internal class Assets: Object {
             let assetName = AssetNames()
             assetName.assetName = value
             assetName.save(complete)
+        default: return
+        }
+    }
+
+    private func setValue(data: [Field: DocumentReference?]) {
+        Field.allCases.forEach { field in
+            guard let value = data[field] else { return }
+            switch field.type {
+            case .persons:
+                if field == .user { self.user = value?.documentID }
+                if field == .admin { self.admin = value?.documentID }
+
+            case .locations:
+                self.location = value?.documentID
+
+            case .assetNames:
+                self.name = value?.documentID
+            default: return
+            }
+        }
+    }
+
+    private func setValue(_ complete: @escaping () -> Void) {
+        let dispatch = Dispatch(label: "value")
+
+        Field.allCases.forEach { field in
+            switch field.type {
+            case .persons:
+                if field == .user, let user = user {
+                    dispatch.async {
+                        Persons.get(user) { person, _ in
+                            self.user = person?.name
+                            dispatch.leave()
+                        }
+                    }
+                }
+                if field == .admin, let admin = admin {
+                    dispatch.async {
+                        Persons.get(admin) { person, _ in
+                            self.admin = person?.name
+                            dispatch.leave()
+                        }
+                    }
+                }
+
+            case .locations:
+                if let location = location {
+                    dispatch.async {
+                        Locations.get(location) { location, _ in
+                            self.location = location?.location
+                            dispatch.leave()
+                        }
+                    }
+                }
+
+            case .assetNames:
+                if let assetName = name {
+                    dispatch.async {
+                        AssetNames.get(assetName) { assetName, _ in
+                            self.name = assetName?.assetName
+                            dispatch.leave()
+                        }
+                    }
+                }
+
+            default:
+                dispatch .async {
+                    dispatch.leave()
+                    return
+                }
+            }
+        }
+
+        dispatch.notify {
+            complete()
         }
     }
 }

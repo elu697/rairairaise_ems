@@ -11,12 +11,14 @@ import Foundation
 internal class Dispatch {
     private var group: DispatchGroup
     private var queues: [String: DispatchQueue] = [:]
+    private var label: String
     
-    internal init() {
+    internal init(label: String) {
         group = DispatchGroup()
+        self.label = label
     }
     
-    internal func async(label: String, _ imp: @escaping () -> Void) {
+    internal func async(_ imp: @escaping () -> Void) {
         group.enter()
         if let queue = queues[label] {
             queue.async(group: group, qos: .unspecified, flags: [], execute: imp)
@@ -26,7 +28,7 @@ internal class Dispatch {
         }
     }
     
-    internal func notify(label: String, imp: @escaping () -> Void) {
+    internal func notify(_ imp: @escaping () -> Void) {
         if let queue = queues[label] {
             group.notify(queue: queue, execute: imp)
         } else {
