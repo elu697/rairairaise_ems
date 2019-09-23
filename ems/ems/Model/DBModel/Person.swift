@@ -12,5 +12,15 @@ import Pring
 
 @objcMembers
 internal class Persons: Object {
-    dynamic var name: String?
+    internal dynamic var name: String?
+
+    static func getDocumentId(value: String, _ complete: @escaping (QueryDocumentSnapshot?, Error?) -> Void) {
+        self.where(\Persons.name, isEqualTo: value).get { snapShot, error in
+            guard let snapShot = snapShot else {
+                complete(nil, error)
+                return
+            }
+            complete(snapShot.documents.first, nil)
+        }
+    }
 }

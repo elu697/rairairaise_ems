@@ -6,10 +6,21 @@
 //  Copyright © 2019 RaiRaiRaise. All rights reserved.
 //
 
+import FirebaseFirestore
 import Foundation
 import Pring
 
 @objcMembers
 internal class AssetNames: Object {
-    dynamic var assetName: String?
+    internal dynamic var assetName: String?
+
+    static func getDocumentId(value: String, _ complete: @escaping (QueryDocumentSnapshot?, Error?) -> Void) {
+        self.where(\AssetNames.assetName, isEqualTo: value).get { snapShot, error in
+            guard let snapShot = snapShot else {
+                complete(nil, error)
+                return
+            }
+            complete(snapShot.documents.first, nil)
+        }
+    }
 }

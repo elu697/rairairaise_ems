@@ -310,6 +310,7 @@
 		892BD82922AFEBB0005DBA8F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0BB2865A22FC1F11007B4E9D /* DBStore.swift */,
 				0BB2865C22FE5284007B4E9D /* DBModel */,
 				89F9B74A23289A4A00F7C6EE /* Profile.swift */,
 			);
@@ -368,7 +369,6 @@
 			children = (
 				89AB156E22C752E7000632E4 /* Sound.swift */,
 				8995F3C722C8905800830300 /* Permission.swift */,
-				0BB2865A22FC1F11007B4E9D /* DBStore.swift */,
 				89AB15D422C76F1B000632E4 /* QRCodeReader */,
 				892BD85822B35C75005DBA8F /* LoadingShimmer.swift */,
 				0BC21817231BF16200D04E47 /* Dispatch.swift */,
