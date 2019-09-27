@@ -11,9 +11,25 @@ import Foundation
 import SPPermission
 import UIKit
 
-internal enum ScanViewType {
+internal enum ScanViewType: Int {
     case home
     case manage
+    case list
+
+    internal enum ShowType {
+        case `default`
+        case remove
+    }
+
+    internal var showType: ShowType {
+        switch self {
+        case .home, .list:
+            return .default
+
+        case .manage:
+            return .remove
+        }
+    }
 }
 
 internal class ScanViewController: UIViewController {
@@ -26,8 +42,8 @@ internal class ScanViewController: UIViewController {
     private var scanQrDatas = [String]()
 
     // MARK: - Default
-    internal init(scanType: ScanViewType) {
-        self.scanView = ScanView(scanType: scanType)
+    internal init() {
+        self.scanView = ScanView(scanType: .home)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -98,7 +114,7 @@ internal class ScanViewController: UIViewController {
             self.scanQrData.removeAll()
             self.scanView.previewQrInfo(msg: "")
             self.scanView.previewScanInfo(msg: "\(scanQrDatas.count)品スキャン済み")
-            self.scanView.scanInfoView.setAssetData(data: Asset(code: "0001", name: "テスト机", admin: "テスター", user: "テスター", loss: true, discard: true, location: "nil", quantity: 1))
+            //self.scanView.scanInfoView.setAssetData(data: Asset(code: "0001", name: "テスト机", admin: "テスター", user: "テスター", loss: true, discard: true, location: "nil", quantity: 1))
         }
     }
 
@@ -122,7 +138,9 @@ internal class ScanViewController: UIViewController {
 
     @objc
     private func tappedMenuBtn() {
-        self.pushNewNavigationController(rootViewController: MenuViewController())
+        let menu = MenuViewController()
+        menu.delegate = self
+        self.pushNewNavigationController(rootViewController: menu)
     }
 
     @objc
@@ -144,6 +162,18 @@ internal class ScanViewController: UIViewController {
 extension ScanViewController: UIPopoverPresentationControllerDelegate {
     internal func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return .none
+    }
+}
+
+extension ScanViewController: MenuDelegate {
+    internal func modeChanged(type: MenuViewController.MenuType) {
+        switch type {
+        case .check:
+            scanView.update(scanType: .list)
+
+        case .register:
+            scanView.update(scanType: .home)
+        }
     }
 }
 

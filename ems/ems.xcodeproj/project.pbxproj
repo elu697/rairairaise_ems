@@ -13,6 +13,7 @@
 		0B49BEDB232BC98500215D86 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B49BEDA232BC98500215D86 /* Person.swift */; };
 		0B49BEDF232BCB4E00215D86 /* Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B49BEDE232BCB4E00215D86 /* Locations.swift */; };
 		0B49BEE1232BCB7A00215D86 /* AssetNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B49BEE0232BCB7A00215D86 /* AssetNames.swift */; };
+		0B0C291D233DC80F000C1172 /* ScanInfoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0C291C233DC80F000C1172 /* ScanInfoList.swift */; };
 		0BB2865B22FC1F11007B4E9D /* DBStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB2865A22FC1F11007B4E9D /* DBStore.swift */; };
 		0BB2865E22FE529B007B4E9D /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB2865D22FE529B007B4E9D /* Assets.swift */; };
 		0BC21818231BF16200D04E47 /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC21817231BF16200D04E47 /* Dispatch.swift */; };
@@ -103,6 +104,7 @@
 		0B49BEDA232BC98500215D86 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		0B49BEDE232BCB4E00215D86 /* Locations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locations.swift; sourceTree = "<group>"; };
 		0B49BEE0232BCB7A00215D86 /* AssetNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetNames.swift; sourceTree = "<group>"; };
+		0B0C291C233DC80F000C1172 /* ScanInfoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanInfoList.swift; sourceTree = "<group>"; };
 		0BB2865A22FC1F11007B4E9D /* DBStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBStore.swift; sourceTree = "<group>"; };
 		0BB2865D22FE529B007B4E9D /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		0BC21817231BF16200D04E47 /* Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
@@ -382,6 +384,7 @@
 			children = (
 				89AB156C22C72CC6000632E4 /* ScanView.swift */,
 				894BB3C7230E60D40055FD3D /* ScanInfoView.swift */,
+				0B0C291C233DC80F000C1172 /* ScanInfoList.swift */,
 			);
 			path = Scan;
 			sourceTree = "<group>";
@@ -769,6 +772,7 @@
 				892BD83E22AFEC91005DBA8F /* UIApplication.swift in Sources */,
 				892BD84422AFEC91005DBA8F /* UIColor.swift in Sources */,
 				89AB15E522C76F1B000632E4 /* SwitchCameraButton.swift in Sources */,
+				0B0C291D233DC80F000C1172 /* ScanInfoList.swift in Sources */,
 				89AB15E122C76F1B000632E4 /* QRCodeReaderViewContainer.swift in Sources */,
 				0B49BEDB232BC98500215D86 /* Person.swift in Sources */,
 				892BD83F22AFEC91005DBA8F /* Array.swift in Sources */,
