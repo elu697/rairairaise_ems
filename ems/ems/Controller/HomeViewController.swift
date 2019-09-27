@@ -29,7 +29,9 @@ internal class HomeViewController: UIViewController {
         super.viewDidAppear(animated)
         SVProgressHUD.show()
         SVProgressHUD.dismiss()
-        self.present(ScanViewController(scanType: .home), animated: true, completion: nil)
+        let vc = ScanViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true, completion: nil)
     }
 
     // MARK: - Layout
