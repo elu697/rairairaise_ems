@@ -14,7 +14,7 @@ import Pring
 internal class Locations: Object {
     internal dynamic var location: String?
 
-    static func getDocumentId(value: String, _ complete: @escaping (QueryDocumentSnapshot?, Error?) -> Void) {
+    internal static func getDocumentId(value: String, _ complete: @escaping (QueryDocumentSnapshot?, Error?) -> Void) {
         self.where(\Locations.location, isEqualTo: value).get { snapShot, error in
             guard let snapShot = snapShot else {
                 complete(nil, error)
