@@ -11,11 +11,11 @@ import Foundation
 import Pring
 
 internal class DBStore {
-    static let share = DBStore()
+    internal static let share = DBStore()
 
     private init() {}
 
-    func update(code: String, set: @escaping (Assets) -> Void, complete: @escaping (Error?) -> Void) {
+    internal func update(code: String, set: @escaping (Assets) -> Void, complete: @escaping (Error?) -> Void) {
         Assets.isExist(keyPath: \Assets.code, value: code) { docRef, error in
             guard let docRef = docRef else { complete(error); return }
             let asset = Assets(id: docRef.documentID, value: [:])
@@ -27,10 +27,10 @@ internal class DBStore {
         }
     }
 
-    func set(_ set: @escaping (Assets) -> Void, _ complete: @escaping (Error?) -> Void) {
+    internal func set(_ set: @escaping (Assets) -> Void, _ complete: @escaping (Error?) -> Void) {
         let asset = Assets()
         set(asset)
-        if asset.code == "" {
+        if asset.code.isEmpty {
             return
         }
 
@@ -47,7 +47,7 @@ internal class DBStore {
         }
     }
 
-    func delete(code: String, completion: @escaping (Error?) -> Void) {
+    internal func delete(code: String, completion: @escaping (Error?) -> Void) {
         Assets.isExist(keyPath: \Assets.code, value: code) { docRef, error in
             if let error = error {
                 completion(error)
@@ -58,7 +58,7 @@ internal class DBStore {
         }
     }
 
-    func search(field: Assets.Field, value: Any, _ complete: @escaping ([Assets]?, Error?) -> Void) {
+    internal func search(field: Assets.Field, value: Any, _ complete: @escaping ([Assets]?, Error?) -> Void) {
         let dispatch = Dispatch(label: "search")
         var item: Any?
         switch field.type {
