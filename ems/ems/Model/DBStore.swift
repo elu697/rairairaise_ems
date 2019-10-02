@@ -47,7 +47,15 @@ internal class DBStore {
         }
     }
 
-    func delete() {
+    func delete(code: String, completion: @escaping (Error?) -> Void) {
+        Assets.isExist(keyPath: \Assets.code, value: code) { docRef, error in
+            if let error = error {
+                completion(error)
+            } else {
+                docRef?.delete()
+                completion(nil)
+            }
+        }
     }
 
     func search(field: Assets.Field, value: Any, _ complete: @escaping ([Assets]?, Error?) -> Void) {
