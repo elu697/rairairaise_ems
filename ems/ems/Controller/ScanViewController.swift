@@ -139,8 +139,9 @@ internal class ScanViewController: UIViewController {
     @objc
     private func tappedMenuBtn() {
         let menu = MenuViewController()
+        menu.modalPresentationStyle = .fullScreen
         menu.delegate = self
-        self.pushNewNavigationController(rootViewController: menu)
+        pushNewNavigationController(rootViewController: menu)
     }
 
     @objc
@@ -170,10 +171,28 @@ extension ScanViewController: MenuDelegate {
         switch type {
         case .check:
             scanView.update(scanType: .list)
+            guard let scanInfoView = scanView.scanInfoView as? ScanInfoList  else {
+                return
+            }
+            scanInfoView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.className)
+            scanInfoView.tableView.dataSource = self
 
         case .register:
             scanView.update(scanType: .home)
         }
+    }
+}
+
+extension ScanViewController: UITableViewDataSource {
+    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.className, for: indexPath)
+        cell.textLabel?.text = "test"
+        cell.accessoryType = .checkmark
+        return cell
     }
 }
 

@@ -24,7 +24,7 @@ internal class ScanInfoView: UIView {
     private var assetData: Assets?
 
     // MARK: - Default
-    override internal init(frame: CGRect) {
+    internal init(isCodeEnable: Bool) {
         super.init(frame: .zero)
 //        self.backgroundColor = .lightGray
         self.addSubview(self.codeTxf)
@@ -37,7 +37,7 @@ internal class ScanInfoView: UIView {
         self.addSubview(self.discardTitleLbl)
         self.addSubview(self.discardSwitch)
 
-        self.componentSetting()
+        self.componentSetting(isCodeEnable: isCodeEnable)
     }
 
     @available(*, unavailable)
@@ -104,10 +104,10 @@ internal class ScanInfoView: UIView {
     }
 
     // MARK: - Layout
-    private func componentSetting() {
+    private func componentSetting(isCodeEnable: Bool) {
         self.codeTxf.placeholder = "資産コード"
         self.codeTxf.text = self.assetData?.code
-        self.codeTxf.isEnabled = false
+        self.codeTxf.isEnabled = isCodeEnable
 
         self.nameTxf.placeholder = "資産名"
         self.nameTxf.text = self.assetData?.name

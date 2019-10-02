@@ -103,7 +103,9 @@ extension UIViewController {
     }
 
     internal func pushNewNavigationController(rootViewController: UIViewController) {
-        self.present(UINavigationController(rootViewController: rootViewController), animated: true, completion: nil)
+        let vc = UINavigationController(rootViewController: rootViewController)
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
     }
 
     //    func setNavigationBarTitleLogo() {
