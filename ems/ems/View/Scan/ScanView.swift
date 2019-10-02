@@ -127,7 +127,7 @@ internal class ScanView: UIView {
     private func setInfoView(scanType: ScanViewType) {
         switch scanType {
         case .home:
-            scanInfoView = ScanInfoView()
+            scanInfoView = ScanInfoView(isCodeEnable: false)
 
         case .list:
             scanInfoView = ScanInfoList()
