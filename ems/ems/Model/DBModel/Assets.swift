@@ -21,7 +21,7 @@ internal class Assets: Object {
     internal dynamic var location: String?
     internal dynamic var quantity: Int = 0
 
-    enum Collection {
+    internal enum Collection {
         case persons
         case locations
         case assetNames
