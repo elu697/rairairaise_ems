@@ -15,6 +15,7 @@ def install_pods
     pod 'SwiftLint'
     pod 'IQKeyboardManagerSwift'
     pod 'Pring'
+    pod 'QRCodeReader.swift', '~> 10.1.0'
     
     pod 'Firebase/Core'
     pod 'Firebase/Firestore' 

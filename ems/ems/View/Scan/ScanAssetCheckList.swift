@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ScanInfoList: UIView {
+class ScanAssetCheckList: UIView {
     internal let tableView: UITableView
     override internal init(frame: CGRect) {
         tableView = UITableView(frame: .zero, style: .plain)
@@ -18,11 +18,15 @@ class ScanInfoList: UIView {
         addSubview(tableView)
     }
 
-    override internal func layoutSubviews() {
-        super.layoutSubviews()
+    override func updateConstraints() {
+        super.updateConstraints()
         tableView.snp.makeConstraints { make in
             make.width.height.equalToSuperview()
         }
+    }
+
+    override internal func layoutSubviews() {
+        super.layoutSubviews()
     }
 
     internal required init?(coder: NSCoder) {

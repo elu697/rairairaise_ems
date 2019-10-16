@@ -9,8 +9,8 @@
 import Material
 import UIKit
 
-internal protocol MenuDelegate {
-    func modeChanged(type: MenuViewController.MenuType)
+internal protocol MenuDelegate: AnyObject {
+    func modeChanged(type: MenuViewController.MenuType, viewController: UIViewController)
 }
 
 internal class MenuViewController: UIViewController {
@@ -19,10 +19,10 @@ internal class MenuViewController: UIViewController {
     private var tableView: UITableView? {
         return (self.view as? MenuView)?.tableView
     }
-    internal var delegate: MenuDelegate?
+    internal weak var delegate: MenuDelegate?
 
-    enum MenuType: Int, CaseIterable {
-        case register // 登録
+    internal enum MenuType: Int, CaseIterable {
+        case register
         case check
 
         internal var title: String {
@@ -55,24 +55,11 @@ internal class MenuViewController: UIViewController {
         self.setRightCloseBarButtonItem()
         self.setNavigationBarTitleString(title: R.string.localized.menuViewNavigationTitle())
     }
-
-    // MARK: - Function
-    // MARK: - Action
-
-    /*
-     // MARK: - Navigation
-
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
 }
 
 extension MenuViewController: UITableViewDataSource {
     internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        MenuType.allCases.count
+        return MenuType.allCases.count
     }
 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -84,11 +71,11 @@ extension MenuViewController: UITableViewDataSource {
 
 extension MenuViewController: UITableViewDelegate {
     internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let type = MenuType(rawValue: indexPath.row) else {
+        guard let menuType = MenuType(rawValue: indexPath.row) else {
             dissmissView()
             return
         }
-        delegate?.modeChanged(type: type)
+        delegate?.modeChanged(type: menuType, viewController: self)
         dissmissView()
     }
 }

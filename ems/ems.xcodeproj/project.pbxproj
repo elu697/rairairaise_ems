@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		0845480122E1606D00D79616 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0845480022E1606D00D79616 /* GoogleService-Info.plist */; };
 		08EF48E32334753B0015F46C /* UDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EF48E22334753B0015F46C /* UDManager.swift */; };
+		0B0C291D233DC80F000C1172 /* ScanAssetCheckList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0C291C233DC80F000C1172 /* ScanAssetCheckList.swift */; };
 		0B28258A23323E9400892912 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B28258923323E9400892912 /* Document.swift */; };
 		0B49BEDB232BC98500215D86 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B49BEDA232BC98500215D86 /* Person.swift */; };
 		0B49BEDF232BCB4E00215D86 /* Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B49BEDE232BCB4E00215D86 /* Locations.swift */; };
 		0B49BEE1232BCB7A00215D86 /* AssetNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B49BEE0232BCB7A00215D86 /* AssetNames.swift */; };
-		0B0C291D233DC80F000C1172 /* ScanInfoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0C291C233DC80F000C1172 /* ScanInfoList.swift */; };
+		0B837B7F2352F581006A6A95 /* ScanInfoInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B837B7E2352F581006A6A95 /* ScanInfoInputViewController.swift */; };
+		0B837B812352F76F006A6A95 /* ScanAssetCheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B837B802352F76F006A6A95 /* ScanAssetCheckListViewController.swift */; };
 		0BB2865B22FC1F11007B4E9D /* DBStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB2865A22FC1F11007B4E9D /* DBStore.swift */; };
 		0BB2865E22FE529B007B4E9D /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB2865D22FE529B007B4E9D /* Assets.swift */; };
 		0BC21818231BF16200D04E47 /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC21817231BF16200D04E47 /* Dispatch.swift */; };
@@ -42,7 +44,7 @@
 		892BD85722B33595005DBA8F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892BD85622B33595005DBA8F /* HomeView.swift */; };
 		892BD85922B35C75005DBA8F /* LoadingShimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892BD85822B35C75005DBA8F /* LoadingShimmer.swift */; };
 		892E753E232B3F2C00E7B8A4 /* icons8-delete_sign.png in Resources */ = {isa = PBXBuildFile; fileRef = 892E753D232B3F2C00E7B8A4 /* icons8-delete_sign.png */; };
-		894BB3C8230E60D40055FD3D /* ScanInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894BB3C7230E60D40055FD3D /* ScanInfoView.swift */; };
+		894BB3C8230E60D40055FD3D /* ScanInfoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894BB3C7230E60D40055FD3D /* ScanInfoInputView.swift */; };
 		8958D28422D9A3C2002337F3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8958D28322D9A3C2002337F3 /* Constants.swift */; };
 		897AB95F22D03824006E1F70 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897AB95E22D03824006E1F70 /* InfoView.swift */; };
 		8995F3C822C8905800830300 /* Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8995F3C722C8905800830300 /* Permission.swift */; };
@@ -100,11 +102,13 @@
 		00BC9CCE9A7BC52594591B68 /* Pods_emsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_emsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0845480022E1606D00D79616 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		08EF48E22334753B0015F46C /* UDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UDManager.swift; sourceTree = "<group>"; };
+		0B0C291C233DC80F000C1172 /* ScanAssetCheckList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanAssetCheckList.swift; sourceTree = "<group>"; };
 		0B28258923323E9400892912 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		0B49BEDA232BC98500215D86 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		0B49BEDE232BCB4E00215D86 /* Locations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locations.swift; sourceTree = "<group>"; };
 		0B49BEE0232BCB7A00215D86 /* AssetNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetNames.swift; sourceTree = "<group>"; };
-		0B0C291C233DC80F000C1172 /* ScanInfoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanInfoList.swift; sourceTree = "<group>"; };
+		0B837B7E2352F581006A6A95 /* ScanInfoInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanInfoInputViewController.swift; sourceTree = "<group>"; };
+		0B837B802352F76F006A6A95 /* ScanAssetCheckListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanAssetCheckListViewController.swift; sourceTree = "<group>"; };
 		0BB2865A22FC1F11007B4E9D /* DBStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBStore.swift; sourceTree = "<group>"; };
 		0BB2865D22FE529B007B4E9D /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		0BC21817231BF16200D04E47 /* Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
@@ -144,7 +148,7 @@
 		892BD85622B33595005DBA8F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		892BD85822B35C75005DBA8F /* LoadingShimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingShimmer.swift; sourceTree = "<group>"; };
 		892E753D232B3F2C00E7B8A4 /* icons8-delete_sign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-delete_sign.png"; sourceTree = "<group>"; };
-		894BB3C7230E60D40055FD3D /* ScanInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanInfoView.swift; sourceTree = "<group>"; };
+		894BB3C7230E60D40055FD3D /* ScanInfoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanInfoInputView.swift; sourceTree = "<group>"; };
 		8958D28322D9A3C2002337F3 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		897AB95E22D03824006E1F70 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		8984473023139B82008865A4 /* Asset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
@@ -212,6 +216,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B18F975235375EE008D5D8B /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				89AB156A22C72CB6000632E4 /* ScanViewController.swift */,
+				0B837B7E2352F581006A6A95 /* ScanInfoInputViewController.swift */,
+				0B837B802352F76F006A6A95 /* ScanAssetCheckListViewController.swift */,
+			);
+			path = Scan;
+			sourceTree = "<group>";
+		};
 		0BB2865C22FE5284007B4E9D /* DBModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -335,8 +349,8 @@
 		892BD82B22AFEBC1005DBA8F /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0B18F975235375EE008D5D8B /* Scan */,
 				892BD85222AFEE1D005DBA8F /* HomeViewController.swift */,
-				89AB156A22C72CB6000632E4 /* ScanViewController.swift */,
 				8995F3C922C8A1C800830300 /* SettingViewController.swift */,
 				8995F3CB22C8A1F300830300 /* MenuViewController.swift */,
 				8995F3CD22C8A21200830300 /* ProfileViewController.swift */,
@@ -383,8 +397,8 @@
 			isa = PBXGroup;
 			children = (
 				89AB156C22C72CC6000632E4 /* ScanView.swift */,
-				894BB3C7230E60D40055FD3D /* ScanInfoView.swift */,
-				0B0C291C233DC80F000C1172 /* ScanInfoList.swift */,
+				894BB3C7230E60D40055FD3D /* ScanInfoInputView.swift */,
+				0B0C291C233DC80F000C1172 /* ScanAssetCheckList.swift */,
 			);
 			path = Scan;
 			sourceTree = "<group>";
@@ -733,6 +747,7 @@
 				897AB95F22D03824006E1F70 /* InfoView.swift in Sources */,
 				8995F3E222C8EB5A00830300 /* Bundle.swift in Sources */,
 				892BD84922AFEC91005DBA8F /* UITextField.swift in Sources */,
+				0B837B812352F76F006A6A95 /* ScanAssetCheckListViewController.swift in Sources */,
 				8995F3D822C8A2F700830300 /* ProfileView.swift in Sources */,
 				89AB156F22C752E7000632E4 /* Sound.swift in Sources */,
 				89AB15E822C76F1B000632E4 /* ReaderOverlayView.swift in Sources */,
@@ -740,7 +755,7 @@
 				892BD84522AFEC91005DBA8F /* UIViewController.swift in Sources */,
 				89F9B74B23289A4A00F7C6EE /* Profile.swift in Sources */,
 				8995F3D422C8A2DF00830300 /* SettingView.swift in Sources */,
-				894BB3C8230E60D40055FD3D /* ScanInfoView.swift in Sources */,
+				894BB3C8230E60D40055FD3D /* ScanInfoInputView.swift in Sources */,
 				89AB15E422C76F1B000632E4 /* QRCodeReaderResult.swift in Sources */,
 				8995F3CA22C8A1C800830300 /* SettingViewController.swift in Sources */,
 				8958D28422D9A3C2002337F3 /* Constants.swift in Sources */,
@@ -753,6 +768,7 @@
 				892BD84822AFEC91005DBA8F /* UIFont.swift in Sources */,
 				89AB156B22C72CB6000632E4 /* ScanViewController.swift in Sources */,
 				892BD7FB22AFE590005DBA8F /* AppDelegate.swift in Sources */,
+				0B837B7F2352F581006A6A95 /* ScanInfoInputViewController.swift in Sources */,
 				892BD85522AFEE7D005DBA8F /* R.generated.swift in Sources */,
 				89AB15E722C76F1B000632E4 /* ToggleTorchButton.swift in Sources */,
 				89AB15E222C76F1B000632E4 /* QRCodeReaderViewControllerBuilder.swift in Sources */,
@@ -772,7 +788,7 @@
 				892BD83E22AFEC91005DBA8F /* UIApplication.swift in Sources */,
 				892BD84422AFEC91005DBA8F /* UIColor.swift in Sources */,
 				89AB15E522C76F1B000632E4 /* SwitchCameraButton.swift in Sources */,
-				0B0C291D233DC80F000C1172 /* ScanInfoList.swift in Sources */,
+				0B0C291D233DC80F000C1172 /* ScanAssetCheckList.swift in Sources */,
 				89AB15E122C76F1B000632E4 /* QRCodeReaderViewContainer.swift in Sources */,
 				0B49BEDB232BC98500215D86 /* Person.swift in Sources */,
 				892BD83F22AFEC91005DBA8F /* Array.swift in Sources */,

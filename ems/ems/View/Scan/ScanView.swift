@@ -104,38 +104,18 @@ internal class ScanView: UIView {
         return scanInfoLbl
     }()
 
-    private var scanViewType: ScanViewType
-
-    internal var scanInfoView: UIView?
+    internal var contentView = UIView()
 
     private var scanCode: String = "" //スキャンタイミング時に以前のQRと照らし合わせるための
-    private var scanFlag = true
 
-    internal init(scanType: ScanViewType) {
-        scanViewType = scanType
+    internal init(scaner: QRCodeReader) {
         super.init(frame: .zero)
 
+        scanPreviewView.setupComponents(with: scanViewBuild(scaner: scaner))
         setSubViews()
     }
 
     // MARK: - Default
-//    override internal init(frame: CGRect) {
-//        super.init(frame: .zero)
-//
-//    }
-
-    private func setInfoView(scanType: ScanViewType) {
-        switch scanType {
-        case .home:
-            scanInfoView = ScanInfoView(isCodeEnable: false)
-
-        case .list:
-            scanInfoView = ScanInfoList()
-
-        case .manage:
-            scanInfoView = nil
-        }
-    }
 
     private func setSubViews() {
         addSubview(scanPreviewView)
@@ -146,21 +126,7 @@ internal class ScanView: UIView {
         addSubview(settingBtn)
         addSubview(qrInfoLbl)
         addSubview(scanInfoLbl)
-        setInfoView(scanType: scanViewType)
-        if let scanInfoView = scanInfoView {
-            addSubview(scanInfoView)
-        }
-    }
-
-    internal func update(scanType: ScanViewType) {
-        scanViewType = scanType
-        scanInfoView?.removeFromSuperview()
-        resetConstraints()
-        setInfoView(scanType: scanType)
-        if let scanInfoView = scanInfoView {
-            addSubview(scanInfoView)
-        }
-        setNeedsUpdateConstraints()
+        addSubview(contentView)
     }
 
     @available(*, unavailable)
@@ -191,8 +157,8 @@ internal class ScanView: UIView {
             make.width.height.equalTo(70)
         }
 
-        switch scanViewType.showType {
-        case .default:
+        //switch scanViewType.showType {
+        //case .default:
             scanPreviewView.snp.makeConstraints { make in
                 make.top.left.right.equalToSuperview()
                 make.bottom.equalToSuperview().multipliedBy(0.45)
@@ -212,13 +178,13 @@ internal class ScanView: UIView {
                 make.right.equalTo(scanBtn.snp.left).offset(-42)
                 make.width.height.equalTo(40)
             }
-            scanInfoView?.snp.makeConstraints { make in
+            contentView.snp.makeConstraints { make in
                 make.top.equalTo(scanPreviewView.snp.bottom)
                 make.left.right.equalToSuperview()
                 make.bottom.equalTo(scanBtn.snp.top).offset(-5)
             }
 
-        case .remove:
+        /*case .remove:
             qrInfoLbl.snp.makeConstraints { make in
                 make.bottom.equalTo(scanInfoLbl.snp.top).offset(-5)
                 make.centerX.equalToSuperview()
@@ -227,7 +193,7 @@ internal class ScanView: UIView {
             scanPreviewView.snp.makeConstraints { make in
                 make.top.left.right.bottom.equalToSuperview()
             }
-        }
+        }*/
     }
 
     private func resetConstraints() {
@@ -235,21 +201,19 @@ internal class ScanView: UIView {
         qrInfoLbl.snp.removeConstraints()
         menuBtn.snp.removeConstraints()
         settingBtn.snp.removeConstraints()
-        if let scanInfoView = scanInfoView {
-            scanInfoView.snp.removeConstraints()
-        }
+        contentView.snp.removeConstraints()
     }
 
     override internal func layoutSubviews() {
-        switch scanViewType {
-        case .list, .home:
+        //switch scanViewType {
+        //case .list, .home:
             settingBtn.isHidden = false
             menuBtn.isHidden = false
 
-        case .manage:
+        /*case .manage:
             settingBtn.isHidden = true
             menuBtn.isHidden = true
-        }
+        }*/
     }
 
     private func convertRectOfInterest(rect: CGRect) -> CGRect {
@@ -263,68 +227,26 @@ internal class ScanView: UIView {
         return CGRect(x: newX, y: newY, width: newWidth, height: newHeight)
     }
 
-    // MARK: - Action
-
-    /*
-     // Only override draw() if you perform custom drawing.
-     // An empty implementation adversely affects performance during animation.
-     override func draw(_ rect: CGRect) {
-     // Drawing code
-     }
-     */
-}
-
-// MARK: - Internal Function
-extension ScanView {
-    internal func scanerSetting(scaner: QRCodeReader, _ find: @escaping (QRCodeReaderResult) -> Void, _ fail: @escaping () -> Void) {
+    private func scanViewBuild(scaner: QRCodeReader) -> QRCodeReaderViewControllerBuilder {
         let widthRect = 0.5
-        let heightRect = widthRect * (Double(UIScreen.main.bounds.width) / Double(UIScreen.main.bounds.height * ((self.scanViewType == .home) ? 0.45 : 1.0)))
+        let heightRect = widthRect * (Double(UIScreen.main.bounds.width) / Double(UIScreen.main.bounds.height * 0.45))
 
-        let scanViewBuild = QRCodeReaderViewControllerBuilder { build in
+        return QRCodeReaderViewControllerBuilder { build in
             build.reader = scaner
             build.showTorchButton = false
             build.showSwitchCameraButton = false
             build.showCancelButton = false
             build.showOverlayView = true
             build.handleOrientationChange = true
-            build.rectOfInterest = CGRect(x: (1.0 - widthRect) / 2.0, y: (1.0 - heightRect) / ((self.scanViewType == .home) ? 2.0 : 4.0), width: widthRect, height: heightRect)
-            //            build.rectOfInterest = convertRectOfInterest(rect: CGRect(x: 0.9, y: 0.9, width: 100, height: 100))
+            build.rectOfInterest = CGRect(x: (1.0 - widthRect) / 2.0, y: (1.0 - heightRect) / 2.0, width: widthRect, height: heightRect)
             build.preferredStatusBarStyle = .default
         }
-        self.scanPreviewView.setupComponents(with: scanViewBuild)
-        scaner.didFindCode = { result in
-            if self.scanFlag {
-                self.scanFlag = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                    self.scanFlag = true
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                    self.scanPreviewView.overlayView?.setState(.normal)
-                }
-
-                if result.value != self.scanCode {
-                    self.scanCode = result.value
-                    Sound.tone(mode: .x3dtouch2)
-                    self.scanPreviewView.overlayView?.setState(.valid)
-                    find(result)
-                } else {
-                    self.scanPreviewView.overlayView?.setState(.valid)
-                }
-            }
-        }
-        scaner.didFailDecoding = { () in
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-                self.scanPreviewView.overlayView?.setState(.normal)
-            }
-            Sound.tone(mode: .fail)
-            self.scanPreviewView.overlayView?.setState(.wrong)
-            fail()
-        }
-
-        scaner.stopScanningWhenCodeIsFound = false
-        scaner.startScanning()
     }
+    // MARK: - Action
+}
 
+// MARK: - Internal Function
+extension ScanView {
     internal func previewQrInfo(msg: String) {
         self.qrInfoLbl.text = msg
         self.qrInfoLbl.alpha = msg.isEmpty ? 0.0 : 1.0
