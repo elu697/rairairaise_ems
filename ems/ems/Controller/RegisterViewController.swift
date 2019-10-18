@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SVProgressHUD
 import UIKit
 
 internal class RegisterViewController: UIViewController {
@@ -24,10 +25,10 @@ internal class RegisterViewController: UIViewController {
 
     @objc
     internal func regist() {
-        print("登録")
         guard let viewController = children.first as? ScanInfoInputViewController else { return }
         guard let value = viewController.getInputValue(), let code = value[.code] as? String else { return }
 
+        SVProgressHUD.show()
         DBStore.share.set({ asset in
             asset.code = code
             asset.name = value[.name] as? String
@@ -37,9 +38,20 @@ internal class RegisterViewController: UIViewController {
             asset.loss = value[.loss] as? Bool ?? false
             asset.discard = value[.discard] as? Bool ?? false
         }, { error in
-            self.dissmissView()
-            print(error?.localizedDescription ?? "")
-        })
+            SVProgressHUD.dismiss()
+            guard let error = error else {
+                self.showAlert(title: "完了", message: "登録に成功しました。", { _ in
+                    print("OK")
+                }
+                )
+                return
+            }
+            self.showAlert(title: "エラー", message: error.descript, { _ in
+                print("OK")
+            }
+            )
+        }
+        )
     }
 
     override internal func viewDidLayoutSubviews() {

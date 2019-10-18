@@ -6,18 +6,31 @@
 //  Copyright © 2019 RaiRaiRaise. All rights reserved.
 //
 
+import Material
 import UIKit
 
 internal class ProfileView: UIView {
     // MARK: - Property
-    internal let nowPlace = UILabel(frame: .zero)
-    internal let input = UITextField(frame: .zero)
+    internal let inputField: TextField = {
+        let text = TextField()
+        text.placeholder = "現在地"
+        text.isEnabled = true
+        return text
+    }()
+
+    internal let reloadBtn: UIButton = {
+        let btn = UIButton(type: .system)
+        return btn
+    }()
 
     // MARK: - Default
     internal init() {
         super.init(frame: .zero)
-        addSubview(nowPlace)
-        addSubview(input)
+
+        reloadBtn.backgroundColor = .blue
+
+        addSubview(inputField)
+        addSubview(reloadBtn)
         updateConstraintsIfNeeded()
     }
 
@@ -29,14 +42,13 @@ internal class ProfileView: UIView {
     override internal func updateConstraints() {
         super.updateConstraints()
 
-        nowPlace.snp.makeConstraints { make in
-            make.width.height.lessThanOrEqualTo(100)
+        inputField.snp.makeConstraints { make in
+            make.width.equalToSuperview().multipliedBy(0.5)
             make.center.equalToSuperview()
         }
-        input.snp.makeConstraints { make in
-            make.width.greaterThanOrEqualTo(100)
-            make.height.lessThanOrEqualTo(100)
-            make.left.equalTo(nowPlace.snp.right)
+        reloadBtn.snp.makeConstraints { make in
+            make.width.height.equalTo(30)
+            make.left.equalTo(inputField.snp.right)
             make.centerY.equalToSuperview()
         }
     }

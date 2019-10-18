@@ -11,13 +11,24 @@ import UIKit
 
 internal class ScanAssetCheckList: UIView {
     internal let tableView: UITableView
+    internal let emptyLabel: UILabel
 
-    override init(frame: CGRect) {
+    var isEmpty = true {
+        didSet {
+            setNeedsUpdateConstraints()
+        }
+    }
+
+    override internal init(frame: CGRect) {
         tableView = UITableView(frame: .zero, style: .plain)
+        emptyLabel = UILabel(frame: .zero)
         super.init(frame: .zero)
 
         tableView.tableFooterView = UIView()
+
+        emptyLabel.text = "データが存在していません"
         addSubview(tableView)
+        addSubview(emptyLabel)
     }
 
     override internal func updateConstraints() {
@@ -25,10 +36,15 @@ internal class ScanAssetCheckList: UIView {
         tableView.snp.makeConstraints { make in
             make.width.height.equalToSuperview()
         }
+        emptyLabel.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
     }
 
     override internal func layoutSubviews() {
         super.layoutSubviews()
+        tableView.isHidden = isEmpty
+        emptyLabel.isHidden = !isEmpty
     }
 
     internal required init?(coder: NSCoder) {

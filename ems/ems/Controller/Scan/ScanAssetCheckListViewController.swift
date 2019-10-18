@@ -24,6 +24,18 @@ internal class ScanAssetCheckListViewController: UIViewController {
         view.tableView.dataSource = self
         view.setNeedsUpdateConstraints()
     }
+
+    internal func fetch(value: String) {
+        DBStore.share.search(field: .location, value: value) { assets, _ in
+            guard let assets = assets else { return }
+            self.assets = assets
+            DispatchQueue.main.async {
+                guard let view = self.view as? ScanAssetCheckList else { return }
+                view.isEmpty = self.assets.isEmpty
+                view.tableView.reloadData()
+            }
+        }
+    }
 }
 
 extension ScanAssetCheckListViewController: UITableViewDataSource {
@@ -33,6 +45,7 @@ extension ScanAssetCheckListViewController: UITableViewDataSource {
 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.className, for: indexPath)
+        cell.textLabel?.text = assets[indexPath.row].name ?? "名前が登録されていません"
         return cell
     }
 }

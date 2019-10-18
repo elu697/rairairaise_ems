@@ -163,11 +163,12 @@ extension ScanViewController {
         guard let scanView = view as? ScanView else { return }
         let contentVC = ProfileViewController()
         contentVC.modalPresentationStyle = .popover
-        contentVC.preferredContentSize = CGSize(width: view.bounds.width * 0.8, height: view.bounds.height * 0.7)
+        contentVC.preferredContentSize = CGSize(width: view.bounds.width * 0.6, height: view.bounds.height * 0.2)
         contentVC.popoverPresentationController?.sourceView = view
         contentVC.popoverPresentationController?.sourceRect = scanView.profileBtn.frame
         contentVC.popoverPresentationController?.permittedArrowDirections = .any
         contentVC.popoverPresentationController?.delegate = self
+        contentVC.delegate = self
         present(contentVC, animated: true, completion: nil)
     }
 
@@ -199,5 +200,15 @@ extension ScanViewController: MenuDelegate {
             return
         }
         currentView = type
+    }
+}
+
+extension ScanViewController: ProfileDelegate {
+    internal func reload(value: String?) {
+        if currentView == .check {
+            guard let vc = children.first as? ScanAssetCheckListViewController, let value = value else { return }
+            print("reload")
+            vc.fetch(value: value)
+        }
     }
 }

@@ -10,6 +10,8 @@ import UIKit
 
 internal class ProfileViewController: UIViewController {
     // MARK: - Property
+    internal var delegate: ProfileDelegate?
+
     // MARK: - Default
 
     override internal func loadView() {
@@ -18,7 +20,7 @@ internal class ProfileViewController: UIViewController {
 
     override internal func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .clear
+        view.backgroundColor = .white
         controllerSetting()
 
         // Do any additional setup after loading the view.
@@ -26,9 +28,20 @@ internal class ProfileViewController: UIViewController {
     // MARK: - Layout
     private func controllerSetting() {
         guard let view = view as? ProfileView else { return }
-        view.nowPlace.text = "現在地: "
-        view.input.backgroundColor = .white
+        view.inputField.backgroundColor = .white
+        view.reloadBtn.addTarget(self, action: #selector(relaod), for: .touchUpInside)
     }
     // MARK: - Function
+
+    @objc
+    private func relaod() {
+        guard let view = view as? ProfileView else { return }
+        print("tap")
+        delegate?.reload(value: view.inputField.text)
+    }
     // MARK: - Action
+}
+
+protocol ProfileDelegate {
+    func reload(value: String?)
 }

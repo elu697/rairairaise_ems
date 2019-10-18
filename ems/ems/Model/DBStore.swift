@@ -15,6 +15,20 @@ internal class DBStore {
 
     private init() {}
 
+    internal enum DBStoreError: Error {
+        case existCode
+        case failed
+
+        var descript: String {
+            switch self {
+            case .existCode:
+                return "既にその資産コードは登録されています。"
+            case .failed:
+                return "処理に失敗しました。"
+            }
+        }
+    }
+
     internal func update(code: String, set: @escaping (Assets) -> Void, complete: @escaping (Error?) -> Void) {
         Assets.isExist(keyPath: \Assets.code, value: code) { docRef, error in
             guard let docRef = docRef else { complete(error); return }
@@ -27,7 +41,7 @@ internal class DBStore {
         }
     }
 
-    internal func set(_ set: @escaping (Assets) -> Void, _ complete: @escaping (Error?) -> Void) {
+    internal func set(_ set: @escaping (Assets) -> Void, _ complete: @escaping (DBStoreError?) -> Void) {
         let asset = Assets()
         set(asset)
         if asset.code.isEmpty {
@@ -35,14 +49,15 @@ internal class DBStore {
         }
 
         Assets.isExist(keyPath: \Assets.code, value: asset.code) { docId, error in
-            if docId == nil {
-                if let error = error {
-                    complete(error)
-                    return
-                }
+            if error != nil {
+                complete(DBStoreError.failed)
+                return
+            } else if docId == nil {
                 asset.saveWithSetParam { error in
-                    complete(error)
+                    complete(error != nil ? DBStoreError.failed : nil)
                 }
+            } else {
+                complete(DBStoreError.existCode)
             }
         }
     }
@@ -66,7 +81,7 @@ internal class DBStore {
             dispatch.async {
                 guard let value = value as? String else { return }
                 Persons.getDocumentId(value: value) { docRef, error in
-                    guard let docRef = docRef else { dispatch.leave(); complete(nil, error); return }
+                    guard let docRef = docRef else { dispatch.leave(); complete([], error); return }
                     item = docRef
                     dispatch.leave()
                 }
@@ -76,7 +91,7 @@ internal class DBStore {
             dispatch.async {
                 guard let value = value as? String else { return }
                 Locations.getDocumentId(value: value) { docRef, error in
-                    guard let docRef = docRef else { dispatch.leave(); complete(nil, error); return }
+                    guard let docRef = docRef else { dispatch.leave(); complete([], error); return }
                     item = docRef
                     dispatch.leave()
                 }
@@ -86,7 +101,7 @@ internal class DBStore {
             dispatch.async {
                 guard let value = value as? String else { return }
                 AssetNames.getDocumentId(value: value) { docRef, error in
-                    guard let docRef = docRef else { dispatch.leave(); complete(nil, error); return }
+                    guard let docRef = docRef else { dispatch.leave(); complete([], error); return }
                     item = docRef
                     dispatch.leave()
                 }

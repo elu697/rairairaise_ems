@@ -93,6 +93,10 @@ internal class Assets: Object {
 
     internal static func getAssets(snapShots: [QueryDocumentSnapshot], _ complete: @escaping ([Assets]) -> Void) {
         var assets: [Assets] = []
+        guard !snapShots.isEmpty else {
+            complete(assets)
+            return
+        }
         let dispatch = Dispatch(label: "assets")
 
         snapShots.forEach { docRef in
