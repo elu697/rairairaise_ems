@@ -124,20 +124,47 @@ extension Assets {
                 switch field.type {
                 case .persons:
                     Persons.isExist(keyPath: \Persons.name, value: self.getValue(field: field)) { docRef, _ in
-                        data[field] = docRef
-                        dispatch.leave()
+                        if let docRef = docRef {
+                            data[field] = docRef
+                            dispatch.leave()
+                        } else {
+                            let person = Persons()
+                            person.name = self.getValue(field: field)
+                            person.save { docRef, _ in
+                                data[field] = docRef
+                                dispatch.leave()
+                            }
+                        }
                     }
 
                 case .assetNames:
                     AssetNames.isExist(keyPath: \AssetNames.assetName, value: self.getValue(field: field)) { docRef, _ in
-                        data[field] = docRef
-                        dispatch.leave()
+                        if let docRef = docRef {
+                            data[field] = docRef
+                            dispatch.leave()
+                        } else {
+                            let assetName = AssetNames()
+                            assetName.assetName = self.getValue(field: field)
+                            assetName.save { docRef, _ in
+                                data[field] = docRef
+                                dispatch.leave()
+                            }
+                        }
                     }
 
                 case .locations:
                     Locations.isExist(keyPath: \Locations.location, value: self.getValue(field: field)) { docRef, _ in
-                        data[field] = docRef
-                        dispatch.leave()
+                        if let docRef = docRef {
+                            data[field] = docRef
+                            dispatch.leave()
+                        } else {
+                            let location = Locations()
+                            location.location = self.getValue(field: field)
+                            location.save { docRef, _ in
+                                data[field] = docRef
+                                dispatch.leave()
+                            }
+                        }
                     }
                 default: dispatch.leave(); return
                 }

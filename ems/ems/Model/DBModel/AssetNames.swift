@@ -20,7 +20,15 @@ internal class AssetNames: Object {
                 complete(nil, error)
                 return
             }
-            complete(snapShot.documents.first, nil)
+            if let first = snapShot.documents.first {
+                complete(first, nil)
+            } else {
+                let assetName = AssetNames()
+                assetName.assetName = value
+                assetName.save { _, _ in
+                    getDocumentId(value: value, complete)
+                }
+            }
         }
     }
 }
