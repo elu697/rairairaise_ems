@@ -22,15 +22,18 @@ internal class MenuViewController: UIViewController {
     internal weak var delegate: MenuDelegate?
 
     internal enum MenuType: Int, CaseIterable {
-        case register
+        case change
         case check
+        case register
 
         internal var title: String {
             switch self {
-            case .register:
-                return "資産情報登録"
+            case .change:
+                return "資産情報変更"
             case .check:
                 return "資産情報確認"
+            case .register:
+                return "資産情報登録"
             }
         }
     }
@@ -75,7 +78,7 @@ extension MenuViewController: UITableViewDelegate {
             dissmissView()
             return
         }
-        delegate?.modeChanged(type: menuType, viewController: self)
         dissmissView()
+        delegate?.modeChanged(type: menuType, viewController: self)
     }
 }

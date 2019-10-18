@@ -9,16 +9,18 @@
 import Foundation
 import UIKit
 
-class ScanAssetCheckList: UIView {
+internal class ScanAssetCheckList: UIView {
     internal let tableView: UITableView
-    override internal init(frame: CGRect) {
+
+    override init(frame: CGRect) {
         tableView = UITableView(frame: .zero, style: .plain)
         super.init(frame: .zero)
 
+        tableView.tableFooterView = UIView()
         addSubview(tableView)
     }
 
-    override func updateConstraints() {
+    override internal func updateConstraints() {
         super.updateConstraints()
         tableView.snp.makeConstraints { make in
             make.width.height.equalToSuperview()

@@ -17,9 +17,9 @@ internal class ScanInfoInputView: UIView {
     internal let placeTxf = TextField()
 
     private let lostTitleLbl = UILabel()
-    private let lostSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
+    internal let lostSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
     private let discardTitleLbl = UILabel()
-    private let discardSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
+    internal let discardSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
 
     private var assetData: Assets?
 
@@ -37,6 +37,7 @@ internal class ScanInfoInputView: UIView {
         self.addSubview(self.discardTitleLbl)
         self.addSubview(self.discardSwitch)
 
+        autoresizingMask = [.flexibleWidth, .flexibleHeight]
         componentSetting(isCodeEnable: isCodeEnable)
     }
 
@@ -47,7 +48,7 @@ internal class ScanInfoInputView: UIView {
 
     override internal func updateConstraints() {
         super.updateConstraints()
-        guard frame != .zero else { return }
+
         codeTxf.snp.makeConstraints { make in
             make.top.equalTo(40)
             make.left.equalTo(20)

@@ -121,8 +121,8 @@ internal class ScanView: UIView {
         addSubview(scanPreviewView)
         addSubview(scanBtn)
         addSubview(flashBtn)
-        addSubview(profileBtn)
         addSubview(menuBtn)
+        addSubview(profileBtn)
         addSubview(settingBtn)
         addSubview(qrInfoLbl)
         addSubview(scanInfoLbl)
@@ -159,30 +159,30 @@ internal class ScanView: UIView {
 
         //switch scanViewType.showType {
         //case .default:
-            scanPreviewView.snp.makeConstraints { make in
-                make.top.left.right.equalToSuperview()
-                make.bottom.equalToSuperview().multipliedBy(0.45)
-            }
-            qrInfoLbl.snp.makeConstraints { make in
-                make.bottom.equalTo(scanPreviewView.snp.bottom).offset(-15)
-                make.centerX.equalToSuperview()
-                make.width.equalToSuperview().multipliedBy(0.8)
-            }
-            menuBtn.snp.makeConstraints { make in
-                make.centerY.equalTo(scanBtn.snp.centerY)
-                make.left.equalTo(scanBtn.snp.right).offset(40)
-                make.width.height.equalTo(40)
-            }
-            settingBtn.snp.makeConstraints { make in
-                make.centerY.equalTo(scanBtn.snp.centerY)
-                make.right.equalTo(scanBtn.snp.left).offset(-42)
-                make.width.height.equalTo(40)
-            }
-            contentView.snp.makeConstraints { make in
-                make.top.equalTo(scanPreviewView.snp.bottom)
-                make.left.right.equalToSuperview()
-                make.bottom.equalTo(scanBtn.snp.top).offset(-5)
-            }
+        scanPreviewView.snp.makeConstraints { make in
+            make.top.left.right.equalToSuperview()
+            make.bottom.equalToSuperview().multipliedBy(0.45)
+        }
+        qrInfoLbl.snp.makeConstraints { make in
+            make.bottom.equalTo(scanPreviewView.snp.bottom).offset(-15)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.8)
+        }
+        menuBtn.snp.makeConstraints { make in
+            make.centerY.equalTo(scanBtn.snp.centerY)
+            make.left.equalTo(scanBtn.snp.right).offset(40)
+            make.width.height.equalTo(40)
+        }
+        settingBtn.snp.makeConstraints { make in
+            make.centerY.equalTo(scanBtn.snp.centerY)
+            make.right.equalTo(scanBtn.snp.left).offset(-42)
+            make.width.height.equalTo(40)
+        }
+        contentView.snp.makeConstraints { make in
+            make.top.equalTo(scanPreviewView.snp.bottom)
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(scanBtn.snp.top).offset(-5)
+        }
 
         /*case .remove:
             qrInfoLbl.snp.makeConstraints { make in
@@ -207,8 +207,8 @@ internal class ScanView: UIView {
     override internal func layoutSubviews() {
         //switch scanViewType {
         //case .list, .home:
-            settingBtn.isHidden = false
-            menuBtn.isHidden = false
+        settingBtn.isHidden = false
+            //menuBtn.isHidden = false
 
         /*case .manage:
             settingBtn.isHidden = true

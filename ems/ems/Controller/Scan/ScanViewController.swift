@@ -16,7 +16,7 @@ internal class ScanViewController: UIViewController {
     // MARK: - Property
     internal let scanReader = QRCodeReader(metadataObjectTypes: [AVMetadataObject.ObjectType.qr], captureDevicePosition: .back)
     internal let infoViewList = [ScanInfoInputViewController.self, ScanAssetCheckListViewController.self]
-    internal var currentView: MenuViewController.MenuType = MenuViewController.MenuType.register
+    internal var currentView: MenuViewController.MenuType = MenuViewController.MenuType.change
 
     private var beforeQrData = ""
     private var scanQrData = String()
@@ -193,6 +193,11 @@ extension ScanViewController: UIPopoverPresentationControllerDelegate {
 
 extension ScanViewController: MenuDelegate {
     internal func modeChanged(type: MenuViewController.MenuType, viewController: UIViewController) {
+        if type == .register {
+            let vc = RegisterViewController()
+            present(vc, animated: true, completion: nil)
+            return
+        }
         currentView = type
     }
 }

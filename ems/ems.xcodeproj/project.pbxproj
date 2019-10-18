@@ -16,6 +16,8 @@
 		0B49BEE1232BCB7A00215D86 /* AssetNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B49BEE0232BCB7A00215D86 /* AssetNames.swift */; };
 		0B837B7F2352F581006A6A95 /* ScanInfoInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B837B7E2352F581006A6A95 /* ScanInfoInputViewController.swift */; };
 		0B837B812352F76F006A6A95 /* ScanAssetCheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B837B802352F76F006A6A95 /* ScanAssetCheckListViewController.swift */; };
+		0B90CC772359535F0048715D /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B90CC762359535F0048715D /* RegisterViewController.swift */; };
+		0B90CC79235955400048715D /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B90CC78235955400048715D /* RegisterView.swift */; };
 		0BB2865B22FC1F11007B4E9D /* DBStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB2865A22FC1F11007B4E9D /* DBStore.swift */; };
 		0BB2865E22FE529B007B4E9D /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB2865D22FE529B007B4E9D /* Assets.swift */; };
 		0BC21818231BF16200D04E47 /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC21817231BF16200D04E47 /* Dispatch.swift */; };
@@ -109,6 +111,8 @@
 		0B49BEE0232BCB7A00215D86 /* AssetNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetNames.swift; sourceTree = "<group>"; };
 		0B837B7E2352F581006A6A95 /* ScanInfoInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanInfoInputViewController.swift; sourceTree = "<group>"; };
 		0B837B802352F76F006A6A95 /* ScanAssetCheckListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanAssetCheckListViewController.swift; sourceTree = "<group>"; };
+		0B90CC762359535F0048715D /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		0B90CC78235955400048715D /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		0BB2865A22FC1F11007B4E9D /* DBStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBStore.swift; sourceTree = "<group>"; };
 		0BB2865D22FE529B007B4E9D /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		0BC21817231BF16200D04E47 /* Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
@@ -342,6 +346,7 @@
 				8995F3D322C8A2DF00830300 /* SettingView.swift */,
 				8995F3D522C8A2E900830300 /* MenuView.swift */,
 				8995F3D722C8A2F700830300 /* ProfileView.swift */,
+				0B90CC78235955400048715D /* RegisterView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -354,6 +359,7 @@
 				8995F3C922C8A1C800830300 /* SettingViewController.swift */,
 				8995F3CB22C8A1F300830300 /* MenuViewController.swift */,
 				8995F3CD22C8A21200830300 /* ProfileViewController.swift */,
+				0B90CC762359535F0048715D /* RegisterViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -771,6 +777,7 @@
 				0B837B7F2352F581006A6A95 /* ScanInfoInputViewController.swift in Sources */,
 				892BD85522AFEE7D005DBA8F /* R.generated.swift in Sources */,
 				89AB15E722C76F1B000632E4 /* ToggleTorchButton.swift in Sources */,
+				0B90CC79235955400048715D /* RegisterView.swift in Sources */,
 				89AB15E222C76F1B000632E4 /* QRCodeReaderViewControllerBuilder.swift in Sources */,
 				892BD85722B33595005DBA8F /* HomeView.swift in Sources */,
 				892BD84322AFEC91005DBA8F /* UICollectionView.swift in Sources */,
@@ -795,6 +802,7 @@
 				892BD85922B35C75005DBA8F /* LoadingShimmer.swift in Sources */,
 				8995F3CC22C8A1F300830300 /* MenuViewController.swift in Sources */,
 				89AB15E022C76F1B000632E4 /* QRCodeReaderViewControllerDelegate.swift in Sources */,
+				0B90CC772359535F0048715D /* RegisterViewController.swift in Sources */,
 				0B28258A23323E9400892912 /* Document.swift in Sources */,
 				892BD84722AFEC91005DBA8F /* UIView.swift in Sources */,
 				8995F3E022C8EB2C00830300 /* UIDevice.swift in Sources */,
