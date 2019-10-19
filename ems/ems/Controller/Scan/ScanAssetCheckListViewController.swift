@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SVProgressHUD
 import UIKit
 
 internal class ScanAssetCheckListViewController: UIViewController {
@@ -26,10 +27,12 @@ internal class ScanAssetCheckListViewController: UIViewController {
     }
 
     internal func fetch(value: String) {
+        SVProgressHUD.show()
         DBStore.share.search(field: .location, value: value) { assets, _ in
             guard let assets = assets else { return }
             self.assets = assets
             DispatchQueue.main.async {
+                SVProgressHUD.dismiss()
                 guard let view = self.view as? ScanAssetCheckList else { return }
                 view.isEmpty = self.assets.isEmpty
                 view.tableView.reloadData()
