@@ -12,6 +12,7 @@ import UIKit
 
 internal class ScanAssetCheckListViewController: UIViewController {
     private var assets: [Assets] = []
+    private var checkList: [String: Bool] = [:]
 
     override internal func loadView() {
         view = ScanAssetCheckList()
@@ -26,18 +27,33 @@ internal class ScanAssetCheckListViewController: UIViewController {
         view.setNeedsUpdateConstraints()
     }
 
-    internal func fetch(value: String) {
+    internal func fetch(value: String, _ err: @escaping (DBStore.DBStoreError) -> Void) {
         SVProgressHUD.show()
-        DBStore.share.search(field: .location, value: value) { assets, _ in
-            guard let assets = assets else { return }
+        DBStore.share.search(field: .location, value: value) { assets, error in
+            guard let assets = assets else {
+                DispatchQueue.main.async {
+                    err(error != nil ? .failed : .notFound)
+                    SVProgressHUD.dismiss()
+                }
+                return
+            }
             self.assets = assets
+            for item in assets {
+                self.checkList[item.code] = false
+            }
             DispatchQueue.main.async {
-                SVProgressHUD.dismiss()
                 guard let view = self.view as? ScanAssetCheckList else { return }
                 view.isEmpty = self.assets.isEmpty
                 view.tableView.reloadData()
+                SVProgressHUD.dismiss()
             }
         }
+    }
+
+    internal func check(code: String) {
+        checkList[code] = true
+        guard let view = view as? ScanAssetCheckList else { return }
+        view.tableView.reloadData()
     }
 }
 
@@ -49,6 +65,11 @@ extension ScanAssetCheckListViewController: UITableViewDataSource {
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.className, for: indexPath)
         cell.textLabel?.text = assets[indexPath.row].name ?? "名前が登録されていません"
+        if let isChecked = checkList[assets[indexPath.row].code], isChecked {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
         return cell
     }
 }

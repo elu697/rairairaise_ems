@@ -18,6 +18,7 @@ internal class DBStore {
     internal enum DBStoreError: Error {
         case existCode
         case failed
+        case notFound
 
         var descript: String {
             switch self {
@@ -25,6 +26,8 @@ internal class DBStore {
                 return "既にその資産コードは登録されています。"
             case .failed:
                 return "処理に失敗しました。"
+            case .notFound:
+                return "お探しの資産情報は見つかりませんでした。"
             }
         }
     }
@@ -73,7 +76,7 @@ internal class DBStore {
         }
     }
 
-    internal func search(field: Assets.Field, value: Any, _ complete: @escaping ([Assets]?, Error?) -> Void) {
+    internal func search(field: Assets.Field, value: Any, limit: Int? = nil, _ complete: @escaping ([Assets]?, Error?) -> Void) {
         let dispatch = Dispatch(label: "search")
         var item: Any?
         switch field.type {
@@ -116,14 +119,27 @@ internal class DBStore {
 
         dispatch.notify {
             guard let searchItem = item, let query = self.classificationQuery(field: field, value: searchItem) else { return }
-            query.get { snapShot, error in
-                guard let snapShot = snapShot else {
-                    complete(nil, error)
-                    return
+            if let limit = limit {
+                query.limit(to: limit).get { snapShot, error in
+                    guard let snapShot = snapShot else {
+                        complete(nil, error)
+                        return
+                    }
+                    print("DBStore: \(snapShot.documents.count)")
+                    Assets.getAssets(snapShots: snapShot.documents) { assets in
+                        complete(assets, nil)
+                    }
                 }
-                print("DBStore: \(snapShot.documents.count)")
-                Assets.getAssets(snapShots: snapShot.documents) { assets in
-                    complete(assets, nil)
+            } else {
+                query.get { snapShot, error in
+                    guard let snapShot = snapShot else {
+                        complete(nil, error)
+                        return
+                    }
+                    print("DBStore: \(snapShot.documents.count)")
+                    Assets.getAssets(snapShots: snapShot.documents) { assets in
+                        complete(assets, nil)
+                    }
                 }
             }
         }

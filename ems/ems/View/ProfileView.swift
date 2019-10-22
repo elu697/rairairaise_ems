@@ -18,16 +18,15 @@ internal class ProfileView: UIView {
         return text
     }()
 
-    internal let reloadBtn: UIButton = {
-        let btn = UIButton(type: .system)
+    internal let reloadBtn: IconButton = {
+        let btn = IconButton()
+        btn.image = Constants.Image.search
         return btn
     }()
 
     // MARK: - Default
     internal init() {
         super.init(frame: .zero)
-
-        reloadBtn.backgroundColor = .blue
 
         addSubview(inputField)
         addSubview(reloadBtn)
@@ -47,7 +46,7 @@ internal class ProfileView: UIView {
             make.center.equalToSuperview()
         }
         reloadBtn.snp.makeConstraints { make in
-            make.width.height.equalTo(30)
+            make.width.height.equalTo(25)
             make.left.equalTo(inputField.snp.right)
             make.centerY.equalToSuperview()
         }

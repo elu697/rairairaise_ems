@@ -88,6 +88,14 @@ extension ScanViewController {
         viewController.view.frame = view.contentView.bounds
         view.contentView.addSubview(viewController.view)
         viewController.didMove(toParent: self)
+
+        toggleProfileButton()
+    }
+
+    private func toggleProfileButton() {
+        guard let view = view as? ScanView else { return }
+        view.profileBtn.isEnabled = children.first is ScanAssetCheckListViewController
+        view.profileBtn.alpha = view.profileBtn.isEnabled ? 1.0 : 0.5
     }
 }
 
@@ -96,11 +104,30 @@ extension ScanViewController {
     private func scanerSetting() {
         guard let view = view as? ScanView else { return }
         scanReader.didFindCode = { result in
+            view.scanPreviewView.overlayView?.setState(.valid)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                view.scanPreviewView.overlayView?.setState(.normal)
+                self.beforeQrData = ""
+            }
             if self.beforeQrData != result.value {
                 self.beforeQrData = result.value
-                view.scanPreviewView.overlayView?.setState(.valid)
-            } else {
-                view.scanPreviewView.overlayView?.setState(.normal)
+                switch self.currentView {
+                case .check:
+                    if let child = self.children.first as? ScanAssetCheckListViewController {
+                        child.check(code: result.value)
+                    }
+
+                case .change:
+                    if let child = self.children.first as? ScanInfoInputViewController {
+                        child.fetch(value: result.value) { error in
+                            self.showAlert(title: "エラー", message: error.descript, { _ in
+                                print("OK")
+                            }
+                            )
+                        }
+                    }
+                default: ()
+                }
             }
         }
 
@@ -120,17 +147,6 @@ extension ScanViewController {
         scanView.profileBtn.addTarget(self, action: #selector(tappedProfileBtn), for: .touchUpInside)
         scanView.menuBtn.addTarget(self, action: #selector(tappedMenuBtn), for: .touchUpInside)
         scanView.settingBtn.addTarget(self, action: #selector(tappedSettingBtn), for: .touchUpInside)
-
-        /*scanView.scanerSetting(
-            // swiftlint:disable:next multiline_arguments
-            scaner: scanReader, { result in
-                // TODO: TODO Network
-                scanView.previewQrInfo(msg: result.value)
-                self.scanQrData = result.value
-            }, {
-                scanView.previewQrInfo(msg: "error")
-            }
-        )*/
     }
 }
 
@@ -148,7 +164,6 @@ extension ScanViewController {
             scanQrData.removeAll()
             scanView.previewQrInfo(msg: "")
             scanView.previewScanInfo(msg: "\(scanQrDatas.count)品スキャン済み")
-            //self.scanView.scanInfoView.setAssetData(data: Asset(code: "0001", name: "テスト机", admin: "テスター", user: "テスター", loss: true, discard: true, location: "nil", quantity: 1))
         }
     }
 
@@ -208,7 +223,13 @@ extension ScanViewController: ProfileDelegate {
         if currentView == .check {
             guard let vc = children.first as? ScanAssetCheckListViewController, let value = value else { return }
             print("reload")
-            vc.fetch(value: value)
+            vc.fetch(value: value) { error in
+                self.showAlert(title: "エラー", message: error.descript, { _ in
+                    print("OK")
+                }
+                )
+            }
+            beforeQrData = ""
         }
     }
 }

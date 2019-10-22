@@ -7,9 +7,13 @@
 //
 
 import Foundation
+import SVProgressHUD
 import UIKit
 
 internal class ScanInfoInputViewController: UIViewController {
+    private var isFetching = false
+    private var beforeCode = ""
+
     override internal func loadView() {
         view = ScanInfoInputView(isCodeEnable: true)
     }
@@ -17,6 +21,18 @@ internal class ScanInfoInputViewController: UIViewController {
     override internal func viewDidLoad() {
         super.viewDidLoad()
         view.setNeedsUpdateConstraints()
+    }
+
+    private func setInputValue(value: Assets) {
+        guard let view = view as? ScanInfoInputView else { return }
+
+        view.codeTxf.text = value.code
+        view.nameTxf.text = value.name
+        view.adminTxf.text = value.admin
+        view.userTxf.text = value.user
+        view.placeTxf.text = value.location
+        view.lostSwitch.setSwitchState(state: value.loss ? .on : .off, animated: true, completion: nil)
+        view.discardSwitch.setSwitchState(state: value.discard ? .on : .off, animated: true, completion: nil)
     }
 
     internal func getInputValue() -> [Assets.Field: Any?]? {
@@ -39,5 +55,25 @@ internal class ScanInfoInputViewController: UIViewController {
     private func validate() -> Bool {
         guard let view = view as? ScanInfoInputView, let code = view.codeTxf.text else { return false }
         return !code.isEmpty
+    }
+
+    internal func fetch(value: String, _ err: @escaping (DBStore.DBStoreError) -> Void) {
+        guard !isFetching, value != beforeCode else { return }
+        SVProgressHUD.show()
+        isFetching = true
+        print("fetch")
+        DBStore.share.search(field: .code, value: value, limit: 1) { assets, error in
+            DispatchQueue.main.async {
+                if let asset = assets?.first {
+                    self.beforeCode = asset.code
+                    self.setInputValue(value: asset)
+                } else {
+                    err(error != nil ? .failed : .notFound)
+                }
+
+                SVProgressHUD.dismiss()
+                self.isFetching = false
+            }
+        }
     }
 }
