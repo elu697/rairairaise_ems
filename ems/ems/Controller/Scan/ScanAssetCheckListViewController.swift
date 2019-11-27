@@ -24,6 +24,7 @@ internal class ScanAssetCheckListViewController: UIViewController {
         guard let view = view as? ScanAssetCheckList else { return }
         view.tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.className)
         view.tableView.dataSource = self
+        view.tableView.delegate = self
         view.setNeedsUpdateConstraints()
     }
 
@@ -77,5 +78,10 @@ extension ScanAssetCheckListViewController: UITableViewDataSource {
 extension ScanAssetCheckListViewController: UITableViewDelegate {
     internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("\(className): tap")
+        let vc = ScanInfoInputViewController()
+        present(vc, animated: true, completion: nil)
+        vc.fetch(value: assets[indexPath.row].code) { error in
+            print(error)
+        }
     }
 }

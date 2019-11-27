@@ -39,6 +39,8 @@ internal class ScanInfoInputView: UIView {
 
         autoresizingMask = [.flexibleWidth, .flexibleHeight]
         componentSetting(isCodeEnable: isCodeEnable)
+
+        backgroundColor = .white
     }
 
     @available(*, unavailable)

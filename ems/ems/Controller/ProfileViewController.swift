@@ -10,7 +10,7 @@ import UIKit
 
 internal class ProfileViewController: UIViewController {
     // MARK: - Property
-    internal var delegate: ProfileDelegate?
+    internal weak var delegate: ProfileDelegate?
 
     // MARK: - Default
 
@@ -42,6 +42,6 @@ internal class ProfileViewController: UIViewController {
     // MARK: - Action
 }
 
-protocol ProfileDelegate {
+internal protocol ProfileDelegate: AnyObject {
     func reload(value: String?)
 }
