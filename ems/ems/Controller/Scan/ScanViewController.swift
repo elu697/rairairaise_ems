@@ -21,6 +21,7 @@ internal class ScanViewController: UIViewController {
     private var beforeQrData = ""
     private var scanQrData = String()
     private var scanQrDatas = [String]()
+    private var searchValue = ""
 
     // view.contentView.boundsが0の時を回避するためのflag
     private var isFirstLoading = true
@@ -120,6 +121,7 @@ extension ScanViewController {
                 case .change:
                     if let child = self.children.first as? ScanInfoInputViewController {
                         child.fetch(value: result.value) { error in
+                            guard let error = error else { return }
                             self.showAlert(title: "エラー", message: error.descript, { _ in
                                 print("OK")
                             }
@@ -210,8 +212,7 @@ extension ScanViewController: UIPopoverPresentationControllerDelegate {
 extension ScanViewController: MenuDelegate {
     internal func modeChanged(type: MenuViewController.MenuType, viewController: UIViewController) {
         if type == .register {
-            let vc = RegisterViewController()
-            present(vc, animated: true, completion: nil)
+            pushNewNavigationController(rootViewController: RegisterViewController())
             return
         }
         currentView = type

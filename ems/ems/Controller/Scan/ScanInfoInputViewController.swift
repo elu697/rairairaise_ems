@@ -57,7 +57,7 @@ internal class ScanInfoInputViewController: UIViewController {
         return !code.isEmpty
     }
 
-    internal func fetch(value: String, _ err: @escaping (DBStore.DBStoreError) -> Void) {
+    internal func fetch(value: String, _ comp: @escaping (DBStore.DBStoreError?) -> Void) {
         guard !isFetching, value != beforeCode else { return }
         SVProgressHUD.show()
         isFetching = true
@@ -68,9 +68,13 @@ internal class ScanInfoInputViewController: UIViewController {
                     self.beforeCode = asset.code
                     self.setInputValue(value: asset)
                 } else {
-                    err(error != nil ? .failed : .notFound)
+                    comp(error != nil ? .failed : .notFound)
+                    SVProgressHUD.dismiss()
+                    self.isFetching = false
+                    return
                 }
 
+                comp(nil)
                 SVProgressHUD.dismiss()
                 self.isFetching = false
             }

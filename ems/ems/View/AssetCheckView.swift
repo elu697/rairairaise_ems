@@ -1,26 +1,23 @@
 //
-//  RegisterView.swift
+//  AssetCheckView.swift
 //  ems
 //
-//  Created by 吉野瑠 on 2019/10/18.
+//  Created by 吉野瑠 on 2019/11/28.
 //  Copyright © 2019 RaiRaiRaise. All rights reserved.
 //
 
 import Foundation
-import SnapKit
 import UIKit
 
-internal class RegisterView: UIView {
-    internal var content = UIView()
-    internal var registBtn = UIButton(type: .system)
+internal class AssetCheckView: UIView {
+    internal var content = ScanInfoInputView(isCodeEnable: false)
 
-    internal init() {
+    override internal init(frame: CGRect) {
         super.init(frame: .zero)
 
-        registBtn.backgroundColor = .blue
+        backgroundColor = .white
 
         addSubview(content)
-        addSubview(registBtn)
     }
 
     override internal func updateConstraints() {
@@ -31,14 +28,9 @@ internal class RegisterView: UIView {
             make.top.equalToSuperview().inset(64)
             make.bottom.equalToSuperview()
         }
-        registBtn.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.width.equalTo(80)
-            make.height.equalTo(40)
-        }
     }
 
-    internal required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

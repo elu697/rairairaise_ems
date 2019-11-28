@@ -19,8 +19,13 @@ internal class RegisterViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
 
+        setRightCloseBarButtonItem()
+        setNavigationBarTitleString(title: "資産情報登録")
+
         guard let view = view as? RegisterView else { return }
         view.registBtn.addTarget(self, action: #selector(regist), for: .touchUpInside)
+
+        view.setNeedsUpdateConstraints()
     }
 
     @objc
