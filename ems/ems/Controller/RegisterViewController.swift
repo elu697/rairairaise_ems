@@ -32,7 +32,7 @@ internal class RegisterViewController: UIViewController {
     internal func regist() {
         guard let viewController = children.first as? ScanInfoInputViewController else { return }
         guard let value = viewController.getInputValue(), let code = value[.code] as? String else { return }
-
+        guard !code.trimmingCharacters(in: .whitespaces).isEmpty else { return }
         SVProgressHUD.show()
         DBStore.share.set({ asset in
             asset.code = code

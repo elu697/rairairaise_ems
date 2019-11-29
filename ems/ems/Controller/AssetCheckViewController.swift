@@ -10,12 +10,12 @@ import Foundation
 import SVProgressHUD
 import UIKit
 
-class AssetCheckViewController: UIViewController {
-    override func loadView() {
+internal class AssetCheckViewController: UIViewController {
+    override internal func loadView() {
         view = AssetCheckView()
     }
 
-    override func viewDidLoad() {
+    override internal func viewDidLoad() {
         super.viewDidLoad()
         setRightCloseBarButtonItem()
         setNavigationBarTitleString(title: "資産情報確認")

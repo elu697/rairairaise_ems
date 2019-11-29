@@ -11,6 +11,7 @@ import UIKit
 internal class ProfileViewController: UIViewController {
     // MARK: - Property
     internal weak var delegate: ProfileDelegate?
+    private static var nowPlace = ""
 
     // MARK: - Default
 
@@ -29,6 +30,7 @@ internal class ProfileViewController: UIViewController {
     private func controllerSetting() {
         guard let view = view as? ProfileView else { return }
         view.inputField.backgroundColor = .white
+        view.inputField.text = ProfileViewController.nowPlace
         view.reloadBtn.addTarget(self, action: #selector(relaod), for: .touchUpInside)
     }
     // MARK: - Function
@@ -37,6 +39,9 @@ internal class ProfileViewController: UIViewController {
     private func relaod() {
         guard let view = view as? ProfileView else { return }
         print("tap")
+        if let text = view.inputField.text {
+            ProfileViewController.nowPlace = text
+        }
         delegate?.reload(value: view.inputField.text)
     }
     // MARK: - Action
