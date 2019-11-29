@@ -31,8 +31,18 @@ internal class RegisterViewController: UIViewController {
     @objc
     internal func regist() {
         guard let viewController = children.first as? ScanInfoInputViewController else { return }
-        guard let value = viewController.getInputValue(), let code = value[.code] as? String else { return }
-        guard !code.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+        guard let value = viewController.getInputValue(), let code = value[.code] as? String else {
+            showAlert(title: "エラー", message: "資産コードは必須入力です。", { _ in
+                print("OK")
+            })
+            return
+        }
+        guard !code.trimmingCharacters(in: .whitespaces).isEmpty else {
+            showAlert(title: "エラー", message: "空白のみの入力は受け付けられません。", { _ in
+                print("OK")
+            })
+            return
+        }
         SVProgressHUD.show()
         DBStore.share.set({ asset in
             asset.code = code
