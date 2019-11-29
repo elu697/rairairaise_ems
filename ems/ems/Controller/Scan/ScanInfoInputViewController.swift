@@ -31,6 +31,7 @@ internal class ScanInfoInputViewController: UIViewController {
         view.adminTxf.text = value.admin
         view.userTxf.text = value.user
         view.placeTxf.text = value.location
+        view.numberTxf.text = String(value.quantity)
         view.lostSwitch.setSwitchState(state: value.loss ? .on : .off, animated: true, completion: nil)
         view.discardSwitch.setSwitchState(state: value.discard ? .on : .off, animated: true, completion: nil)
     }
@@ -48,6 +49,7 @@ internal class ScanInfoInputViewController: UIViewController {
         value[.location] = view.placeTxf.text
         value[.loss] = view.lostSwitch.isOn
         value[.discard] = view.discardSwitch.isOn
+        value[.quantity] = view.numberTxf.text
 
         return value
     }

@@ -15,6 +15,7 @@ internal class ScanInfoInputView: UIView {
     internal let adminTxf = TextField()
     internal let userTxf = TextField()
     internal let placeTxf = TextField()
+    internal let numberTxf = TextField()
 
     private let lostTitleLbl = UILabel()
     internal let lostSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
@@ -27,15 +28,16 @@ internal class ScanInfoInputView: UIView {
     internal init(isCodeEnable: Bool) {
         super.init(frame: .zero)
 //        self.backgroundColor = .lightGray
-        self.addSubview(self.codeTxf)
-        self.addSubview(self.nameTxf)
-        self.addSubview(self.adminTxf)
-        self.addSubview(self.userTxf)
-        self.addSubview(self.placeTxf)
-        self.addSubview(self.lostTitleLbl)
-        self.addSubview(self.lostSwitch)
-        self.addSubview(self.discardTitleLbl)
-        self.addSubview(self.discardSwitch)
+        addSubview(codeTxf)
+        addSubview(nameTxf)
+        addSubview(adminTxf)
+        addSubview(userTxf)
+        addSubview(placeTxf)
+        addSubview(lostTitleLbl)
+        addSubview(lostSwitch)
+        addSubview(discardTitleLbl)
+        addSubview(discardSwitch)
+        addSubview(numberTxf)
 
         autoresizingMask = [.flexibleWidth, .flexibleHeight]
         componentSetting(isCodeEnable: isCodeEnable)
@@ -80,9 +82,15 @@ internal class ScanInfoInputView: UIView {
             make.width.equalToSuperview().multipliedBy(0.3)
         }
 
+        numberTxf.snp.makeConstraints { make in
+            make.top.equalTo(self.placeTxf.snp.top)
+            make.left.equalTo(self.placeTxf.snp.right).offset(20)
+            make.width.equalToSuperview().multipliedBy(0.2)
+        }
+
         lostTitleLbl.snp.makeConstraints { make in
             make.top.equalTo(self.adminTxf.snp.bottom).offset(20)
-            make.left.equalTo(self.placeTxf.snp.right).offset(40)
+            make.left.equalTo(self.numberTxf.snp.right).offset(40)
             make.width.equalTo(150)
         }
 
@@ -128,6 +136,11 @@ internal class ScanInfoInputView: UIView {
         self.placeTxf.placeholder = "管理場所"
         self.placeTxf.text = self.assetData?.location
         self.placeTxf.isEnabled = true
+
+        numberTxf.placeholder = "数量"
+        numberTxf.text = String(assetData?.quantity ?? 0)
+        numberTxf.isEnabled = true
+        numberTxf.keyboardType = .numberPad
 
         self.lostTitleLbl.text = "紛失"
         self.lostTitleLbl.font = .systemFont(ofSize: 13)

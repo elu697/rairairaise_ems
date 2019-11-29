@@ -34,13 +34,15 @@ internal class RegisterViewController: UIViewController {
         guard let value = viewController.getInputValue(), let code = value[.code] as? String else {
             showAlert(title: "エラー", message: "資産コードは必須入力です。", { _ in
                 print("OK")
-            })
+            }
+            )
             return
         }
         guard !code.trimmingCharacters(in: .whitespaces).isEmpty else {
             showAlert(title: "エラー", message: "空白のみの入力は受け付けられません。", { _ in
                 print("OK")
-            })
+            }
+            )
             return
         }
         SVProgressHUD.show()
@@ -52,6 +54,7 @@ internal class RegisterViewController: UIViewController {
             asset.location = value[.location] as? String
             asset.loss = value[.loss] as? Bool ?? false
             asset.discard = value[.discard] as? Bool ?? false
+            asset.quantity = Int(value[.quantity] as? String ?? "0") ?? 0
         }, { error in
             SVProgressHUD.dismiss()
             guard let error = error else {
