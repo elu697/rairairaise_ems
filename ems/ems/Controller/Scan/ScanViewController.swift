@@ -104,13 +104,32 @@ extension ScanViewController {
 extension ScanViewController {
     private func scanerSetting() {
         guard let view = view as? ScanView else { return }
-        scanReader.didFindCode = { result in
-            view.scanPreviewView.overlayView?.setState(.valid)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        scanReader.didNotFoundCode = {
+            DispatchQueue.main.async {
                 view.scanPreviewView.overlayView?.setState(.normal)
-                self.beforeQrData = ""
+                self.scanQrData = ""
             }
-            if self.beforeQrData != result.value {
+        }
+        scanReader.didFindCode = { result in
+            DispatchQueue.main.async {
+                view.scanPreviewView.overlayView?.setState(.valid)
+            }
+
+            guard self.scanQrData.isEmpty && !result.value.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+            switch self.currentView {
+            case .check:
+                if let child = self.children.first as? ScanAssetCheckListViewController {
+                    DispatchQueue.main.async {
+                        child.check(code: result.value)
+                    }
+                }
+
+            case .change:
+                self.scanQrData = result.value
+            default: ()
+            }
+
+            /*if self.beforeQrData != result.value {
                 self.beforeQrData = result.value
                 switch self.currentView {
                 case .check:
@@ -119,18 +138,10 @@ extension ScanViewController {
                     }
 
                 case .change:
-                    if let child = self.children.first as? ScanInfoInputViewController {
-                        child.fetch(value: result.value) { error in
-                            guard let error = error else { return }
-                            self.showAlert(title: "エラー", message: error.descript, { _ in
-                                print("OK")
-                            }
-                            )
-                        }
-                    }
+                    
                 default: ()
                 }
-            }
+            }*/
         }
 
         scanReader.didFailDecoding = {
@@ -161,11 +172,19 @@ extension ScanViewController {
             Sound.tone(mode: .fail)
             scanView.previewQrInfo(msg: "QRコードが読み込まれていません")
         } else {
-            Sound.tone(mode: .accept)//ok
-            scanQrDatas.append(self.scanQrData)
-            scanQrData.removeAll()
+            //Sound.tone(mode: .accept)//ok
             scanView.previewQrInfo(msg: "")
             scanView.previewScanInfo(msg: "\(scanQrDatas.count)品スキャン済み")
+
+            if let child = self.children.first as? ScanInfoInputViewController {
+                child.fetch(value: scanQrData) { error in
+                    guard let error = error else { return }
+                    self.showAlert(title: "エラー", message: error.descript, { _ in
+                        print("OK")
+                    }
+                    )
+                }
+            }
         }
     }
 

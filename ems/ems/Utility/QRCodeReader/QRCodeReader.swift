@@ -65,6 +65,29 @@ public final class QRCodeReader: NSObject, AVCaptureMetadataOutputObjectsDelegat
 
         return nil
     }()
+    
+    // MARK: - Custom
+    let videoOutput = AVCaptureVideoDataOutput()
+    private let outputObjectsQueue = DispatchQueue(label: "outputObjectsQueue", attributes: [], target: nil)
+    private var count = 0
+    private var isFirstNotFoundCall = false
+    private var isNotFound: Bool {
+        set {
+            if newValue {
+                if count < 5 {
+                    count += 1
+                }
+            } else {
+                count = 0
+            }
+        }
+        get {
+            count %= 5
+            return count == 0
+        }
+    }
+    
+    public var didNotFoundCode: (() -> Void)?
 
     let session = AVCaptureSession()
     let metadataOutput = AVCaptureMetadataOutput()
@@ -160,6 +183,11 @@ public final class QRCodeReader: NSObject, AVCaptureMetadataOutputObjectsDelegat
         // Add metadata output
         session.addOutput(metadataOutput)
         metadataOutput.setMetadataObjectsDelegate(self, queue: metadataObjectsQueue)
+        
+        // Custom
+        session.addOutput(videoOutput)
+        videoOutput.alwaysDiscardsLateVideoFrames = true
+        videoOutput.setSampleBufferDelegate(self, queue: outputObjectsQueue)
 
         let allTypes = Set(metadataOutput.availableMetadataObjectTypes)
         let filtered = metadataObjectTypes.filter { mediaType -> Bool in
@@ -403,6 +431,8 @@ public final class QRCodeReader: NSObject, AVCaptureMetadataOutputObjectsDelegat
 
                             DispatchQueue.main.async {
                                 weakSelf.didFindCode?(scannedResult)
+                                weakSelf.isNotFound = false
+                                weakSelf.isFirstNotFoundCall = true
                             }
                         }
                     }
@@ -410,6 +440,17 @@ public final class QRCodeReader: NSObject, AVCaptureMetadataOutputObjectsDelegat
                     weakSelf.didFailDecoding?()
                 }
             }
+        }
+    }
+}
+
+// MARK: - Custom Delegate
+extension QRCodeReader: AVCaptureVideoDataOutputSampleBufferDelegate {
+    public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        isNotFound = true
+        if isNotFound && isFirstNotFoundCall {
+            didNotFoundCode?()
+            isFirstNotFoundCall = false
         }
     }
 }
