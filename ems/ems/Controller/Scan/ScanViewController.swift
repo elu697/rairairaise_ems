@@ -91,12 +91,26 @@ extension ScanViewController {
         viewController.didMove(toParent: self)
 
         toggleProfileButton()
+        settingScanButton()
+        settingInfoLabel()
     }
 
     private func toggleProfileButton() {
         guard let view = view as? ScanView else { return }
         view.profileBtn.isEnabled = children.first is ScanAssetCheckListViewController
         view.profileBtn.alpha = view.profileBtn.isEnabled ? 1.0 : 0.5
+    }
+
+    private func settingScanButton() {
+        guard let view = view as? ScanView else { return }
+        view.scanBtn.isEnabled = !(children.first is ScanAssetCheckListViewController)
+        view.scanBtn.alpha = view.scanBtn.isEnabled ? 1.0 : 0.5
+    }
+
+    private func settingInfoLabel() {
+        guard let view = view as? ScanView else { return }
+        view.qrInfoLbl.isHidden = children.first is ScanAssetCheckListViewController
+        view.scanInfoLbl.isHidden = children.first is ScanAssetCheckListViewController
     }
 }
 
@@ -128,20 +142,6 @@ extension ScanViewController {
                 self.scanQrData = result.value
             default: ()
             }
-
-            /*if self.beforeQrData != result.value {
-                self.beforeQrData = result.value
-                switch self.currentView {
-                case .check:
-                    if let child = self.children.first as? ScanAssetCheckListViewController {
-                        child.check(code: result.value)
-                    }
-
-                case .change:
-                    
-                default: ()
-                }
-            }*/
         }
 
         scanReader.didFailDecoding = {

@@ -75,6 +75,7 @@ internal class RegisterViewController: UIViewController {
     override internal func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let vc = ScanInfoInputViewController()
+        vc.mode = .register
         updateInfoView(viewController: vc)
     }
 

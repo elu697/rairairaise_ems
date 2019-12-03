@@ -13,7 +13,7 @@ internal class ScanAssetCheckList: UIView {
     internal let tableView: UITableView
     internal let emptyLabel: UILabel
 
-    var isEmpty = true {
+    internal var isEmpty = true {
         didSet {
             setNeedsUpdateConstraints()
         }

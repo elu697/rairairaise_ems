@@ -14,6 +14,10 @@ internal class ScanInfoInputViewController: UIViewController {
     private var isFetching = false
     private var beforeCode = ""
 
+    internal var mode: MenuViewController.MenuType = .change
+
+    private static var cash: Assets?
+
     override internal func loadView() {
         view = ScanInfoInputView(isCodeEnable: true)
     }
@@ -21,6 +25,10 @@ internal class ScanInfoInputViewController: UIViewController {
     override internal func viewDidLoad() {
         super.viewDidLoad()
         view.setNeedsUpdateConstraints()
+
+        if let cash = ScanInfoInputViewController.cash, mode == .change {
+            setInputValue(value: cash)
+        }
     }
 
     private func setInputValue(value: Assets) {
@@ -34,6 +42,8 @@ internal class ScanInfoInputViewController: UIViewController {
         view.numberTxf.text = String(value.quantity)
         view.lostSwitch.setSwitchState(state: value.loss ? .on : .off, animated: true, completion: nil)
         view.discardSwitch.setSwitchState(state: value.discard ? .on : .off, animated: true, completion: nil)
+
+        ScanInfoInputViewController.cash = value
     }
 
     internal func getInputValue() -> [Assets.Field: Any?]? {
