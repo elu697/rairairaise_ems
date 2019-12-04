@@ -37,15 +37,6 @@ internal class ScanView: UIView {
         return button
     }()
 
-    internal let profileBtn: IconButton = {
-        let profileBtn = IconButton()
-        profileBtn.image = Constants.Image.user
-        profileBtn.tintColor = .white
-        profileBtn.pulseColor = .white
-        profileBtn.addShadow(direction: .bottom, radius: 2, color: .black, opacity: 0.5)
-        return profileBtn
-    }()
-
     internal let menuBtn: IconButton = {
         let menuBtn = IconButton()
         menuBtn.image = Constants.Image.menu
@@ -122,7 +113,6 @@ internal class ScanView: UIView {
         addSubview(scanBtn)
         addSubview(flashBtn)
         addSubview(menuBtn)
-        addSubview(profileBtn)
         addSubview(settingBtn)
         addSubview(qrInfoLbl)
         addSubview(scanInfoLbl)
@@ -140,11 +130,6 @@ internal class ScanView: UIView {
             make.top.equalToSuperview().offset(5 + safeAreaInsets.top)
             make.left.equalTo(28)
             make.width.height.equalTo(35)
-        }
-        profileBtn.snp.makeConstraints { make in
-            make.centerY.equalTo(self.flashBtn.snp_centerYWithinMargins)//Safe
-            make.right.equalTo(-27)
-            make.width.height.equalTo(32)
         }
         scanInfoLbl.snp.makeConstraints { make in
             make.bottom.equalTo(self.scanBtn.snp.top).offset(-20)

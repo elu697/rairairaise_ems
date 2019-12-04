@@ -89,21 +89,7 @@ extension ScanViewController {
         view.contentView.addSubview(viewController.view)
         viewController.didMove(toParent: self)
 
-        toggleProfileButton()
-        settingScanButton()
         settingInfoLabel()
-    }
-
-    private func toggleProfileButton() {
-        guard let view = view as? ScanView else { return }
-        view.profileBtn.isEnabled = children.first is ScanAssetCheckListViewController
-        view.profileBtn.alpha = view.profileBtn.isEnabled ? 1.0 : 0.5
-    }
-
-    private func settingScanButton() {
-        guard let view = view as? ScanView else { return }
-        view.scanBtn.isEnabled = !(children.first is ScanAssetCheckListViewController)
-        view.scanBtn.alpha = view.scanBtn.isEnabled ? 1.0 : 0.5
     }
 
     private func settingInfoLabel() {
@@ -156,7 +142,6 @@ extension ScanViewController {
         guard let scanView = view as? ScanView else { return }
         scanView.flashBtn.addTarget(self, action: #selector(tappedFlashBtn), for: .touchUpInside)
         scanView.scanBtn.addTarget(self, action: #selector(tappedScanBtn), for: .touchUpInside)
-        scanView.profileBtn.addTarget(self, action: #selector(tappedProfileBtn), for: .touchUpInside)
         scanView.menuBtn.addTarget(self, action: #selector(tappedMenuBtn), for: .touchUpInside)
         scanView.settingBtn.addTarget(self, action: #selector(tappedSettingBtn), for: .touchUpInside)
     }
@@ -191,20 +176,6 @@ extension ScanViewController {
     private func tappedFlashBtn() {
         self.scanReader.toggleTorch()
         Sound.tone(mode: .x3dtouch)
-    }
-
-    @objc
-    private func tappedProfileBtn() {
-        guard let scanView = view as? ScanView else { return }
-        let contentVC = ProfileViewController()
-        contentVC.modalPresentationStyle = .popover
-        contentVC.preferredContentSize = CGSize(width: view.bounds.width * 0.6, height: view.bounds.height * 0.2)
-        contentVC.popoverPresentationController?.sourceView = view
-        contentVC.popoverPresentationController?.sourceRect = scanView.profileBtn.frame
-        contentVC.popoverPresentationController?.permittedArrowDirections = .any
-        contentVC.popoverPresentationController?.delegate = self
-        contentVC.delegate = self
-        present(contentVC, animated: true, completion: nil)
     }
 
     @objc
