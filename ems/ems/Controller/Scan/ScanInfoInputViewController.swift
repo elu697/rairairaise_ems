@@ -29,6 +29,14 @@ internal class ScanInfoInputViewController: UIViewController {
         if let cash = ScanInfoInputViewController.cash, mode == .change {
             setInputValue(value: cash)
         }
+
+        guard let view = view as? ScanInfoInputView else { return }
+        view.codeTxf.delegate = self
+        view.nameTxf.delegate = self
+        view.adminTxf.delegate = self
+        view.userTxf.delegate = self
+        view.placeTxf.delegate = self
+        view.numberTxf.delegate = self
     }
 
     private func setInputValue(value: Assets) {
@@ -91,5 +99,12 @@ internal class ScanInfoInputViewController: UIViewController {
                 self.isFetching = false
             }
         }
+    }
+}
+
+extension ScanInfoInputViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

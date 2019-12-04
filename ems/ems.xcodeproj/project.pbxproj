@@ -23,6 +23,7 @@
 		0BB2865B22FC1F11007B4E9D /* DBStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB2865A22FC1F11007B4E9D /* DBStore.swift */; };
 		0BB2865E22FE529B007B4E9D /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB2865D22FE529B007B4E9D /* Assets.swift */; };
 		0BC21818231BF16200D04E47 /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC21817231BF16200D04E47 /* Dispatch.swift */; };
+		0BCDE7502397F4C80050186B /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCDE74F2397F4C80050186B /* PickerView.swift */; };
 		0BD9A4B8238EC8C80085E9D0 /* AssetCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD9A4B7238EC8C80085E9D0 /* AssetCheckView.swift */; };
 		0BD9A4BA238EC9740085E9D0 /* AssetCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD9A4B9238EC9740085E9D0 /* AssetCheckViewController.swift */; };
 		19C3432867E1ABC55425AE8F /* Pods_emsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00BC9CCE9A7BC52594591B68 /* Pods_emsTests.framework */; };
@@ -122,6 +123,7 @@
 		0BB2865A22FC1F11007B4E9D /* DBStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBStore.swift; sourceTree = "<group>"; };
 		0BB2865D22FE529B007B4E9D /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		0BC21817231BF16200D04E47 /* Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
+		0BCDE74F2397F4C80050186B /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
 		0BD9A4B7238EC8C80085E9D0 /* AssetCheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetCheckView.swift; sourceTree = "<group>"; };
 		0BD9A4B9238EC9740085E9D0 /* AssetCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetCheckViewController.swift; sourceTree = "<group>"; };
 		26362FB96B0638E2844B51AA /* Pods-emsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-emsTests.release.xcconfig"; path = "Target Support Files/Pods-emsTests/Pods-emsTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -357,6 +359,7 @@
 				8995F3D722C8A2F700830300 /* ProfileView.swift */,
 				0B90CC78235955400048715D /* RegisterView.swift */,
 				0BD9A4B7238EC8C80085E9D0 /* AssetCheckView.swift */,
+				0BCDE74F2397F4C80050186B /* PickerView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -821,6 +824,7 @@
 				0B90CC772359535F0048715D /* RegisterViewController.swift in Sources */,
 				0B28258A23323E9400892912 /* Document.swift in Sources */,
 				892BD84722AFEC91005DBA8F /* UIView.swift in Sources */,
+				0BCDE7502397F4C80050186B /* PickerView.swift in Sources */,
 				8995F3E022C8EB2C00830300 /* UIDevice.swift in Sources */,
 				8995F3C822C8905800830300 /* Permission.swift in Sources */,
 			);

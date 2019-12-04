@@ -28,7 +28,7 @@ internal class Assets: Object {
         case assets
     }
 
-    internal enum Field: CaseIterable {
+    internal enum Field: String, CaseIterable {
         case code
         case name
         case admin
@@ -37,6 +37,27 @@ internal class Assets: Object {
         case discard
         case location
         case quantity
+
+        internal var name: String {
+            switch self {
+            case .code:
+                return "資産コード"
+            case .name:
+                return "資産名"
+            case .admin:
+                return " 管理者"
+            case .user:
+                return "使用者"
+            case .loss:
+                return "紛失"
+            case .discard:
+                return "廃棄"
+            case .location:
+                return "管理場所"
+            case .quantity:
+                return "数量"
+            }
+        }
 
         var type: Collection {
             switch self {

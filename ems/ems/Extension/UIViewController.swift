@@ -102,6 +102,10 @@ extension UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
 
+    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+
     internal func pushNewNavigationController(rootViewController: UIViewController) {
         let vc = UINavigationController(rootViewController: rootViewController)
         vc.modalPresentationStyle = .fullScreen

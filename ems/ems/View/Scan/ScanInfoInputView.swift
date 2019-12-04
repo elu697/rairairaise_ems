@@ -24,6 +24,20 @@ internal class ScanInfoInputView: UIView {
 
     private var assetData: Assets?
 
+    internal var isEditing: Bool {
+        set {
+            codeTxf.isEnabled = newValue
+            nameTxf.isEnabled = newValue
+            adminTxf.isEnabled = newValue
+            userTxf.isEnabled = newValue
+            placeTxf.isEnabled = newValue
+            numberTxf.isEnabled = newValue
+        }
+        get {
+            return codeTxf.isEnabled
+        }
+    }
+
     // MARK: - Default
     internal init(isCodeEnable: Bool) {
         super.init(frame: .zero)
@@ -138,7 +152,7 @@ internal class ScanInfoInputView: UIView {
         self.placeTxf.isEnabled = true
 
         numberTxf.placeholder = "数量"
-        numberTxf.text = String(assetData?.quantity ?? 0)
+        numberTxf.text = assetData?.quantity != nil ? String(assetData!.quantity) : ""
         numberTxf.isEnabled = true
         numberTxf.keyboardType = .numberPad
 
