@@ -30,11 +30,27 @@ internal class ScanAssetCheckList: UIView {
 
         searchBar.searchBarStyle = .minimal
 
+        tableView.tableFooterView = UIView()
+
+        addToolBar()
+
         emptyLabel.text = "データが存在していません"
         addSubview(tableView)
         addSubview(emptyLabel)
         addSubview(searchBar)
         addSubview(pickerView)
+    }
+    private func addToolBar() {
+        let toolBar = UIToolbar()
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "完了", style: .done, target: self, action: #selector(donePressed))
+        toolBar.setItems([flexibleSpace, doneButton], animated: false)
+        toolBar.sizeToFit()
+        searchBar.inputAccessoryView = toolBar
+    }
+
+    @objc func donePressed() {
+        endEditing(true)
     }
 
     override internal func updateConstraints() {
