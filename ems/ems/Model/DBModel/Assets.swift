@@ -136,6 +136,18 @@ internal class Assets: Object {
             complete(assets)
         }
     }
+
+    internal func setValue(value: [Field: Any?]) {
+        guard let code = value[.code] as? String else { return }
+        self.code = code
+        name = value[.name] as? String
+        admin = value[.admin] as? String
+        user = value[.user] as? String
+        location = value[.location] as? String
+        loss = value[.loss] as? Bool ?? false
+        discard = value[.discard] as? Bool ?? false
+        quantity = Int(value[.quantity] as? String ?? "0") ?? 0
+    }
 }
 
 // MARK: - private function

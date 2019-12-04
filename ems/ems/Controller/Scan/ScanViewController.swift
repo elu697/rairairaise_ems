@@ -44,10 +44,6 @@ internal class ScanViewController: UIViewController {
         updateInfoView(viewController: viewController)
     }
 
-    override internal func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
     override internal func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.scanReader.stopScanning()
@@ -90,12 +86,18 @@ extension ScanViewController {
         viewController.didMove(toParent: self)
 
         settingInfoLabel()
+        settingUpdateBtn()
     }
 
     private func settingInfoLabel() {
         guard let view = view as? ScanView else { return }
         view.qrInfoLbl.isHidden = children.first is ScanAssetCheckListViewController
         view.scanInfoLbl.isHidden = children.first is ScanAssetCheckListViewController
+    }
+
+    private func settingUpdateBtn() {
+        guard let view = view as? ScanView else { return }
+        view.updateBtn.isHidden = children.first is ScanAssetCheckListViewController
     }
 }
 
@@ -143,6 +145,7 @@ extension ScanViewController {
         scanView.flashBtn.addTarget(self, action: #selector(tappedFlashBtn), for: .touchUpInside)
         scanView.scanBtn.addTarget(self, action: #selector(tappedScanBtn), for: .touchUpInside)
         scanView.menuBtn.addTarget(self, action: #selector(tappedMenuBtn), for: .touchUpInside)
+        scanView.updateBtn.addTarget(self, action: #selector(tappedUpdateBtn), for: .touchUpInside)
         scanView.settingBtn.addTarget(self, action: #selector(tappedSettingBtn), for: .touchUpInside)
     }
 }
@@ -161,6 +164,7 @@ extension ScanViewController {
             scanView.previewScanInfo(msg: "\(scanQrDatas.count)品スキャン済み")
 
             if let child = self.children.first as? ScanInfoInputViewController {
+                scanView.updateBtn.isEnabled = true
                 child.fetch(value: scanQrData) { error in
                     guard let error = error else { return }
                     self.showAlert(title: "エラー", message: error.descript, { _ in
@@ -169,6 +173,13 @@ extension ScanViewController {
                     )
                 }
             }
+        }
+    }
+
+    @objc
+    private func tappedUpdateBtn() {
+        if let child = children.first as? ScanInfoInputViewController {
+            child.update()
         }
     }
 

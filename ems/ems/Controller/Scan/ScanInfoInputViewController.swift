@@ -77,6 +77,32 @@ internal class ScanInfoInputViewController: UIViewController {
         return !code.isEmpty
     }
 
+    internal func update() {
+        guard let cash = ScanInfoInputViewController.cash else { return }
+        guard let value = getInputValue() else { return }
+        SVProgressHUD.show()
+        DBStore.share.update(code: cash.code, set: { asset in
+            asset.code = value[.code] as? String ?? cash.code
+            asset.name = value[.name] as? String
+            asset.admin = value[.admin] as? String
+            asset.user = value[.user] as? String
+            asset.location = value[.location] as? String
+            asset.loss = value[.loss] as? Bool ?? false
+            asset.discard = value[.discard] as? Bool ?? false
+            asset.quantity = Int(value[.quantity] as? String ?? "0") ?? 0
+            let buf = Assets()
+            buf.setValue(value: value)
+            self.setInputValue(value: buf)
+        }, complete: { error in
+            if error != nil {
+                SVProgressHUD.showError(withStatus: "エラーが発生しました")
+            }
+            SVProgressHUD.dismiss()
+            SVProgressHUD.showSuccess(withStatus: "更新しました")
+        }
+        )
+    }
+
     internal func fetch(value: String, _ comp: @escaping (DBStore.DBStoreError?) -> Void) {
         guard !isFetching, value != beforeCode else { return }
         SVProgressHUD.show()

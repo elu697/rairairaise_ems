@@ -31,6 +31,7 @@ internal class AssetCheckViewController: UIViewController {
         view.content.adminTxf.text = value.admin
         view.content.userTxf.text = value.user
         view.content.placeTxf.text = value.location
+        view.content.numberTxf.text = String(value.quantity)
         view.content.lostSwitch.setSwitchState(state: value.loss ? .on : .off, animated: true, completion: nil)
         view.content.discardSwitch.setSwitchState(state: value.discard ? .on : .off, animated: true, completion: nil)
     }

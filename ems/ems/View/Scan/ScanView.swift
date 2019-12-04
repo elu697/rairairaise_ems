@@ -95,6 +95,13 @@ internal class ScanView: UIView {
         return scanInfoLbl
     }()
 
+    internal let updateBtn: Button = {
+        let btn = Button()
+        btn.title = "更新"
+        btn.isEnabled = false
+        return btn
+    }()
+
     internal var contentView = UIView()
 
     private var scanCode: String = "" //スキャンタイミング時に以前のQRと照らし合わせるための
@@ -117,6 +124,7 @@ internal class ScanView: UIView {
         addSubview(qrInfoLbl)
         addSubview(scanInfoLbl)
         addSubview(contentView)
+        addSubview(updateBtn)
     }
 
     @available(*, unavailable)
@@ -167,6 +175,11 @@ internal class ScanView: UIView {
             make.top.equalTo(scanPreviewView.snp.bottom)
             make.left.right.equalToSuperview()
             make.bottom.equalTo(scanBtn.snp.top).offset(-5)
+        }
+
+        updateBtn.snp.makeConstraints { make in
+            make.bottom.equalTo(scanBtn.snp.top).inset(-20)
+            make.centerX.equalToSuperview()
         }
 
         /*case .remove:
