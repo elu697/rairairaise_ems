@@ -88,10 +88,22 @@ extension ScanAssetCheckListViewController: UITableViewDataSource {
     }
 
     internal func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let contextItem = UIContextualAction(style: .normal, title: "Leading & .normal") { _, _, boolValue in
+        let contextItem = UIContextualAction(style: .normal, title: "削除") { _, _, boolValue in
             boolValue(true) // pass true if you want the handler to allow the action
-            print("Leading Action style .normal")
+            let code = ScanAssetCheckListViewController.assets[indexPath.row].code
+            SVProgressHUD.show()
+            DBStore.share.delete(code: code, completion: { error in
+                if error != nil {
+                    SVProgressHUD.showError(withStatus: "削除に失敗しました。")
+                } else {
+                    SVProgressHUD.dismiss()
+                    ScanAssetCheckListViewController.assets.remove(at: indexPath.row)
+                    tableView.reloadData()
+                }
+            }
+            )
         }
+        contextItem.backgroundColor = .red
         let swipeActions = UISwipeActionsConfiguration(actions: [contextItem])
 
         return swipeActions
