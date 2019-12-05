@@ -28,7 +28,7 @@ internal class Assets: Object {
         case assets
     }
 
-    internal enum Field: CaseIterable {
+    internal enum Field: String, CaseIterable {
         case code
         case name
         case admin
@@ -37,6 +37,27 @@ internal class Assets: Object {
         case discard
         case location
         case quantity
+
+        internal var name: String {
+            switch self {
+            case .code:
+                return "資産コード"
+            case .name:
+                return "資産名"
+            case .admin:
+                return " 管理者"
+            case .user:
+                return "使用者"
+            case .loss:
+                return "紛失"
+            case .discard:
+                return "廃棄"
+            case .location:
+                return "管理場所"
+            case .quantity:
+                return "数量"
+            }
+        }
 
         var type: Collection {
             switch self {
@@ -93,6 +114,10 @@ internal class Assets: Object {
 
     internal static func getAssets(snapShots: [QueryDocumentSnapshot], _ complete: @escaping ([Assets]) -> Void) {
         var assets: [Assets] = []
+        guard !snapShots.isEmpty else {
+            complete(assets)
+            return
+        }
         let dispatch = Dispatch(label: "assets")
 
         snapShots.forEach { docRef in
@@ -111,6 +136,18 @@ internal class Assets: Object {
             complete(assets)
         }
     }
+
+    internal func setValue(value: [Field: Any?]) {
+        guard let code = value[.code] as? String else { return }
+        self.code = code
+        name = value[.name] as? String
+        admin = value[.admin] as? String
+        user = value[.user] as? String
+        location = value[.location] as? String
+        loss = value[.loss] as? Bool ?? false
+        discard = value[.discard] as? Bool ?? false
+        quantity = Int(value[.quantity] as? String ?? "0") ?? 0
+    }
 }
 
 // MARK: - private function
@@ -124,20 +161,47 @@ extension Assets {
                 switch field.type {
                 case .persons:
                     Persons.isExist(keyPath: \Persons.name, value: self.getValue(field: field)) { docRef, _ in
-                        data[field] = docRef
-                        dispatch.leave()
+                        if let docRef = docRef {
+                            data[field] = docRef
+                            dispatch.leave()
+                        } else {
+                            let person = Persons()
+                            person.name = self.getValue(field: field)
+                            person.save { docRef, _ in
+                                data[field] = docRef
+                                dispatch.leave()
+                            }
+                        }
                     }
 
                 case .assetNames:
                     AssetNames.isExist(keyPath: \AssetNames.assetName, value: self.getValue(field: field)) { docRef, _ in
-                        data[field] = docRef
-                        dispatch.leave()
+                        if let docRef = docRef {
+                            data[field] = docRef
+                            dispatch.leave()
+                        } else {
+                            let assetName = AssetNames()
+                            assetName.assetName = self.getValue(field: field)
+                            assetName.save { docRef, _ in
+                                data[field] = docRef
+                                dispatch.leave()
+                            }
+                        }
                     }
 
                 case .locations:
                     Locations.isExist(keyPath: \Locations.location, value: self.getValue(field: field)) { docRef, _ in
-                        data[field] = docRef
-                        dispatch.leave()
+                        if let docRef = docRef {
+                            data[field] = docRef
+                            dispatch.leave()
+                        } else {
+                            let location = Locations()
+                            location.location = self.getValue(field: field)
+                            location.save { docRef, _ in
+                                data[field] = docRef
+                                dispatch.leave()
+                            }
+                        }
                     }
                 default: dispatch.leave(); return
                 }

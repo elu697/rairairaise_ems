@@ -9,35 +9,54 @@
 import Material
 import UIKit
 
-internal class ScanInfoView: UIView {
+internal class ScanInfoInputView: UIView {
     internal let codeTxf = TextField()
     internal let nameTxf = TextField()
     internal let adminTxf = TextField()
     internal let userTxf = TextField()
     internal let placeTxf = TextField()
+    internal let numberTxf = TextField()
 
     private let lostTitleLbl = UILabel()
-    private let lostSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
+    internal let lostSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
     private let discardTitleLbl = UILabel()
-    private let discardSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
+    internal let discardSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
 
     private var assetData: Assets?
 
+    internal var isEditing: Bool {
+        set {
+            codeTxf.isEnabled = newValue
+            nameTxf.isEnabled = newValue
+            adminTxf.isEnabled = newValue
+            userTxf.isEnabled = newValue
+            placeTxf.isEnabled = newValue
+            numberTxf.isEnabled = newValue
+        }
+        get {
+            return codeTxf.isEnabled
+        }
+    }
+
     // MARK: - Default
-    override internal init(frame: CGRect) {
+    internal init(isCodeEnable: Bool) {
         super.init(frame: .zero)
 //        self.backgroundColor = .lightGray
-        self.addSubview(self.codeTxf)
-        self.addSubview(self.nameTxf)
-        self.addSubview(self.adminTxf)
-        self.addSubview(self.userTxf)
-        self.addSubview(self.placeTxf)
-        self.addSubview(self.lostTitleLbl)
-        self.addSubview(self.lostSwitch)
-        self.addSubview(self.discardTitleLbl)
-        self.addSubview(self.discardSwitch)
+        addSubview(codeTxf)
+        addSubview(nameTxf)
+        addSubview(adminTxf)
+        addSubview(userTxf)
+        addSubview(placeTxf)
+        addSubview(lostTitleLbl)
+        addSubview(lostSwitch)
+        addSubview(discardTitleLbl)
+        addSubview(discardSwitch)
+        addSubview(numberTxf)
 
-        self.componentSetting()
+        autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        componentSetting(isCodeEnable: isCodeEnable)
+
+        backgroundColor = .white
     }
 
     @available(*, unavailable)
@@ -47,53 +66,60 @@ internal class ScanInfoView: UIView {
 
     override internal func updateConstraints() {
         super.updateConstraints()
-        self.codeTxf.snp.makeConstraints { make in
+
+        codeTxf.snp.makeConstraints { make in
             make.top.equalTo(40)
             make.left.equalTo(20)
             make.width.equalToSuperview().multipliedBy(0.3)
         }
-        self.nameTxf.snp.makeConstraints { make in
+        nameTxf.snp.makeConstraints { make in
             make.top.equalTo(self.codeTxf)
             make.left.equalTo(self.codeTxf.snp.right).offset(20)
             make.right.equalTo(-20)
         }
 
-        self.adminTxf.snp.makeConstraints { make in
+        adminTxf.snp.makeConstraints { make in
             make.top.equalTo(self.codeTxf.snp.bottom).offset(40)
             make.left.equalTo(20)
             make.right.equalTo(self.snp.centerX).offset(-10)
         }
 
-        self.userTxf.snp.makeConstraints { make in
+        userTxf.snp.makeConstraints { make in
             make.top.equalTo(self.adminTxf)
             make.left.equalTo(self.adminTxf.snp.right).offset(20)
             make.right.equalTo(-20)
         }
 
-        self.placeTxf.snp.makeConstraints { make in
+        placeTxf.snp.makeConstraints { make in
             make.top.equalTo(self.adminTxf.snp.bottom).offset(40)
             make.left.equalTo(20)
             make.width.equalToSuperview().multipliedBy(0.3)
         }
 
-        self.lostTitleLbl.snp.makeConstraints { make in
+        numberTxf.snp.makeConstraints { make in
+            make.top.equalTo(self.placeTxf.snp.top)
+            make.left.equalTo(self.placeTxf.snp.right).offset(20)
+            make.width.equalToSuperview().multipliedBy(0.2)
+        }
+
+        lostTitleLbl.snp.makeConstraints { make in
             make.top.equalTo(self.adminTxf.snp.bottom).offset(20)
-            make.left.equalTo(self.placeTxf.snp.right).offset(40)
+            make.left.equalTo(self.numberTxf.snp.right).offset(40)
             make.width.equalTo(150)
         }
 
-        self.lostSwitch.snp.makeConstraints { make in
+        lostSwitch.snp.makeConstraints { make in
             make.top.equalTo(self.lostTitleLbl.snp.bottom).offset(10)
             make.left.equalTo(self.lostTitleLbl)
         }
 
-        self.discardTitleLbl.snp.makeConstraints { make in
+        discardTitleLbl.snp.makeConstraints { make in
             make.top.equalTo(self.lostTitleLbl)
             make.left.equalTo(self.lostSwitch.snp.right).offset(30)
             make.width.equalTo(150)
         }
 
-        self.discardSwitch.snp.makeConstraints { make in
+        discardSwitch.snp.makeConstraints { make in
             make.top.equalTo(self.discardTitleLbl.snp.bottom).offset(10)
             make.left.equalTo(self.discardTitleLbl)
         }
@@ -104,10 +130,10 @@ internal class ScanInfoView: UIView {
     }
 
     // MARK: - Layout
-    private func componentSetting() {
+    private func componentSetting(isCodeEnable: Bool) {
         self.codeTxf.placeholder = "資産コード"
         self.codeTxf.text = self.assetData?.code
-        self.codeTxf.isEnabled = false
+        self.codeTxf.isEnabled = isCodeEnable
 
         self.nameTxf.placeholder = "資産名"
         self.nameTxf.text = self.assetData?.name
@@ -124,6 +150,11 @@ internal class ScanInfoView: UIView {
         self.placeTxf.placeholder = "管理場所"
         self.placeTxf.text = self.assetData?.location
         self.placeTxf.isEnabled = true
+
+        numberTxf.placeholder = "数量"
+        numberTxf.text = assetData?.quantity != nil ? String(assetData!.quantity) : ""
+        numberTxf.isEnabled = true
+        numberTxf.keyboardType = .numberPad
 
         self.lostTitleLbl.text = "紛失"
         self.lostTitleLbl.font = .systemFont(ofSize: 13)
@@ -157,14 +188,4 @@ internal class ScanInfoView: UIView {
             self.discardSwitch.isOn = self.assetData?.discard ?? false
         }
     }
-
-    // MARK: - Action
-
-    /*
-     // Only override draw() if you perform custom drawing.
-     // An empty implementation adversely affects performance during animation.
-     override func draw(_ rect: CGRect) {
-     // Drawing code
-     }
-     */
 }

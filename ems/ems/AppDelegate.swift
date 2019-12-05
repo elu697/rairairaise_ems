@@ -66,6 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         IQKeyboardManager.shared.enable = true
         let rootVC = HomeViewController()
+        rootVC.modalPresentationStyle = .fullScreen
 
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.rootViewController = rootVC
