@@ -27,8 +27,8 @@ internal class HomeViewController: UIViewController {
 
     override internal func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        SVProgressHUD.show()
-        SVProgressHUD.dismiss()
+//        SVProgressHUD.show()
+//        SVProgressHUD.dismiss()
         let vc = ScanViewController()
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true, completion: nil)

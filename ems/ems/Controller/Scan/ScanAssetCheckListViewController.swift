@@ -14,7 +14,7 @@ import UIKit
 internal class ScanAssetCheckListViewController: UIViewController {
     private static var assets: [Assets] = []
     private var checkList: [String: Bool] = [:]
-    private static var searchType: Assets.Field = .code
+    private static var searchType: Assets.Field?
 
     private var item: [Assets.Field] = [.code, .admin, .user, .name, .location]
 
@@ -36,19 +36,23 @@ internal class ScanAssetCheckListViewController: UIViewController {
         }
         view.pickerView.delegate = self
         view.pickerView.dataSource = self
-        view.pickerView.value = ScanAssetCheckListViewController.searchType.name
+//        view.pickerView.value = ScanAssetCheckListViewController.searchType.name
         view.pickerView.placeHolder = "検索項目"
         view.searchBar.delegate = self
         view.setNeedsUpdateConstraints()
     }
 
     internal func fetch(value: String, _ err: @escaping (DBStore.DBStoreError) -> Void) {
+        guard let searchType = ScanAssetCheckListViewController.searchType else {
+            SVProgressHUD.showError(withStatus: "検索項目を選択してください")
+            return
+        }
         SVProgressHUD.show()
-        DBStore.share.search(field: ScanAssetCheckListViewController.searchType, value: value) { assets, error in
+        DBStore.share.search(field: searchType, value: value) { assets, error in
+            SVProgressHUD.dismiss()
             guard let assets = assets else {
                 DispatchQueue.main.async {
                     err(error != nil ? .failed : .notFound)
-                    SVProgressHUD.dismiss()
                 }
                 return
             }
@@ -60,7 +64,6 @@ internal class ScanAssetCheckListViewController: UIViewController {
                 guard let view = self.view as? ScanAssetCheckList else { return }
                 view.isEmpty = ScanAssetCheckListViewController.assets.isEmpty
                 view.tableView.reloadData()
-                SVProgressHUD.dismiss()
             }
         }
     }
@@ -99,10 +102,10 @@ extension ScanAssetCheckListViewController: UITableViewDataSource {
             let code = ScanAssetCheckListViewController.assets[indexPath.row].code
             SVProgressHUD.show()
             DBStore.share.delete(code: code, completion: { error in
+                SVProgressHUD.dismiss()
                 if error != nil {
                     SVProgressHUD.showError(withStatus: "削除に失敗しました")
                 } else {
-                    SVProgressHUD.dismiss()
                     SVProgressHUD.showSuccess(withStatus: "削除に成功しました")
                     ScanAssetCheckListViewController.assets.remove(at: indexPath.row)
                     guard let view = self.view as? ScanAssetCheckList else { return }

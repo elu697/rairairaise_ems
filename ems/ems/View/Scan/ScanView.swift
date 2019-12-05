@@ -95,10 +95,17 @@ internal class ScanView: UIView {
         return scanInfoLbl
     }()
 
-    internal let updateBtn: Button = {
-        let btn = Button()
-        btn.title = "更新"
-        btn.isEnabled = false
+    internal let updateBtn: UIButton = {
+        let btn = UIButton()
+//        btn.addTarget(self, action: #selector(tapedTryButton), for: .touchUpInside)
+        btn.setTitle("更新", for: .normal)
+        btn.setTitleColor(UIColor.gray, for: .normal)
+        btn.setTitle("更新", for: .highlighted)
+        btn.setTitleColor(UIColor.lightGray, for: .highlighted)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        btn.layer.cornerRadius = 5.0
+        btn.layer.borderWidth = 1.5
+        btn.layer.borderColor = UIColor.gray.cgColor
         return btn
     }()
 
@@ -178,8 +185,10 @@ internal class ScanView: UIView {
         }
 
         updateBtn.snp.makeConstraints { make in
-            make.bottom.equalTo(scanBtn.snp.top).inset(-20)
+            make.bottom.equalTo(scanBtn.snp.top).inset(-30)
             make.centerX.equalToSuperview()
+            make.height.equalTo(30)
+            make.width.equalTo(80)
         }
 
         /*case .remove:
@@ -206,7 +215,7 @@ internal class ScanView: UIView {
         //switch scanViewType {
         //case .list, .home:
         settingBtn.isHidden = false
-            //menuBtn.isHidden = false
+        //menuBtn.isHidden = false
 
         /*case .manage:
             settingBtn.isHidden = true

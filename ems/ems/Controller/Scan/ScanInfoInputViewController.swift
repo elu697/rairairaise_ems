@@ -78,8 +78,14 @@ internal class ScanInfoInputViewController: UIViewController {
     }
 
     internal func update() {
-        guard let cash = ScanInfoInputViewController.cash else { return }
-        guard let value = getInputValue() else { return }
+        guard let cash = ScanInfoInputViewController.cash else {
+            SVProgressHUD.showError(withStatus: "資産情報がありません")
+            return
+        }
+        guard let value = getInputValue() else {
+            SVProgressHUD.showError(withStatus: "資産情報が異常です")
+            return
+        }
         SVProgressHUD.show()
         DBStore.share.update(code: cash.code, set: { asset in
             asset.code = value[.code] as? String ?? cash.code
@@ -94,11 +100,12 @@ internal class ScanInfoInputViewController: UIViewController {
             buf.setValue(value: value)
             self.setInputValue(value: buf)
         }, complete: { error in
+            SVProgressHUD.dismiss()
             if error != nil {
                 SVProgressHUD.showError(withStatus: "エラーが発生しました")
+            } else {
+                SVProgressHUD.showSuccess(withStatus: "更新しました")
             }
-            SVProgressHUD.dismiss()
-            SVProgressHUD.showSuccess(withStatus: "更新しました")
         }
         )
     }
@@ -115,11 +122,9 @@ internal class ScanInfoInputViewController: UIViewController {
                     self.setInputValue(value: asset)
                 } else {
                     comp(error != nil ? .failed : .notFound)
-                    SVProgressHUD.dismiss()
                     self.isFetching = false
                     return
                 }
-
                 comp(nil)
                 SVProgressHUD.dismiss()
                 self.isFetching = false

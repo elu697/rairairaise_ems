@@ -54,10 +54,15 @@ internal class PickerView: UIView {
         textField = UITextField(frame: .zero)
         super.init(frame: .zero)
 
+        textField.font = .boldSystemFont(ofSize: 14)
+
         picker.showsSelectionIndicator = true
         textField.inputView = picker
         textField.textAlignment = .center
+        textField.allowsEditingTextAttributes = false
+        textField.textColor = .gray
 
+        textField.layer.addBorder(edge: .all, color: .gray, thickness: 0.5)
         addSubview(textField)
     }
 
@@ -65,7 +70,9 @@ internal class PickerView: UIView {
         super.updateConstraints()
 
         textField.snp.makeConstraints { make in
-            make.width.height.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalToSuperview().offset(-20)
+            make.centerY.equalToSuperview()
         }
     }
 

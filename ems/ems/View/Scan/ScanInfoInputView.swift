@@ -93,13 +93,13 @@ internal class ScanInfoInputView: UIView {
         placeTxf.snp.makeConstraints { make in
             make.top.equalTo(self.adminTxf.snp.bottom).offset(40)
             make.left.equalTo(20)
-            make.width.equalToSuperview().multipliedBy(0.3)
+            make.width.equalToSuperview().multipliedBy(0.25)
         }
 
         numberTxf.snp.makeConstraints { make in
             make.top.equalTo(self.placeTxf.snp.top)
             make.left.equalTo(self.placeTxf.snp.right).offset(20)
-            make.width.equalToSuperview().multipliedBy(0.2)
+            make.width.equalToSuperview().multipliedBy(0.17)
         }
 
         lostTitleLbl.snp.makeConstraints { make in

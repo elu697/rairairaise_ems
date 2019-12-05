@@ -41,16 +41,14 @@ internal class AssetCheckViewController: UIViewController {
         print("fetch")
         DBStore.share.search(field: .code, value: value, limit: 1) { assets, error in
             DispatchQueue.main.async {
+                SVProgressHUD.dismiss()
                 if let asset = assets?.first {
                     self.setInputValue(value: asset)
                 } else {
                     comp(error != nil ? .failed : .notFound)
-                    SVProgressHUD.dismiss()
                     return
                 }
-
                 comp(nil)
-                SVProgressHUD.dismiss()
             }
         }
     }

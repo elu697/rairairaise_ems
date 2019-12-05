@@ -12,12 +12,21 @@ import UIKit
 
 internal class RegisterView: UIView {
     internal var content = UIView()
-    internal var registBtn = UIButton(type: .system)
+    internal var registBtn: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("登録", for: .normal)
+        btn.setTitleColor(UIColor.gray, for: .normal)
+        btn.setTitle("登録", for: .highlighted)
+        btn.setTitleColor(UIColor.lightGray, for: .highlighted)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        btn.layer.cornerRadius = 5.0
+        btn.layer.borderWidth = 1.5
+        btn.layer.borderColor = UIColor.gray.cgColor
+        return btn
+    }()
 
     internal init() {
         super.init(frame: .zero)
-
-        registBtn.backgroundColor = .blue
 
         addSubview(content)
         addSubview(registBtn)

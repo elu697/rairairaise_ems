@@ -35,6 +35,7 @@ internal class ScanAssetCheckList: UIView {
         addToolBar()
 
         emptyLabel.text = "データが存在していません"
+        emptyLabel.textColor = .gray
         addSubview(tableView)
         addSubview(emptyLabel)
         addSubview(searchBar)

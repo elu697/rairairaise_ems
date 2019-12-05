@@ -32,17 +32,11 @@ internal class RegisterViewController: UIViewController {
     internal func regist() {
         guard let viewController = children.first as? ScanInfoInputViewController else { return }
         guard let value = viewController.getInputValue(), let code = value[.code] as? String else {
-            showAlert(title: "エラー", message: "資産コードは必須入力です。", { _ in
-                print("OK")
-            }
-            )
+            SVProgressHUD.showError(withStatus: "資産コードは必須入力です。")
             return
         }
         guard !code.trimmingCharacters(in: .whitespaces).isEmpty else {
-            showAlert(title: "エラー", message: "空白のみの入力は受け付けられません。", { _ in
-                print("OK")
-            }
-            )
+            SVProgressHUD.showError(withStatus: "空白のみの入力は受け付けられません。")
             return
         }
         SVProgressHUD.show()
@@ -56,18 +50,12 @@ internal class RegisterViewController: UIViewController {
             asset.discard = value[.discard] as? Bool ?? false
             asset.quantity = Int(value[.quantity] as? String ?? "0") ?? 0
         }, { error in
-            SVProgressHUD.dismiss()
+//            SVProgressHUD.dismiss()
             guard let error = error else {
-                self.showAlert(title: "完了", message: "登録に成功しました。", { _ in
-                    print("OK")
-                }
-                )
+                SVProgressHUD.showSuccess(withStatus: "登録に成功しました")
                 return
             }
-            self.showAlert(title: "エラー", message: error.descript, { _ in
-                print("OK")
-            }
-            )
+            SVProgressHUD.showError(withStatus: error.descript)
         }
         )
     }

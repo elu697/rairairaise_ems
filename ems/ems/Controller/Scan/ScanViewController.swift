@@ -10,6 +10,7 @@ import AVFoundation
 import Foundation
 import QRCodeReader
 import SPPermission
+import SVProgressHUD
 import UIKit
 
 internal class ScanViewController: UIViewController {
@@ -91,7 +92,7 @@ extension ScanViewController {
 
     private func settingInfoLabel() {
         guard let view = view as? ScanView else { return }
-        view.qrInfoLbl.isHidden = children.first is ScanAssetCheckListViewController
+//        view.qrInfoLbl.isHidden = children.first is ScanAssetCheckListViewController
         view.scanInfoLbl.isHidden = children.first is ScanAssetCheckListViewController
     }
 
@@ -106,29 +107,32 @@ extension ScanViewController {
     private func scanerSetting() {
         guard let view = view as? ScanView else { return }
         scanReader.didNotFoundCode = {
+            guard !self.scanQrData.isEmpty else { return }
             DispatchQueue.main.async {
                 view.scanPreviewView.overlayView?.setState(.normal)
                 self.scanQrData = ""
+                view.previewQrInfo(msg: "")
             }
         }
         scanReader.didFindCode = { result in
+            guard self.scanQrData.isEmpty && !result.value.trimmingCharacters(in: .whitespaces).isEmpty else { return }
             DispatchQueue.main.async {
                 view.scanPreviewView.overlayView?.setState(.valid)
             }
-
-            guard self.scanQrData.isEmpty && !result.value.trimmingCharacters(in: .whitespaces).isEmpty else { return }
-            switch self.currentView {
-            case .check:
-                if let child = self.children.first as? ScanAssetCheckListViewController {
-                    DispatchQueue.main.async {
-                        child.check(code: result.value)
-                    }
-                }
-
-            case .change:
-                self.scanQrData = result.value
-            default: ()
-            }
+            self.scanQrData = result.value
+            view.previewQrInfo(msg: result.value)
+            Sound.tone(mode: .detect)
+//            switch self.currentView {
+//            case .check:
+//                if let child = self.children.first as? ScanAssetCheckListViewController {
+//                    DispatchQueue.main.async {
+//                        child.check(code: result.value)
+//                    }
+//                }
+//            case .change:
+//                self.scanQrData = result.value
+//            default: ()
+//            }
         }
 
         scanReader.didFailDecoding = {
@@ -156,21 +160,26 @@ extension ScanViewController {
     private func tappedScanBtn() {
         guard let scanView = view as? ScanView else { return }
         if scanQrData.isEmpty {
-            Sound.tone(mode: .fail)
+            if UDManager.getUD(key: .sound) as? Bool ?? false {
+                Sound.tone(mode: .fail)
+            }
             scanView.previewQrInfo(msg: "QRコードが読み込まれていません")
         } else {
-            //Sound.tone(mode: .accept)//ok
+            if UDManager.getUD(key: .sound) as? Bool ?? false {
+                Sound.tone(mode: .accept)
+            }
             scanView.previewQrInfo(msg: "")
-            scanView.previewScanInfo(msg: "\(scanQrDatas.count)品スキャン済み")
-
+//            scanView.previewScanInfo(msg: "\(scanQrDatas.count)品スキャン済み")
+            if let child = self.children.first as? ScanAssetCheckListViewController {
+                DispatchQueue.main.async {
+                    child.check(code: self.scanQrData)
+                }
+            }
             if let child = self.children.first as? ScanInfoInputViewController {
                 scanView.updateBtn.isEnabled = true
                 child.fetch(value: scanQrData) { error in
                     guard let error = error else { return }
-                    self.showAlert(title: "エラー", message: error.descript, { _ in
-                        print("OK")
-                    }
-                    )
+                    SVProgressHUD.showError(withStatus: error.descript)
                 }
             }
         }
@@ -225,10 +234,7 @@ extension ScanViewController: ProfileDelegate {
             guard let vc = children.first as? ScanAssetCheckListViewController, let value = value else { return }
             print("reload")
             vc.fetch(value: value) { error in
-                self.showAlert(title: "エラー", message: error.descript, { _ in
-                    print("OK")
-                }
-                )
+                SVProgressHUD.showError(withStatus: error.descript)
             }
             beforeQrData = ""
         }
