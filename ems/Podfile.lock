@@ -70,10 +70,10 @@ PODS:
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 6.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleAPIClientForREST (1.3.10):
-    - GoogleAPIClientForREST/Core (= 1.3.10)
+  - GoogleAPIClientForREST/Core (1.2.1):
     - GTMSessionFetcher (>= 1.1.7)
-  - GoogleAPIClientForREST/Core (1.3.10):
+  - GoogleAPIClientForREST/Drive (1.2.1):
+    - GoogleAPIClientForREST/Core
     - GTMSessionFetcher (>= 1.1.7)
   - GoogleAppMeasurement (6.1.1):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
@@ -172,7 +172,7 @@ DEPENDENCIES:
   - Eureka
   - Firebase/Core
   - Firebase/Firestore
-  - GoogleAPIClientForREST
+  - GoogleAPIClientForREST/Drive (~> 1.2.1)
   - GoogleSignIn
   - IQKeyboardManagerSwift
   - Material (~> 3.1.0)
@@ -243,7 +243,7 @@ SPEC CHECKSUMS:
   FirebaseFirestore: c5873e279490fbe02239ab2cdfb91c2d546261cc
   FirebaseInstanceID: 550df9be1f99f751d8fcde3ac342a1e21a0e6c42
   FirebaseStorage: b7c6d00997bc21d4465453bdcc5cc65513110fed
-  GoogleAPIClientForREST: 4acfffd77f1c3c8741b6be9eaed0e603278efbde
+  GoogleAPIClientForREST: a8b95a252014ce2e618df6b75dc72eca2c00b4af
   GoogleAppMeasurement: 86a82f0e1f20b8eedf8e20326530138fd71409de
   GoogleDataTransport: 8f9897b8e073687f24ca8d3c3a8013dec7d2d1cc
   GoogleDataTransportCCTSupport: 51134d81fca795c60cc247d1cb6af63c3d67b8d8
@@ -270,6 +270,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLint: 5553187048b900c91aa03552807681bb6b027846
 
-PODFILE CHECKSUM: c468a92e04c68a72626c79278e4380f8bf04a3da
+PODFILE CHECKSUM: 17aad26defc9d2bd6dac8ae1504b2079eb66db70
 
 COCOAPODS: 1.8.3

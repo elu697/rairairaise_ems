@@ -84,8 +84,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             } else {
                 print("\(error.localizedDescription)")
             }
+            GoogleDriveWrapper.shared.driveService.authorizer = nil
             return
         }
+        GoogleDriveWrapper.shared.driveService.authorizer = user.authentication.fetcherAuthorizer()
         NotificationCenter.default.post(name: Notification.Name("ToggleAuthUINotification"),
                                         object: nil,
                                         userInfo: ["statusText": "Signed in user:\n\(user.profile.name)"])

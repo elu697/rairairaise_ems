@@ -13,6 +13,9 @@
 		0B28258A23323E9400892912 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B28258923323E9400892912 /* Document.swift */; };
 		0B3C9622235EC56F00D04982 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3C9621235EC56F00D04982 /* Test.swift */; };
 		0B3C9624235EF1C200D04982 /* icons8-search.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B3C9623235EF1C200D04982 /* icons8-search.png */; };
+		0B488CDE239A9C0A009B1CFD /* GoogleDriveWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B488CDD239A9C0A009B1CFD /* GoogleDriveWrapper.swift */; };
+		0B488CE6239AA5D9009B1CFD /* GoogleDriveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B488CE5239AA5D9009B1CFD /* GoogleDriveViewController.swift */; };
+		0B488CE8239AA612009B1CFD /* GoogleDriveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B488CE7239AA612009B1CFD /* GoogleDriveView.swift */; };
 		0B49BEDB232BC98500215D86 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B49BEDA232BC98500215D86 /* Person.swift */; };
 		0B49BEDF232BCB4E00215D86 /* Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B49BEDE232BCB4E00215D86 /* Locations.swift */; };
 		0B49BEE1232BCB7A00215D86 /* AssetNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B49BEE0232BCB7A00215D86 /* AssetNames.swift */; };
@@ -113,6 +116,11 @@
 		0B28258923323E9400892912 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		0B3C9621235EC56F00D04982 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		0B3C9623235EF1C200D04982 /* icons8-search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-search.png"; sourceTree = "<group>"; };
+		0B488CDD239A9C0A009B1CFD /* GoogleDriveWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveWrapper.swift; sourceTree = "<group>"; };
+		0B488CDF239AA0F0009B1CFD /* GoogleAPIClientForREST.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GoogleAPIClientForREST.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B488CE1239AA4D9009B1CFD /* GoogleAPIClientForREST.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GoogleAPIClientForREST.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B488CE5239AA5D9009B1CFD /* GoogleDriveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveViewController.swift; sourceTree = "<group>"; };
+		0B488CE7239AA612009B1CFD /* GoogleDriveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveView.swift; sourceTree = "<group>"; };
 		0B49BEDA232BC98500215D86 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		0B49BEDE232BCB4E00215D86 /* Locations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locations.swift; sourceTree = "<group>"; };
 		0B49BEE0232BCB7A00215D86 /* AssetNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetNames.swift; sourceTree = "<group>"; };
@@ -268,6 +276,8 @@
 		50C6D705D905C1B4C58CC98E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0B488CE1239AA4D9009B1CFD /* GoogleAPIClientForREST.framework */,
+				0B488CDF239AA0F0009B1CFD /* GoogleAPIClientForREST.framework */,
 				AD1E776C3D91DA77061B6BA2 /* Pods_ems.framework */,
 				00BC9CCE9A7BC52594591B68 /* Pods_emsTests.framework */,
 				9FD94FCD716727ABC0F314FE /* Pods_emsUITests.framework */,
@@ -344,6 +354,7 @@
 				0BB2865A22FC1F11007B4E9D /* DBStore.swift */,
 				0BB2865C22FE5284007B4E9D /* DBModel */,
 				89F9B74A23289A4A00F7C6EE /* Profile.swift */,
+				0B488CDD239A9C0A009B1CFD /* GoogleDriveWrapper.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -360,6 +371,7 @@
 				0B90CC78235955400048715D /* RegisterView.swift */,
 				0BD9A4B7238EC8C80085E9D0 /* AssetCheckView.swift */,
 				0BCDE74F2397F4C80050186B /* PickerView.swift */,
+				0B488CE7239AA612009B1CFD /* GoogleDriveView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -374,6 +386,7 @@
 				8995F3CD22C8A21200830300 /* ProfileViewController.swift */,
 				0B90CC762359535F0048715D /* RegisterViewController.swift */,
 				0BD9A4B9238EC9740085E9D0 /* AssetCheckViewController.swift */,
+				0B488CE5239AA5D9009B1CFD /* GoogleDriveViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -818,6 +831,7 @@
 				892BD85722B33595005DBA8F /* HomeView.swift in Sources */,
 				892BD84322AFEC91005DBA8F /* UICollectionView.swift in Sources */,
 				89AB15DF22C76F1B000632E4 /* QRCodeReader.swift in Sources */,
+				0B488CE8239AA612009B1CFD /* GoogleDriveView.swift in Sources */,
 				0BC21818231BF16200D04E47 /* Dispatch.swift in Sources */,
 				08EF48E32334753B0015F46C /* UDManager.swift in Sources */,
 				892BD84622AFEC91005DBA8F /* CALayer.swift in Sources */,
@@ -827,6 +841,7 @@
 				89AB156D22C72CC6000632E4 /* ScanView.swift in Sources */,
 				892BD85322AFEE1D005DBA8F /* HomeViewController.swift in Sources */,
 				0BB2865B22FC1F11007B4E9D /* DBStore.swift in Sources */,
+				0B488CDE239A9C0A009B1CFD /* GoogleDriveWrapper.swift in Sources */,
 				89AB15E322C76F1B000632E4 /* QRCodeReaderView.swift in Sources */,
 				0BB2865E22FE529B007B4E9D /* Assets.swift in Sources */,
 				892BD83E22AFEC91005DBA8F /* UIApplication.swift in Sources */,
@@ -842,6 +857,7 @@
 				0B90CC772359535F0048715D /* RegisterViewController.swift in Sources */,
 				0B28258A23323E9400892912 /* Document.swift in Sources */,
 				892BD84722AFEC91005DBA8F /* UIView.swift in Sources */,
+				0B488CE6239AA5D9009B1CFD /* GoogleDriveViewController.swift in Sources */,
 				0BCDE7502397F4C80050186B /* PickerView.swift in Sources */,
 				8995F3E022C8EB2C00830300 /* UIDevice.swift in Sources */,
 				8995F3C822C8905800830300 /* Permission.swift in Sources */,
