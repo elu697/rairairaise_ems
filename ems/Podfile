@@ -17,7 +17,7 @@ def install_pods
     pod 'Pring'
     pod 'QRCodeReader.swift', '~> 10.1.0'
     pod 'GoogleAPIClientForREST'
-    pod 'GTMAppAuth'
+    pod 'GoogleSignIn'
     
     pod 'Firebase/Core'
     pod 'Firebase/Firestore' 
