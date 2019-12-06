@@ -1,9 +1,5 @@
 //
-//  UITextField.swift
-//  SalesIncome
-//
-//  Created by AmamiYou on 2018/11/01.
-//  Copyright © 2018 ammYou. All rights reserved.
+// Swift usefull extensions
 //
 
 import Foundation

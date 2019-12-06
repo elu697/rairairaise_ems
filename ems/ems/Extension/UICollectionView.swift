@@ -1,9 +1,5 @@
 //
-//  UICollectionView.swift
-//  FiMap
-//
-//  Created by AmamiYou on 2018/09/23.
-//  Copyright © 2018 ammYou. All rights reserved.
+// Swift usefull extensions
 //
 
 import Foundation

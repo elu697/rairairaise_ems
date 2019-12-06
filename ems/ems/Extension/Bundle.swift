@@ -1,9 +1,5 @@
 //
-//  Bundle.swift
-//  ems
-//
-//  Created by El You on 2019/06/30.
-//  Copyright © 2019 RaiRaiRaise. All rights reserved.
+// Swift usefull extensions
 //
 
 import Foundation

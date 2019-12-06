@@ -1,9 +1,5 @@
 //
-//  Date.swift
-//  ems
-//
-//  Created by El You on 2019/12/06.
-//  Copyright © 2019 RaiRaiRaise. All rights reserved.
+// Swift usefull extensions
 //
 
 import Foundation

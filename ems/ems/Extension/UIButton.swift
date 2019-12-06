@@ -1,9 +1,5 @@
 //
-//  UIButton.swift
-//  SalesIncome
-//
-//  Created by AmamiYou on 2018/10/30.
-//  Copyright © 2018 ammYou. All rights reserved.
+// Swift usefull extensions
 //
 
 import Foundation
