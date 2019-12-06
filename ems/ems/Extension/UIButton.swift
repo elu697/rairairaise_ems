@@ -22,3 +22,41 @@ extension UIButton {
         self.setBackgroundImage(colorImage, for: forState)
     }
 }
+
+class UIButtonSwitch: UIButton {
+    var onImage: UIImage = UIImage()
+    var offImage: UIImage = UIImage()
+    var isTapped: Bool = false {
+        didSet {
+            if self.isTapped {
+                self.setImage(self.offImage, for: .normal)
+            } else {
+                self.setImage(self.onImage, for: .normal)
+            }
+        }
+    }
+    
+    internal func setSwitchBtn(on: UIImage?, off: UIImage?) {
+        guard let on = on, let off = off else { return }
+        self.onImage = on
+        self.offImage = off
+        self.isTapped = false
+        self.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        self.addTarget(self, action: #selector(tapButton(sender:)), for: .touchUpInside)
+    }
+    
+    @objc
+    func tapButton(sender: UIButton) {
+        if sender == self {
+            isTapped = !isTapped
+        }
+    }
+    /*
+     // Only override draw() if you perform custom drawing.
+     // An empty implementation adversely affects performance during animation.
+     override func draw(_ rect: CGRect) {
+     // Drawing code
+     }
+     */
+    
+}
