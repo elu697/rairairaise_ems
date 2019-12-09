@@ -9,29 +9,34 @@
 import Foundation
 import GoogleAPIClientForREST
 
+internal enum GoogleDriveMime: String {
+    case folder = "application/vnd.google-apps.folder"
+    case csv = "text/csv"
+}
+
 internal class GoogleDriveWrapper {
     public static var shared = GoogleDriveWrapper()
     private var service = GTLRDriveService()
     public var driveService: GTLRDriveService {
-        get {
-            return service
+        return service
+    }
+
+    private enum Mode {
+        case root
+        case search(folderID: String)
+
+        fileprivate var query: String {
+            switch self {
+            case .root:
+                return "'root' in parents and trashed = false"
+            case .search(let folderID):
+                return "'\(folderID)' in parents"
+            }
         }
     }
 
-    private init() {}
-
-    public func setService(service: GTLRDriveService) {
-        self.service = service
-    }
-
-    public func search(_ fileName: String, _ completion: @escaping (String?, Error?) -> Void) {
-        let query = GTLRDriveQuery_FilesList.query()
-        query.pageSize = 1
-        query.q = "name contains '\(fileName)'"
-
-        service.executeQuery(query) { _, results, error in
-            completion((results as? GTLRDrive_FileList)?.files?.first?.identifier, error)
-        }
+    private init() {
+        service.isRetryEnabled = true
     }
 
     public func download(_ fileID: String, _ completion: @escaping (Data?, Error?) -> Void) {
@@ -41,27 +46,19 @@ internal class GoogleDriveWrapper {
         }
     }
 
-    public func download(_ fileID: String, onCompleted: @escaping (Data?, Error?) -> Void) {
-        let query = GTLRDriveQuery_FilesGet.queryForMedia(withFileId: fileID)
-        service.executeQuery(query) { _, file, error in
-            onCompleted((file as? GTLRDataObject)?.data, error)
-        }
+    public func listFilesInRoot(_ completion: @escaping (GTLRDrive_FileList?, Error?) -> Void) {
+        listFiles(.root, completion)
     }
 
-    public func listFilesInFolder(_ folder: String, _ completion: @escaping (GTLRDrive_FileList?, Error?) -> Void) {
-        search(folder) { folderID, error in
-            guard let ID = folderID else {
-                completion(nil, error)
-                return
-            }
-            self.listFiles(ID, completion)
-        }
+    public func listFilesInFolder(_ folderID: String, _ completion: @escaping (GTLRDrive_FileList?, Error?) -> Void) {
+        listFiles(.search(folderID: folderID), completion)
     }
 
-    private func listFiles(_ folderID: String, _ completion: @escaping (GTLRDrive_FileList?, Error?) -> Void) {
+    private func listFiles(_ mode: Mode, _ completion: @escaping (GTLRDrive_FileList?, Error?) -> Void) {
         let query = GTLRDriveQuery_FilesList.query()
         query.pageSize = 100
-        query.q = "'\(folderID)' in parents"
+        query.q = "\(mode.query) and (mimeType = 'application/vnd.google-apps.folder' or mimeType = 'text/csv')"
+        query.orderBy = "folder"
 
         service.executeQuery(query) { _, result, error in
             completion(result as? GTLRDrive_FileList, error)

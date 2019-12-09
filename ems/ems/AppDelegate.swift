@@ -89,15 +89,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             return
         }
         GoogleDriveWrapper.shared.driveService.authorizer = user.authentication.fetcherAuthorizer()
-        NotificationCenter.default.post(name: Notification.Name("ToggleAuthUINotification"),
+        NotificationCenter.default.post(name: Notification.Name(GoogleDriveNotify.name.value),
                                         object: nil,
-                                        userInfo: ["statusText": "Signed in user:\n\(user.profile.name)"])
+                                        userInfo: ["status": GoogleDriveStatus.signin])
         
     }
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        NotificationCenter.default.post( name: Notification.Name(rawValue: "ToggleAuthUINotification"),
+        NotificationCenter.default.post( name: Notification.Name(GoogleDriveNotify.name.value),
                                          object: nil,
-                                         userInfo: ["statusText": "User has disconnected."])
+                                         userInfo: ["status": GoogleDriveStatus.signout])
     }
     
     @available(iOS 9.0, *)
