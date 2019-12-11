@@ -163,7 +163,7 @@ DEPENDENCIES:
   - SwiftLint
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - Alamofire
     - BoringSSL-GRPC
     - DynamicButton
@@ -241,4 +241,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: c3c117a5a677079fc2315a3381b2d36099710363
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.6.2

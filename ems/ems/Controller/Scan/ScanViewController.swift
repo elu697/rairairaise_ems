@@ -158,6 +158,7 @@ extension ScanViewController {
 extension ScanViewController {
     @objc
     private func tappedScanBtn() {
+        PDFDownloader.share.download()
         guard let scanView = view as? ScanView else { return }
         if scanQrData.isEmpty {
             if UDManager.getUD(key: .sound) as? Bool ?? false {
