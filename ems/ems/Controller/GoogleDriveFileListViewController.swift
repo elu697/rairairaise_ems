@@ -67,21 +67,6 @@ internal class GoogleDriveFileListViewController: UITableViewController {
         fetch()
     }
 
-    @objc
-    private func signInNotify() {
-        print("signin")
-        fetch()
-    }
-
-    private func fetch() {
-        showProgress()
-        if isRoot {
-            fetchRoot()
-        } else {
-            fetchSearch()
-        }
-    }
-
     private func showProgress() {
         if !refresh.isRefreshing {
             SVProgressHUD.show()
@@ -96,6 +81,31 @@ internal class GoogleDriveFileListViewController: UITableViewController {
         }
     }
 
+    private func showLoadCSVAlert(file: GTLRDrive_File, _ completion: @escaping () -> Void) {
+        showAlert(title: "確認", message: "このCSVファイルを読み込みますか？", { _ in
+            guard let identifier = file.identifier else { return }
+            GoogleDriveWrapper.shared.download(identifier) { data, _ in
+                if let data = data, FileIO.save(data: data, fileName: "asset.csv") {
+                    SVProgressHUD.showSuccess(withStatus: "読み込みました")
+                } else {
+                    SVProgressHUD.showError(withStatus: "読み込みに失敗しました")
+                }
+                completion()
+            }
+        }, cancelAction: { _ in
+            print("calcel")
+        }
+        )
+        return
+    }
+
+    internal required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: GoogleDrive Function
+extension GoogleDriveFileListViewController {
     private func googleDriveSignIn() {
         GIDSignIn.sharedInstance().scopes = [kGTLRAuthScopeDrive]
         GIDSignIn.sharedInstance().presentingViewController = self
@@ -109,6 +119,15 @@ internal class GoogleDriveFileListViewController: UITableViewController {
         }
     }
 
+    @objc
+    private func signInNotify() {
+        print("signin")
+        fetch()
+    }
+}
+
+// MARK: Network
+extension GoogleDriveFileListViewController {
     private func fetchRoot() {
         GoogleDriveWrapper.shared.listFilesInRoot(setFetchResult)
     }
@@ -122,11 +141,17 @@ internal class GoogleDriveFileListViewController: UITableViewController {
         GoogleDriveWrapper.shared.listFilesInFolder(currentFolder, setFetchResult)
     }
 
-    internal required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    private func fetch() {
+        showProgress()
+        if isRoot {
+            fetchRoot()
+        } else {
+            fetchSearch()
+        }
     }
 }
 
+// MARK: UITableView DataSource
 extension GoogleDriveFileListViewController {
     override internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return files.count
@@ -148,37 +173,16 @@ extension GoogleDriveFileListViewController {
         }
         return cell
     }
-
-    func saveCSV(data: Data) {
-        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let pathFileName = dir.appendingPathComponent("assetList.csv")
-            do {
-                try data.write(to: pathFileName)
-            } catch {
-                print("書き込み失敗")
-            }
-        }
-    }
 }
 
+// MARK: UITableView Delegate
 extension GoogleDriveFileListViewController {
     override internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let file = files[indexPath.row]
         guard GoogleDriveMime(rawValue: file.mimeType ?? "") == .folder else {
-            showAlert(title: "確認", message: "このCSVファイルを読み込みますか？", { [weak self] _ in
-                print("loading: \(file.name ?? "")")
-                guard let identifier = file.identifier else { return }
-                GoogleDriveWrapper.shared.download(identifier) { data, error in
-                    if let data = data {
-                        print(String(describing: data.description))
-                        self?.saveCSV(data: data)
-                    } else {
-                        print("\(error?.localizedDescription ?? "")")
-                    }
-                }
-            }, cancelAction: { _ in
-                print("calcel")
-            })
+            showLoadCSVAlert(file: file) {
+                self.dismiss(animated: true, completion: nil)
+            }
             return
         }
 
