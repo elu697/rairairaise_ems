@@ -25,6 +25,7 @@ internal class MenuViewController: UIViewController {
         case change
         case check
         case register
+        case drive
 
         internal var title: String {
             switch self {
@@ -34,6 +35,8 @@ internal class MenuViewController: UIViewController {
                 return "資産情報確認"
             case .register:
                 return "資産情報登録"
+            case .drive:
+                return "GoogleDrive"
             }
         }
     }

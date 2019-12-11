@@ -8,6 +8,8 @@
 
 import AVFoundation
 import Foundation
+import GoogleAPIClientForREST
+import GoogleSignIn
 import QRCodeReader
 import SPPermission
 import SVProgressHUD
@@ -222,6 +224,10 @@ extension ScanViewController: MenuDelegate {
     internal func modeChanged(type: MenuViewController.MenuType, viewController: UIViewController) {
         if type == .register {
             pushNewNavigationController(rootViewController: RegisterViewController())
+            return
+        }
+        if type == .drive {
+            pushNewNavigationController(rootViewController: GoogleDriveFileListViewController(isRoot: true))
             return
         }
         currentView = type
