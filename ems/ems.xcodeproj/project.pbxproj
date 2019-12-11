@@ -76,6 +76,12 @@
 		89AB15E622C76F1B000632E4 /* QRCodeReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB15DC22C76F1B000632E4 /* QRCodeReaderViewController.swift */; };
 		89AB15E722C76F1B000632E4 /* ToggleTorchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB15DD22C76F1B000632E4 /* ToggleTorchButton.swift */; };
 		89AB15E822C76F1B000632E4 /* ReaderOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AB15DE22C76F1B000632E4 /* ReaderOverlayView.swift */; };
+		89B915EC2399CF1C0030E143 /* UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B915EB2399CF1C0030E143 /* UIScrollView.swift */; };
+		89B915EE2399CF480030E143 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B915ED2399CF480030E143 /* URL.swift */; };
+		89B915F02399D0100030E143 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B915EF2399D0100030E143 /* Date.swift */; };
+		89B915F22399D1E90030E143 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B915F12399D1E90030E143 /* String.swift */; };
+		89B915F42399D2490030E143 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B915F32399D2490030E143 /* UIImage.swift */; };
+		89B915F62399D28F0030E143 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B915F52399D28F0030E143 /* DateFormatter.swift */; };
 		89C33CFA22DF019A005C2D23 /* icons8-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33CF922DF019A005C2D23 /* icons8-back.png */; };
 		89C33CFE22DF01D7005C2D23 /* icons8-menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33CFD22DF01D7005C2D23 /* icons8-menu.png */; };
 		89C33D0222DF01F4005C2D23 /* icons8-user.png in Resources */ = {isa = PBXBuildFile; fileRef = 89C33D0122DF01F4005C2D23 /* icons8-user.png */; };
@@ -188,6 +194,12 @@
 		89AB15DC22C76F1B000632E4 /* QRCodeReaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeReaderViewController.swift; sourceTree = "<group>"; };
 		89AB15DD22C76F1B000632E4 /* ToggleTorchButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleTorchButton.swift; sourceTree = "<group>"; };
 		89AB15DE22C76F1B000632E4 /* ReaderOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReaderOverlayView.swift; sourceTree = "<group>"; };
+		89B915EB2399CF1C0030E143 /* UIScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollView.swift; sourceTree = "<group>"; };
+		89B915ED2399CF480030E143 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
+		89B915EF2399D0100030E143 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		89B915F12399D1E90030E143 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		89B915F32399D2490030E143 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		89B915F52399D28F0030E143 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		89C33CF922DF019A005C2D23 /* icons8-back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-back.png"; sourceTree = "<group>"; };
 		89C33CFD22DF01D7005C2D23 /* icons8-menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-menu.png"; sourceTree = "<group>"; };
 		89C33D0122DF01F4005C2D23 /* icons8-user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-user.png"; sourceTree = "<group>"; };
@@ -381,6 +393,7 @@
 		892BD82C22AFEBCD005DBA8F /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				89B915F52399D28F0030E143 /* DateFormatter.swift */,
 				892BD83922AFEC91005DBA8F /* CALayer.swift */,
 				892BD83222AFEC91005DBA8F /* Array.swift */,
 				892BD83422AFEC91005DBA8F /* Class.swift */,
@@ -396,6 +409,11 @@
 				8995F3DF22C8EB2C00830300 /* UIDevice.swift */,
 				8995F3E122C8EB5A00830300 /* Bundle.swift */,
 				0B28258923323E9400892912 /* Document.swift */,
+				89B915EB2399CF1C0030E143 /* UIScrollView.swift */,
+				89B915ED2399CF480030E143 /* URL.swift */,
+				89B915EF2399D0100030E143 /* Date.swift */,
+				89B915F12399D1E90030E143 /* String.swift */,
+				89B915F32399D2490030E143 /* UIImage.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -787,12 +805,15 @@
 				89AB15E622C76F1B000632E4 /* QRCodeReaderViewController.swift in Sources */,
 				892BD84222AFEC91005DBA8F /* UIBarButton.swift in Sources */,
 				892BD7FD22AFE590005DBA8F /* ViewController.swift in Sources */,
+				89B915F62399D28F0030E143 /* DateFormatter.swift in Sources */,
 				0BD9A4B8238EC8C80085E9D0 /* AssetCheckView.swift in Sources */,
 				892BD84822AFEC91005DBA8F /* UIFont.swift in Sources */,
 				89AB156B22C72CB6000632E4 /* ScanViewController.swift in Sources */,
 				892BD7FB22AFE590005DBA8F /* AppDelegate.swift in Sources */,
 				0B837B7F2352F581006A6A95 /* ScanInfoInputViewController.swift in Sources */,
 				0BD9A4BA238EC9740085E9D0 /* AssetCheckViewController.swift in Sources */,
+				89B915F22399D1E90030E143 /* String.swift in Sources */,
+				89B915EC2399CF1C0030E143 /* UIScrollView.swift in Sources */,
 				892BD85522AFEE7D005DBA8F /* R.generated.swift in Sources */,
 				89AB15E722C76F1B000632E4 /* ToggleTorchButton.swift in Sources */,
 				0B90CC79235955400048715D /* RegisterView.swift in Sources */,
@@ -800,13 +821,16 @@
 				892BD85722B33595005DBA8F /* HomeView.swift in Sources */,
 				892BD84322AFEC91005DBA8F /* UICollectionView.swift in Sources */,
 				89AB15DF22C76F1B000632E4 /* QRCodeReader.swift in Sources */,
+				89B915F02399D0100030E143 /* Date.swift in Sources */,
 				0BC21818231BF16200D04E47 /* Dispatch.swift in Sources */,
 				08EF48E32334753B0015F46C /* UDManager.swift in Sources */,
 				892BD84622AFEC91005DBA8F /* CALayer.swift in Sources */,
+				89B915EE2399CF480030E143 /* URL.swift in Sources */,
 				0B49BEE1232BCB7A00215D86 /* AssetNames.swift in Sources */,
 				0B49BEDF232BCB4E00215D86 /* Locations.swift in Sources */,
 				0B3C9622235EC56F00D04982 /* Test.swift in Sources */,
 				89AB156D22C72CC6000632E4 /* ScanView.swift in Sources */,
+				89B915F42399D2490030E143 /* UIImage.swift in Sources */,
 				892BD85322AFEE1D005DBA8F /* HomeViewController.swift in Sources */,
 				0BB2865B22FC1F11007B4E9D /* DBStore.swift in Sources */,
 				89AB15E322C76F1B000632E4 /* QRCodeReaderView.swift in Sources */,
@@ -1007,13 +1031,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 24435CS59T;
+				DEVELOPMENT_TEAM = Z6ZF6BB944;
 				INFOPLIST_FILE = ems/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = RaiRaiRaise.org.ems;
+				PRODUCT_BUNDLE_IDENTIFIER = RaiRaiRaise.org.ems.hira;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1026,13 +1050,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 24435CS59T;
+				DEVELOPMENT_TEAM = Z6ZF6BB944;
 				INFOPLIST_FILE = ems/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = RaiRaiRaise.org.ems;
+				PRODUCT_BUNDLE_IDENTIFIER = RaiRaiRaise.org.ems.hira;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

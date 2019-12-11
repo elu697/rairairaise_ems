@@ -1,9 +1,5 @@
 //
-//  UIBarButtonItem.swift swiftlint:disable:this file_name
-//  FiMap
-//
-//  Created by AmamiYou on 2018/10/09.
-//  Copyright © 2018 ammYou. All rights reserved.
+// Swift usefull extensions
 //
 
 import Foundation
