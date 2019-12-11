@@ -15,4 +15,3 @@ extension URL {
         return queryItems?.filter { $0.name == key }.compactMap { $0.value }.first
     }
 }
-

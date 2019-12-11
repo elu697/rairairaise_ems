@@ -862,7 +862,6 @@
 				892BD84322AFEC91005DBA8F /* UICollectionView.swift in Sources */,
 				89AB15DF22C76F1B000632E4 /* QRCodeReader.swift in Sources */,
 				89B915F02399D0100030E143 /* Date.swift in Sources */,
-				0B488CEE239BEBB7009B1CFD /* GoogleDriveFileListView.swift in Sources */,
 				0B488CE8239AA612009B1CFD /* GoogleDriveView.swift in Sources */,
 				0BC21818231BF16200D04E47 /* Dispatch.swift in Sources */,
 				08EF48E32334753B0015F46C /* UDManager.swift in Sources */,

@@ -20,8 +20,8 @@ extension UIButton {
 }
 
 class UIButtonSwitch: UIButton {
-    var onImage: UIImage = UIImage()
-    var offImage: UIImage = UIImage()
+    var onImage = UIImage()
+    var offImage = UIImage()
     var isTapped: Bool = false {
         didSet {
             if self.isTapped {
@@ -31,7 +31,7 @@ class UIButtonSwitch: UIButton {
             }
         }
     }
-    
+
     internal func setSwitchBtn(on: UIImage?, off: UIImage?) {
         guard let on = on, let off = off else { return }
         self.onImage = on
@@ -40,7 +40,7 @@ class UIButtonSwitch: UIButton {
         self.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         self.addTarget(self, action: #selector(tapButton(sender:)), for: .touchUpInside)
     }
-    
+
     @objc
     func tapButton(sender: UIButton) {
         if sender == self {
@@ -54,5 +54,4 @@ class UIButtonSwitch: UIButton {
      // Drawing code
      }
      */
-    
 }

@@ -14,10 +14,10 @@ class FileIO {
         if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             let pathFileName = dir.appendingPathComponent(fileName)
             do {
-                let csv = try String(contentsOf: pathFileName, encoding: .utf8)
+                let csv = try String(contentsOf: pathFileName, encoding: .shiftJIS)
                 csvData = csv.lines
-            } catch {
-                print("読み込み失敗")
+            } catch(let e) {
+                print("読み込み失敗: \(e.localizedDescription)")
             }
         }
         return csvData

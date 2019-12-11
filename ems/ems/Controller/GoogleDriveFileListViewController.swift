@@ -81,7 +81,7 @@ internal class GoogleDriveFileListViewController: UITableViewController {
         }
     }
 
-    private func showLoadCSVAlert(file: GTLRDrive_File, _ completion: @escaping () -> Void) {
+    private func showSaveCSVAlert(file: GTLRDrive_File, _ completion: @escaping () -> Void) {
         showAlert(title: "確認", message: "このCSVファイルを読み込みますか？", { _ in
             guard let identifier = file.identifier else { return }
             GoogleDriveWrapper.shared.download(identifier) { data, _ in
@@ -97,6 +97,36 @@ internal class GoogleDriveFileListViewController: UITableViewController {
         }
         )
         return
+    }
+
+    private func uploadData(values: [String], _ completion: @escaping () -> Void) {
+        let dispatch = Dispatch(label: "upload")
+        values.forEach { data in
+            var asset = data.components(separatedBy: ",")
+            if asset.count < 8 {
+                asset.append("")
+            }
+            dispatch.async {
+                DBStore.share.set({ save in
+                    save.code = asset[0]
+                    save.name = asset[1]
+                    save.admin = asset[2]
+                    save.user = asset[3]
+                    save.location = asset[4]
+                    save.quantity = Int(asset[5]) ?? 0
+                    save.loss = asset[6] == "TRUE"
+                    save.discard = asset[7] == "TRUE"
+                }, { error in
+                    if let error = error {
+                        print("\(error.descript)")
+                    }
+                    dispatch.leave()
+                }
+                )
+            }
+        }
+
+        dispatch.notify(completion)
     }
 
     internal required init?(coder: NSCoder) {
@@ -180,8 +210,12 @@ extension GoogleDriveFileListViewController {
     override internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let file = files[indexPath.row]
         guard GoogleDriveMime(rawValue: file.mimeType ?? "") == .folder else {
-            showLoadCSVAlert(file: file) {
-                self.dismiss(animated: true, completion: nil)
+            showSaveCSVAlert(file: file) { [weak self] in
+                guard let value = FileIO.load(fileName: "asset.csv") else { return }
+                SVProgressHUD.show()
+                self?.uploadData(values: value) {
+                    SVProgressHUD.dismiss()
+                }
             }
             return
         }
