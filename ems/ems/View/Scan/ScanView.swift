@@ -8,6 +8,7 @@
 
 import AVFoundation
 import Foundation
+import GoogleSignIn
 import Material
 import UIKit
 

@@ -1,9 +1,5 @@
 //
-//  Document.swift
-//  ems
-//
-//  Created by 吉野瑠 on 2019/09/18.
-//  Copyright © 2019 RaiRaiRaise. All rights reserved.
+// Swift usefull extensions
 //
 
 import FirebaseFirestore
