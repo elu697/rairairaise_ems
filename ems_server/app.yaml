@@ -1,0 +1,13 @@
+runtime: python37
+env: standard
+entrypoint: gunicorn -b :$PORT main:app
+#service: ems-server
+
+## --- Script handlers ---
+  ##handlers:
+  ### The root URL (/) is handled by the webapp handler in the home.py script
+  ### No other URLs match this pattern.
+##- url: /
+##  script: main.py
+
+# gcloud app deploy --project rairairaise --version alpha-1
