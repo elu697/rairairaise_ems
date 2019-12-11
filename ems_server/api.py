@@ -82,7 +82,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         if request.method == 'POST':
             try:
                 req = request.get_json()["data"]
-                # req = [["test111", "test"]]
+                # req = [["資産コード", "資産名"]]
                 out = QrGen().pdf(req)
             except:
                 abort(500)
