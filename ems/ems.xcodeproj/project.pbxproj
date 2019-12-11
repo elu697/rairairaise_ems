@@ -16,13 +16,14 @@
 		0B488CDE239A9C0A009B1CFD /* GoogleDriveWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B488CDD239A9C0A009B1CFD /* GoogleDriveWrapper.swift */; };
 		0B488CE8239AA612009B1CFD /* GoogleDriveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B488CE7239AA612009B1CFD /* GoogleDriveView.swift */; };
 		0B488CEC239BEB8E009B1CFD /* GoogleDriveFileListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B488CEB239BEB8E009B1CFD /* GoogleDriveFileListViewController.swift */; };
-		0B488CEE239BEBB7009B1CFD /* GoogleDriveFileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B488CED239BEBB7009B1CFD /* GoogleDriveFileListView.swift */; };
 		0B488CF2239D2119009B1CFD /* GoogleDriveEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B488CF1239D2119009B1CFD /* GoogleDriveEnum.swift */; };
 		0B49BEDB232BC98500215D86 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B49BEDA232BC98500215D86 /* Person.swift */; };
 		0B49BEDF232BCB4E00215D86 /* Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B49BEDE232BCB4E00215D86 /* Locations.swift */; };
 		0B49BEE1232BCB7A00215D86 /* AssetNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B49BEE0232BCB7A00215D86 /* AssetNames.swift */; };
 		0B837B7F2352F581006A6A95 /* ScanInfoInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B837B7E2352F581006A6A95 /* ScanInfoInputViewController.swift */; };
 		0B837B812352F76F006A6A95 /* ScanAssetCheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B837B802352F76F006A6A95 /* ScanAssetCheckListViewController.swift */; };
+		0B84397F23A1084400682327 /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B84397E23A1084400682327 /* FileIO.swift */; };
+		0B84398323A112DE00682327 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B84398223A112DE00682327 /* String.swift */; };
 		0B90CC772359535F0048715D /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B90CC762359535F0048715D /* RegisterViewController.swift */; };
 		0B90CC79235955400048715D /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B90CC78235955400048715D /* RegisterView.swift */; };
 		0BB2865B22FC1F11007B4E9D /* DBStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB2865A22FC1F11007B4E9D /* DBStore.swift */; };
@@ -129,13 +130,14 @@
 		0B488CE1239AA4D9009B1CFD /* GoogleAPIClientForREST.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GoogleAPIClientForREST.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B488CE7239AA612009B1CFD /* GoogleDriveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveView.swift; sourceTree = "<group>"; };
 		0B488CEB239BEB8E009B1CFD /* GoogleDriveFileListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveFileListViewController.swift; sourceTree = "<group>"; };
-		0B488CED239BEBB7009B1CFD /* GoogleDriveFileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveFileListView.swift; sourceTree = "<group>"; };
 		0B488CF1239D2119009B1CFD /* GoogleDriveEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveEnum.swift; sourceTree = "<group>"; };
 		0B49BEDA232BC98500215D86 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		0B49BEDE232BCB4E00215D86 /* Locations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locations.swift; sourceTree = "<group>"; };
 		0B49BEE0232BCB7A00215D86 /* AssetNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetNames.swift; sourceTree = "<group>"; };
 		0B837B7E2352F581006A6A95 /* ScanInfoInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanInfoInputViewController.swift; sourceTree = "<group>"; };
 		0B837B802352F76F006A6A95 /* ScanAssetCheckListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanAssetCheckListViewController.swift; sourceTree = "<group>"; };
+		0B84397E23A1084400682327 /* FileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIO.swift; sourceTree = "<group>"; };
+		0B84398223A112DE00682327 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		0B90CC762359535F0048715D /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		0B90CC78235955400048715D /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		0BB2865A22FC1F11007B4E9D /* DBStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBStore.swift; sourceTree = "<group>"; };
@@ -388,7 +390,6 @@
 				0BD9A4B7238EC8C80085E9D0 /* AssetCheckView.swift */,
 				0BCDE74F2397F4C80050186B /* PickerView.swift */,
 				0B488CE7239AA612009B1CFD /* GoogleDriveView.swift */,
-				0B488CED239BEBB7009B1CFD /* GoogleDriveFileListView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -432,6 +433,7 @@
 				89B915EF2399D0100030E143 /* Date.swift */,
 				89B915F12399D1E90030E143 /* String.swift */,
 				89B915F32399D2490030E143 /* UIImage.swift */,
+				0B84398223A112DE00682327 /* String.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -446,6 +448,7 @@
 				0BC21817231BF16200D04E47 /* Dispatch.swift */,
 				08EF48E22334753B0015F46C /* UDManager.swift */,
 				0B488CF1239D2119009B1CFD /* GoogleDriveEnum.swift */,
+				0B84397E23A1084400682327 /* FileIO.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -863,6 +866,7 @@
 				0B488CE8239AA612009B1CFD /* GoogleDriveView.swift in Sources */,
 				0BC21818231BF16200D04E47 /* Dispatch.swift in Sources */,
 				08EF48E32334753B0015F46C /* UDManager.swift in Sources */,
+				0B84397F23A1084400682327 /* FileIO.swift in Sources */,
 				892BD84622AFEC91005DBA8F /* CALayer.swift in Sources */,
 				89B915EE2399CF480030E143 /* URL.swift in Sources */,
 				0B49BEE1232BCB7A00215D86 /* AssetNames.swift in Sources */,
@@ -880,6 +884,7 @@
 				892BD84422AFEC91005DBA8F /* UIColor.swift in Sources */,
 				0B488CF2239D2119009B1CFD /* GoogleDriveEnum.swift in Sources */,
 				89AB15E522C76F1B000632E4 /* SwitchCameraButton.swift in Sources */,
+				0B84398323A112DE00682327 /* String.swift in Sources */,
 				0B0C291D233DC80F000C1172 /* ScanAssetCheckList.swift in Sources */,
 				89AB15E122C76F1B000632E4 /* QRCodeReaderViewContainer.swift in Sources */,
 				0B49BEDB232BC98500215D86 /* Person.swift in Sources */,
