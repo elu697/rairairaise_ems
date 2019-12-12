@@ -18,12 +18,16 @@ internal class Dispatch {
         self.label = label
     }
     
-    internal func async(_ imp: @escaping () -> Void) {
+    internal func async(attributes: DispatchQueue.Attributes? = .concurrent, _ imp: @escaping () -> Void) {
         group.enter()
         if let queue = queues[label] {
             queue.async(group: group, qos: .unspecified, flags: [], execute: imp)
         } else {
-            queues[label] = DispatchQueue(label: label, attributes: .concurrent)
+            if let attributes = attributes {
+                queues[label] = DispatchQueue(label: label, attributes: attributes)
+            } else {
+                queues[label] = DispatchQueue(label: label)
+            }
             queues[label]?.async(group: group, qos: .unspecified, flags: [], execute: imp)
         }
     }

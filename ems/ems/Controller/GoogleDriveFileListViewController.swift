@@ -106,7 +106,7 @@ internal class GoogleDriveFileListViewController: UITableViewController {
             if asset.count < 8 {
                 asset.append("")
             }
-            dispatch.async {
+            dispatch.async(attributes: nil) {
                 DBStore.share.set({ save in
                     save.code = asset[0]
                     save.name = asset[1]
@@ -119,14 +119,16 @@ internal class GoogleDriveFileListViewController: UITableViewController {
                 }, { error in
                     if let error = error {
                         print("\(error.descript)")
+                        dispatch.leave()
                     }
-                    dispatch.leave()
                 }
                 )
             }
         }
 
-        dispatch.notify(completion)
+        dispatch.notify {
+            completion()
+        }
     }
 
     internal required init?(coder: NSCoder) {
@@ -179,6 +181,44 @@ extension GoogleDriveFileListViewController {
             fetchSearch()
         }
     }
+
+    private func getUploadData(values: [String], completion: @escaping ([Assets]) -> Void) {
+        let dispatch = Dispatch(label: "getUploadData")
+        var assets: [Assets] = []
+
+        values.forEach { value in
+            dispatch.async(attributes: nil) {
+                let asset = value.components(separatedBy: ",")
+                DBStore.share.search(field: .code, value: asset[0]) { asset, error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    } else {
+                        guard let asset = asset?.first else { return }
+                        assets.append(asset)
+                    }
+                    dispatch.leave()
+                }
+            }
+        }
+
+        dispatch.notify {
+            completion(assets)
+        }
+    }
+
+    private func tappedProcess(completion: @escaping (Error?) -> Void) {
+        guard let values = FileIO.load(fileName: "asset.csv") else {
+            SVProgressHUD.showError(withStatus: "CSVの読み込みに失敗しました")
+            return
+        }
+
+        SVProgressHUD.show()
+        self.uploadData(values: values) { [weak self] in
+            self?.getUploadData(values: values) { assets in
+                PDFDownloader.shared.download(fileName: "qr.pdf", param: assets, completion)
+            }
+        }
+    }
 }
 
 // MARK: UITableView DataSource
@@ -211,10 +251,10 @@ extension GoogleDriveFileListViewController {
         let file = files[indexPath.row]
         guard GoogleDriveMime(rawValue: file.mimeType ?? "") == .folder else {
             showSaveCSVAlert(file: file) { [weak self] in
-                guard let value = FileIO.load(fileName: "asset.csv") else { return }
-                SVProgressHUD.show()
-                self?.uploadData(values: value) {
-                    SVProgressHUD.dismiss()
+                self?.tappedProcess { error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }
                 }
             }
             return
