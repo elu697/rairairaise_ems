@@ -67,21 +67,6 @@ internal class GoogleDriveFileListViewController: UITableViewController {
         fetch()
     }
 
-    @objc
-    private func signInNotify() {
-        print("signin")
-        fetch()
-    }
-
-    private func fetch() {
-        showProgress()
-        if isRoot {
-            fetchRoot()
-        } else {
-            fetchSearch()
-        }
-    }
-
     private func showProgress() {
         if !refresh.isRefreshing {
             SVProgressHUD.show()
@@ -96,6 +81,63 @@ internal class GoogleDriveFileListViewController: UITableViewController {
         }
     }
 
+    private func showSaveCSVAlert(file: GTLRDrive_File, _ completion: @escaping () -> Void) {
+        showAlert(title: "確認", message: "このCSVファイルを読み込みますか？", { _ in
+            guard let identifier = file.identifier else { return }
+            GoogleDriveWrapper.shared.download(identifier) { data, _ in
+                if let data = data, FileIO.save(data: data, fileName: "asset.csv") {
+                    SVProgressHUD.showSuccess(withStatus: "読み込みました")
+                } else {
+                    SVProgressHUD.showError(withStatus: "読み込みに失敗しました")
+                }
+                completion()
+            }
+        }, cancelAction: { _ in
+            print("calcel")
+        }
+        )
+        return
+    }
+
+    private func uploadData(values: [String], _ completion: @escaping () -> Void) {
+        let dispatch = Dispatch(label: "upload")
+        values.forEach { data in
+            var asset = data.components(separatedBy: ",")
+            if asset.count < 8 {
+                asset.append("")
+            }
+            dispatch.async(attributes: nil) {
+                DBStore.share.set({ save in
+                    save.code = asset[0]
+                    save.name = asset[1]
+                    save.admin = asset[2]
+                    save.user = asset[3]
+                    save.location = asset[4]
+                    save.quantity = Int(asset[5]) ?? 0
+                    save.loss = asset[6] == "TRUE"
+                    save.discard = asset[7] == "TRUE"
+                }, { error in
+                    if let error = error {
+                        print("\(error.descript)")
+                        dispatch.leave()
+                    }
+                }
+                )
+            }
+        }
+
+        dispatch.notify {
+            completion()
+        }
+    }
+
+    internal required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: GoogleDrive Function
+extension GoogleDriveFileListViewController {
     private func googleDriveSignIn() {
         GIDSignIn.sharedInstance().scopes = [kGTLRAuthScopeDrive]
         GIDSignIn.sharedInstance().presentingViewController = self
@@ -109,6 +151,15 @@ internal class GoogleDriveFileListViewController: UITableViewController {
         }
     }
 
+    @objc
+    private func signInNotify() {
+        print("signin")
+        fetch()
+    }
+}
+
+// MARK: Network
+extension GoogleDriveFileListViewController {
     private func fetchRoot() {
         GoogleDriveWrapper.shared.listFilesInRoot(setFetchResult)
     }
@@ -122,11 +173,55 @@ internal class GoogleDriveFileListViewController: UITableViewController {
         GoogleDriveWrapper.shared.listFilesInFolder(currentFolder, setFetchResult)
     }
 
-    internal required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    private func fetch() {
+        showProgress()
+        if isRoot {
+            fetchRoot()
+        } else {
+            fetchSearch()
+        }
+    }
+
+    private func getUploadData(values: [String], completion: @escaping ([Assets]) -> Void) {
+        let dispatch = Dispatch(label: "getUploadData")
+        var assets: [Assets] = []
+
+        values.forEach { value in
+            dispatch.async(attributes: nil) {
+                let asset = value.components(separatedBy: ",")
+                DBStore.share.search(field: .code, value: asset[0]) { asset, error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    } else {
+                        guard let asset = asset?.first else { return }
+                        assets.append(asset)
+                    }
+                    dispatch.leave()
+                }
+            }
+        }
+
+        dispatch.notify {
+            completion(assets)
+        }
+    }
+
+    private func tappedProcess(completion: @escaping (Error?) -> Void) {
+        guard let values = FileIO.load(fileName: "asset.csv") else {
+            SVProgressHUD.showError(withStatus: "CSVの読み込みに失敗しました")
+            return
+        }
+
+        SVProgressHUD.show()
+        self.uploadData(values: values) { [weak self] in
+            self?.getUploadData(values: values) { assets in
+                PDFDownloader.shared.download(fileName: "qr.pdf", param: assets, completion)
+            }
+        }
     }
 }
 
+// MARK: UITableView DataSource
 extension GoogleDriveFileListViewController {
     override internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return files.count
@@ -148,37 +243,20 @@ extension GoogleDriveFileListViewController {
         }
         return cell
     }
-
-    func saveCSV(data: Data) {
-        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let pathFileName = dir.appendingPathComponent("assetList.csv")
-            do {
-                try data.write(to: pathFileName)
-            } catch {
-                print("書き込み失敗")
-            }
-        }
-    }
 }
 
+// MARK: UITableView Delegate
 extension GoogleDriveFileListViewController {
     override internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let file = files[indexPath.row]
         guard GoogleDriveMime(rawValue: file.mimeType ?? "") == .folder else {
-            showAlert(title: "確認", message: "このCSVファイルを読み込みますか？", { [weak self] _ in
-                print("loading: \(file.name ?? "")")
-                guard let identifier = file.identifier else { return }
-                GoogleDriveWrapper.shared.download(identifier) { data, error in
-                    if let data = data {
-                        print(String(describing: data.description))
-                        self?.saveCSV(data: data)
-                    } else {
-                        print("\(error?.localizedDescription ?? "")")
+            showSaveCSVAlert(file: file) { [weak self] in
+                self?.tappedProcess { error in
+                    if let error = error {
+                        print(error.localizedDescription)
                     }
                 }
-            }, cancelAction: { _ in
-                print("calcel")
-            })
+            }
             return
         }
 

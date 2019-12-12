@@ -11,4 +11,12 @@ extension String {
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: font], context: nil)
         return ceil(boundingBox.height)
     }
+
+    var lines: [String] {
+        var lines = [String]()
+        self.enumerateLines { line, _ -> Void in
+            lines.append(line)
+        }
+        return lines
+    }
 }
