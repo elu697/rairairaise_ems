@@ -15,9 +15,10 @@ import UIKit
 
 internal class GoogleDriveFileListViewController: UIViewController {
     private let isRoot: Bool
-    private var currentFolder: String?
-    private var folderName: String?
-    private var isPDFSelect: Bool
+    private let currentFolder: String?
+    private static var globalCurrentFolder: String?
+    private let folderName: String?
+    private let isPDFSelect: Bool
     private var files: [GTLRDrive_File] = []
 
     private let refresh = UIRefreshControl()
@@ -46,6 +47,7 @@ internal class GoogleDriveFileListViewController: UIViewController {
         self.currentFolder = currentFolder
         self.folderName = folderName
         self.isPDFSelect = isPDFSelect
+        GoogleDriveFileListViewController.globalCurrentFolder = currentFolder
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -72,6 +74,7 @@ internal class GoogleDriveFileListViewController: UIViewController {
             googleDriveSignIn()
             if isPDFSelect {
                 navigationController?.view.layout(view.addBtn).width(48).height(48).bottomRight(bottom: 30, right: 30)
+                view.addBtn.addTarget(self, action: #selector(tappedAddBtn), for: .touchUpInside)
             }
         } else {
             fetch()
@@ -83,6 +86,53 @@ internal class GoogleDriveFileListViewController: UIViewController {
     @objc
     private func closeVC() {
         self.navigationController?.dissmissView()
+    }
+
+    private func pdfDownloadUpload(assets: [Assets], completion: @escaping (String?, Error?) -> Void) {
+        PDFDownloader.shared.download(fileName: "qr.pdf", param: assets) { _ in
+            guard let currentFolder = GoogleDriveFileListViewController.globalCurrentFolder else {
+                completion(nil, GDriveError.noDataAtPath)
+                return
+            }
+
+            if let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last {
+                let filePath = documentDir.appendingPathComponent("qr.pdf").path
+                let mimeType = "application/pdf"
+                GoogleDriveWrapper.shared.uploadFile(folderID: currentFolder, filePath: filePath, mimeType: mimeType, completion: completion)
+            } else {
+                completion(nil, GDriveError.noDataAtPath)
+            }
+        }
+    }
+
+    @objc
+    private func tappedAddBtn() {
+        let alert = UIAlertController(title: "確認", message: "ここにQRコードPDFを生成します", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: { textField in
+            textField.placeholder = "管理場所"
+            textField.clearButtonMode = .whileEditing
+        })
+        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            if let text = alert.textFields?.first?.text {
+                SVProgressHUD.show()
+                DBStore.share.search(field: .location, value: text) { assets, error in
+                    if let assets = assets {
+                        self?.pdfDownloadUpload(assets: assets) { fileId, error in
+                            print("upload: \(fileId), error: \(error?.localizedDescription)")
+                            SVProgressHUD.dismiss()
+                            SVProgressHUD.showSuccess(withStatus: "生成完了")
+                        }
+                    } else {
+                        print("error: \(error?.localizedDescription)")
+                    }
+                }
+            }
+        }
+        let cancelAction = UIAlertAction(title: "CANCEL", style: .cancel, handler: nil)
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+
+        present(alert, animated: true, completion: nil)
     }
 
     @objc
@@ -285,6 +335,9 @@ extension GoogleDriveFileListViewController: UITableViewDelegate {
     internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let file = files[indexPath.row]
+
+        print(file.mimeType)
+
         guard GoogleDriveMime(rawValue: file.mimeType ?? "") == .folder else {
             showSaveCSVAlert(file: file) { [weak self] in
                 self?.tappedProcess()
