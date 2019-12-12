@@ -11,11 +11,17 @@ import GoogleSignIn
 import SnapKit
 import UIKit
 
-class GoogleDriveView: UIView {
-    let signInBtn: GIDSignInButton
-    let listBtn: UIButton
+internal class GoogleDriveView: UIView {
+    internal let signInBtn: GIDSignInButton
+    internal let listBtn: UIButton
+    internal let emptyLbl: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "選択できるファイルがありません"
+        lbl.sizeToFit()
+        return lbl
+    }()
 
-    override init(frame: CGRect) {
+    override internal init(frame: CGRect) {
         signInBtn = GIDSignInButton()
         listBtn = UIButton(type: .system)
         super.init(frame: .zero)
@@ -28,9 +34,10 @@ class GoogleDriveView: UIView {
 
         addSubview(signInBtn)
         addSubview(listBtn)
+        addSubview(emptyLbl)
     }
 
-    override func updateConstraints() {
+    override internal func updateConstraints() {
         super.updateConstraints()
 
         signInBtn.snp.makeConstraints { make in
@@ -40,9 +47,14 @@ class GoogleDriveView: UIView {
         listBtn.snp.makeConstraints { make in
             make.bottom.centerX.equalToSuperview()
         }
+
+        emptyLbl.snp.makeConstraints { make in
+            make.top.equalTo(100)
+            make.centerX.equalToSuperview()
+        }
     }
 
-    required init?(coder: NSCoder) {
+    internal required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

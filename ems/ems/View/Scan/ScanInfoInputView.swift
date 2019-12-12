@@ -68,7 +68,7 @@ internal class ScanInfoInputView: UIView {
         super.updateConstraints()
 
         codeTxf.snp.makeConstraints { make in
-            make.top.equalTo(40)
+            make.top.equalTo(19)
             make.left.equalTo(20)
             make.width.equalToSuperview().multipliedBy(0.3)
         }
@@ -79,7 +79,7 @@ internal class ScanInfoInputView: UIView {
         }
 
         adminTxf.snp.makeConstraints { make in
-            make.top.equalTo(self.codeTxf.snp.bottom).offset(40)
+            make.top.equalTo(self.codeTxf.snp.bottom).offset(19)
             make.left.equalTo(20)
             make.right.equalTo(self.snp.centerX).offset(-10)
         }
@@ -91,7 +91,7 @@ internal class ScanInfoInputView: UIView {
         }
 
         placeTxf.snp.makeConstraints { make in
-            make.top.equalTo(self.adminTxf.snp.bottom).offset(40)
+            make.top.equalTo(self.adminTxf.snp.bottom).offset(19)
             make.left.equalTo(20)
             make.width.equalToSuperview().multipliedBy(0.25)
         }
@@ -103,8 +103,8 @@ internal class ScanInfoInputView: UIView {
         }
 
         lostTitleLbl.snp.makeConstraints { make in
-            make.top.equalTo(self.adminTxf.snp.bottom).offset(20)
-            make.left.equalTo(self.numberTxf.snp.right).offset(40)
+            make.top.equalTo(self.adminTxf.snp.bottom).offset(19)
+            make.left.equalTo(self.numberTxf.snp.right).offset(20)
             make.width.equalTo(150)
         }
 
@@ -115,7 +115,7 @@ internal class ScanInfoInputView: UIView {
 
         discardTitleLbl.snp.makeConstraints { make in
             make.top.equalTo(self.lostTitleLbl)
-            make.left.equalTo(self.lostSwitch.snp.right).offset(30)
+            make.left.equalTo(self.lostSwitch.snp.right).offset(20)
             make.width.equalTo(150)
         }
 

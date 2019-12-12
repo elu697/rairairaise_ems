@@ -35,4 +35,13 @@ extension CALayer {
 
         self.addSublayer(border)
     }
+
+    internal func addUnderline() {
+        self.backgroundColor = UIColor.white.cgColor
+        self.masksToBounds = false
+        self.shadowColor = UIColor.gray.cgColor
+        self.shadowOffset = CGSize(width: 0.0, height: 1.0)
+        self.shadowOpacity = 1.0
+        self.shadowRadius = 0.0
+    }
 }
