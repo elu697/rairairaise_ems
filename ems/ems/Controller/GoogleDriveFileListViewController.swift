@@ -17,6 +17,12 @@ internal class GoogleDriveFileListViewController: UITableViewController {
     private var currentFolder: String?
     private var folderName: String?
     private var files: [GTLRDrive_File] = []
+    private let emptyLbl: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "選択できるファイルがありません"
+        lbl.sizeToFit()
+        return lbl
+    }()
 
     private let refresh = UIRefreshControl()
 
@@ -43,7 +49,13 @@ internal class GoogleDriveFileListViewController: UITableViewController {
     override internal func viewDidLoad() {
         super.viewDidLoad()
 
-        setRightCloseBarButtonItem()
+        self.view.addSubview(emptyLbl)
+        emptyLbl.snp.makeConstraints { make in
+            make.top.equalTo(100)
+            make.centerX.equalToSuperview()
+        }
+
+        setRightCloseBarButtonItem(action: #selector(closeVC))
         setNavigationBarTitleString(title: isRoot ? "GoogleDrive" : folderName ?? "")
 
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.className)
@@ -60,6 +72,11 @@ internal class GoogleDriveFileListViewController: UITableViewController {
         } else {
             fetch()
         }
+    }
+
+    @objc
+    private func closeVC() {
+        self.navigationController?.dissmissView()
     }
 
     @objc
@@ -103,8 +120,12 @@ internal class GoogleDriveFileListViewController: UITableViewController {
         let dispatch = Dispatch(label: "upload")
         values.forEach { data in
             var asset = data.components(separatedBy: ",")
-            if asset.count < 8 {
-                asset.append("")
+            if asset.count != 8 {
+                SVProgressHUD.showError(withStatus: "CSVがフォーマットに沿っていません")
+//                dispatch.notify {
+//                    completion()
+//                }
+                return
             }
             dispatch.async(attributes: nil) {
                 DBStore.share.set({ save in
@@ -224,12 +245,19 @@ extension GoogleDriveFileListViewController {
 // MARK: UITableView DataSource
 extension GoogleDriveFileListViewController {
     override internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if files.isEmpty {
+            emptyLbl.isHiddenWithAlphaAnimation = 1.0
+        } else {
+            emptyLbl.isHiddenWithInteraction = true
+        }
+
         return files.count
     }
 
     override internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.className, for: indexPath)
         cell.textLabel?.text = files[indexPath.row].name
+        cell.backgroundColor = .white
         switch GoogleDriveMime(rawValue: files[indexPath.row].mimeType ?? "") {
         case .folder:
             cell.imageView?.image = Constants.Image.folder
@@ -241,6 +269,7 @@ extension GoogleDriveFileListViewController {
 
         case .none: ()
         }
+
         return cell
     }
 }
@@ -248,6 +277,7 @@ extension GoogleDriveFileListViewController {
 // MARK: UITableView Delegate
 extension GoogleDriveFileListViewController {
     override internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let file = files[indexPath.row]
         guard GoogleDriveMime(rawValue: file.mimeType ?? "") == .folder else {
             showSaveCSVAlert(file: file) { [weak self] in

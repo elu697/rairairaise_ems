@@ -48,7 +48,7 @@ internal class MenuViewController: UIViewController {
 
     override internal func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+//        self.view.backgroundColor = .white
         self.controllerSetting()
         tableView?.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.className)
         tableView?.dataSource = self
@@ -69,13 +69,13 @@ extension MenuViewController: UITableViewDataSource {
     }
 
     internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MenuType.allCases.count
+        return MenuType.allCases.count - 1
     }
 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.className, for: indexPath)
         cell.textLabel?.text = MenuType(rawValue: indexPath.row)?.title
-        cell.textLabel?.textColor = .darkText
+        cell.textLabel?.textColor = .darkGray
         cell.textLabel?.font = .boldSystemFont(ofSize: 20)
         cell.textLabel?.textAlignment = .center
         return cell
