@@ -36,7 +36,7 @@ internal class MenuViewController: UIViewController {
             case .register:
                 return "資産情報登録"
             case .drive:
-                return "GoogleDrive"
+                return "GoogleDriveから読み込み"
             }
         }
     }
@@ -64,6 +64,10 @@ internal class MenuViewController: UIViewController {
 }
 
 extension MenuViewController: UITableViewDataSource {
+    internal func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+
     internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return MenuType.allCases.count
     }
@@ -71,6 +75,9 @@ extension MenuViewController: UITableViewDataSource {
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.className, for: indexPath)
         cell.textLabel?.text = MenuType(rawValue: indexPath.row)?.title
+        cell.textLabel?.textColor = .darkText
+        cell.textLabel?.font = .boldSystemFont(ofSize: 20)
+        cell.textLabel?.textAlignment = .center
         return cell
     }
 }

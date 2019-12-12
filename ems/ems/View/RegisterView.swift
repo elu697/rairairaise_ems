@@ -37,13 +37,14 @@ internal class RegisterView: UIView {
 
         content.snp.makeConstraints { make in
             make.width.equalToSuperview()
-            make.top.equalToSuperview().inset(64)
+            make.top.equalToSuperview().inset(150)
             make.bottom.equalToSuperview()
         }
         registBtn.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(-200)
+            make.height.equalTo(30)
             make.width.equalTo(80)
-            make.height.equalTo(40)
         }
     }
 
