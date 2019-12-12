@@ -22,6 +22,8 @@ def install_pods
     pod 'Firebase/Core'
     pod 'Firebase/Firestore' 
     pod 'Eureka'
+    
+    pod 'ReachabilitySwift'
 
     #Pods for FiMap
 
