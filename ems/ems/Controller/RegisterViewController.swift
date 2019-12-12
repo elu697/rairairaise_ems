@@ -31,7 +31,7 @@ internal class RegisterViewController: UIViewController {
 
     @objc
     internal func drive() {
-        pushNewNavigationController(rootViewController: GoogleDriveFileListViewController(isRoot: true))
+        pushNewNavigationController(rootViewController: GoogleDriveFileListViewController(isRoot: true, isPDFSelect: false))
     }
 
     @objc
