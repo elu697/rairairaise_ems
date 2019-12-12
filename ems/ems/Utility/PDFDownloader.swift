@@ -6,9 +6,9 @@
 //  Copyright © 2019 RaiRaiRaise. All rights reserved.
 //
 
+import Alamofire
 import Foundation
 import UIKit
-import Alamofire
 
 class PDFDownloader: NSObject {
     internal static let shared = PDFDownloader()
