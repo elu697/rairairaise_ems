@@ -6,7 +6,7 @@ import Foundation
 import UIKit
 
 public extension UIApplication {
-    var topViewController: UIViewController? {
+    static var topViewController: UIViewController? {
         guard var topViewController = UIApplication.shared.keyWindow?.rootViewController else { return nil }
 
         while let presentedViewController = topViewController.presentedViewController {
@@ -15,7 +15,7 @@ public extension UIApplication {
         return topViewController
     }
 
-    var topNavigationController: UINavigationController? {
+    static var topNavigationController: UINavigationController? {
         return topViewController as? UINavigationController
     }
 }

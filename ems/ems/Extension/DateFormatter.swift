@@ -19,7 +19,7 @@ extension DateFormatter {
         /// 日曜日
         case weekDay = "EEEE"
     }
-    
+
     func setTemplate(_ template: Template) {
         /// optionsは拡張用の引数だが使用されていないため常に0
         dateFormat = DateFormatter.dateFormat(fromTemplate: template.rawValue, options: 0, locale: .current)

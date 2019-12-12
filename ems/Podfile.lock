@@ -159,6 +159,7 @@ PODS:
   - R.swift (5.0.3):
     - R.swift.Library (~> 5.0.0)
   - R.swift.Library (5.0.1)
+  - ReachabilitySwift (5.0.0)
   - Result (4.1.0)
   - SnapKit (5.0.1)
   - SPPermission/Camera (4.0.5):
@@ -166,7 +167,6 @@ PODS:
   - SPPermission/Core (4.0.5)
   - SVProgressHUD (2.2.5)
   - SwiftLint (0.35.0)
-  - SwiftyJSON (4.3.0)
 
 DEPENDENCIES:
   - DynamicButton (~> 6.1.0)
@@ -181,11 +181,11 @@ DEPENDENCIES:
   - Pring
   - QRCodeReader.swift (~> 10.1.0)
   - R.swift (~> 5.0.3)
+  - ReachabilitySwift
   - SnapKit (~> 5.0.0)
   - SPPermission/Camera
   - SVProgressHUD (~> 2.2.5)
   - SwiftLint
-  - SwiftyJSON (~> 4.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -224,12 +224,12 @@ SPEC REPOS:
     - QRCodeReader.swift
     - R.swift
     - R.swift.Library
+    - ReachabilitySwift
     - Result
     - SnapKit
     - SPPermission
     - SVProgressHUD
     - SwiftLint
-    - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
@@ -267,13 +267,13 @@ SPEC CHECKSUMS:
   QRCodeReader.swift: 373a389fe9a22d513c879a32a6f647c58f4ef572
   R.swift: f5a87643b91ea569d23d6afb3eee9c743edde239
   R.swift.Library: cfe85d569d9bae6cb262922db130e7c3a7a5fad1
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SPPermission: 502e79cd60d96743a338e108ecaa962d1145f8f2
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLint: 5553187048b900c91aa03552807681bb6b027846
-  SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: 586cc8c98a96295d8f2218dfe8663c60737695d8
+PODFILE CHECKSUM: df01e0541f0f3d79c5c9f7955196c863b925f0ff
 
 COCOAPODS: 1.7.5
