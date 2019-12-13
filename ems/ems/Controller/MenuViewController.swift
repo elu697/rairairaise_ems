@@ -25,7 +25,7 @@ internal class MenuViewController: UIViewController {
         case change
         case check
         case register
-        case drive
+        case qr
 
         internal var title: String {
             switch self {
@@ -35,8 +35,8 @@ internal class MenuViewController: UIViewController {
                 return "資産情報確認"
             case .register:
                 return "資産情報登録"
-            case .drive:
-                return "GoogleDriveから読み込み"
+            case .qr:
+                return "QRコード生成"
             }
         }
     }
@@ -69,7 +69,7 @@ extension MenuViewController: UITableViewDataSource {
     }
 
     internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MenuType.allCases.count - 1
+        return MenuType.allCases.count
     }
 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

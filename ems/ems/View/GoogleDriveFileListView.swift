@@ -7,13 +7,13 @@
 //
 
 import Foundation
-import GoogleSignIn
+import Material
 import SnapKit
 import UIKit
 
-internal class GoogleDriveView: UIView {
-    internal let signInBtn: GIDSignInButton
-    internal let listBtn: UIButton
+internal class GoogleDriveFileListView: UIView {
+    internal let tableView: UITableView
+    internal let addBtn: FABButton
     internal let emptyLbl: UILabel = {
         let lbl = UILabel()
         lbl.text = "選択できるファイルがありません"
@@ -22,30 +22,23 @@ internal class GoogleDriveView: UIView {
     }()
 
     override internal init(frame: CGRect) {
-        signInBtn = GIDSignInButton()
-        listBtn = UIButton(type: .system)
+        tableView = UITableView(frame: .zero, style: .plain)
+        addBtn = FABButton(image: Icon.cm.add, tintColor: .white)
         super.init(frame: .zero)
 
         backgroundColor = .white
 
-        listBtn.titleLabel?.text = "List"
-        listBtn.backgroundColor = .gray
-        listBtn.sizeToFit()
+        addBtn.backgroundColor = .red
 
-        addSubview(signInBtn)
-        addSubview(listBtn)
+        addSubview(tableView)
         addSubview(emptyLbl)
     }
 
     override internal func updateConstraints() {
         super.updateConstraints()
 
-        signInBtn.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
-
-        listBtn.snp.makeConstraints { make in
-            make.bottom.centerX.equalToSuperview()
+        tableView.snp.makeConstraints { make in
+            make.width.height.equalToSuperview()
         }
 
         emptyLbl.snp.makeConstraints { make in

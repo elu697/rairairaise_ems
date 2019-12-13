@@ -34,7 +34,7 @@ struct Constants {
         static let qr = R.image.icons8Qr_code()
         static let search = R.image.icons8Search()
         static let folder = R.image.baseline_folder_black_36pt()
-        static let file = R.image.baseline_insert_drive_file_black_36pt()
+        static let file = R.image.icons8Csv()
     }
 
     struct Font {

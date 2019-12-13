@@ -27,7 +27,7 @@ class PDFDownloader: NSObject {
             }
         }
         
-        let data: [[String]] = param.map { ["123123", $0.code, $0.name ?? ""] }
+        let data: [[String]] = param.map { [$0.code, $0.code, $0.name ?? ""] }
         let url = "https://rairairaise.appspot.com/api/qr"
         Alamofire.download(url, method: .post, parameters: ["data": data], encoding: JSONEncoding.default, to: destination).response { response in
             completion(response.error)
