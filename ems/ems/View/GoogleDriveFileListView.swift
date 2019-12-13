@@ -42,7 +42,7 @@ internal class GoogleDriveFileListView: UIView {
         }
 
         emptyLbl.snp.makeConstraints { make in
-            make.top.equalTo(100)
+            make.top.equalTo(200)
             make.centerX.equalToSuperview()
         }
     }
