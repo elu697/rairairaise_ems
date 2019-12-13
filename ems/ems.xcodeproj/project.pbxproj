@@ -34,6 +34,7 @@
 		0BD9A4B8238EC8C80085E9D0 /* AssetCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD9A4B7238EC8C80085E9D0 /* AssetCheckView.swift */; };
 		0BD9A4BA238EC9740085E9D0 /* AssetCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD9A4B9238EC9740085E9D0 /* AssetCheckViewController.swift */; };
 		19C3432867E1ABC55425AE8F /* Pods_emsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00BC9CCE9A7BC52594591B68 /* Pods_emsTests.framework */; };
+		8905273023A3360200AF9A7E /* icons8-logout_rounded_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 8905272F23A3360200AF9A7E /* icons8-logout_rounded_up.png */; };
 		892BD7FB22AFE590005DBA8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892BD7FA22AFE590005DBA8F /* AppDelegate.swift */; };
 		892BD7FD22AFE590005DBA8F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892BD7FC22AFE590005DBA8F /* ViewController.swift */; };
 		892BD80222AFE591005DBA8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 892BD80122AFE591005DBA8F /* Assets.xcassets */; };
@@ -156,6 +157,7 @@
 		5691E8B90680485099DE6AD4 /* Pods-emsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-emsUITests.release.xcconfig"; path = "Target Support Files/Pods-emsUITests/Pods-emsUITests.release.xcconfig"; sourceTree = "<group>"; };
 		6C614BB163C8E3439504BFD3 /* Pods-emsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-emsTests.debug.xcconfig"; path = "Target Support Files/Pods-emsTests/Pods-emsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6F0E5270DC178AD427E8CA79 /* Pods-ems.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ems.release.xcconfig"; path = "Target Support Files/Pods-ems/Pods-ems.release.xcconfig"; sourceTree = "<group>"; };
+		8905272F23A3360200AF9A7E /* icons8-logout_rounded_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-logout_rounded_up.png"; sourceTree = "<group>"; };
 		892BD7F722AFE590005DBA8F /* ems.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ems.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		892BD7FA22AFE590005DBA8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		892BD7FC22AFE590005DBA8F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -507,6 +509,7 @@
 				89C33CF922DF019A005C2D23 /* icons8-back.png */,
 				89C33CFD22DF01D7005C2D23 /* icons8-menu.png */,
 				898EEBD823A30C19006BD43B /* icons8-csv.png */,
+				8905272F23A3360200AF9A7E /* icons8-logout_rounded_up.png */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -644,6 +647,7 @@
 				892BD80522AFE591005DBA8F /* LaunchScreen.storyboard in Resources */,
 				0B3C9624235EF1C200D04982 /* icons8-search.png in Resources */,
 				892E753E232B3F2C00E7B8A4 /* icons8-delete_sign.png in Resources */,
+				8905273023A3360200AF9A7E /* icons8-logout_rounded_up.png in Resources */,
 				89C33CFE22DF01D7005C2D23 /* icons8-menu.png in Resources */,
 				892BD80222AFE591005DBA8F /* Assets.xcassets in Resources */,
 			);
@@ -1106,7 +1110,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = RaiRaiRaise.org.ems.hira;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1125,7 +1129,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = RaiRaiRaise.org.ems.hira;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

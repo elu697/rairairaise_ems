@@ -76,11 +76,27 @@ internal class GoogleDriveFileListViewController: UIViewController {
                 navigationController?.view.layout(view.addBtn).width(48).height(48).bottomRight(bottom: 30, right: 30)
                 view.addBtn.addTarget(self, action: #selector(tappedAddBtn), for: .touchUpInside)
             }
+            setLeftBackBarButtonItem(action: #selector(logout), image: Constants.Image.logout)
         } else {
             fetch()
         }
 
         view.updateConstraintsIfNeeded()
+    }
+
+    @objc
+    private func logout() {
+        self.showAlert(title: "サインアウト", message: "Googleからサインアウトしますか？", {_ in
+            GIDSignIn.sharedInstance()?.signOut()
+            self.closeVC()
+//            GIDSignIn.sharedInstance()?.disconnect()
+//            self.refreshing()
+//            self.files.removeAll()
+//            guard let view = self.view as? GoogleDriveFileListView else { return }
+//            view.tableView.reloadData()
+        }, cancelAction: {_ in
+            print("cancel")
+        })
     }
 
     @objc
@@ -188,9 +204,6 @@ internal class GoogleDriveFileListViewController: UIViewController {
             let asset = data.components(separatedBy: ",")
             if asset.count != 8 {
                 SVProgressHUD.showError(withStatus: "CSVがフォーマットに沿っていません")
-//                dispatch.notify {
-//                    completion()
-//                }
                 return
             }
             dispatch.async(attributes: nil) {
@@ -334,7 +347,7 @@ extension GoogleDriveFileListViewController: UITableViewDataSource {
             cell.imageView?.tintColor = .systemBlue
             cell.imageView?.layoutMargins = .init(top: 8, left: 8, bottom: 8, right: 8)
 //            if #available(iOS 13.0, *) {
-//                
+//
 //            } else {
 //                // Fallback on earlier versions
 //            }
