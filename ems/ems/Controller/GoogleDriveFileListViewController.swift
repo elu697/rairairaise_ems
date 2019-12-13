@@ -322,6 +322,12 @@ extension GoogleDriveFileListViewController: UITableViewDataSource {
         case .csv:
             cell.imageView?.image = Constants.Image.file
             cell.imageView?.tintColor = .systemBlue
+            cell.imageView?.layoutMargins = .init(top: 8, left: 8, bottom: 8, right: 8)
+//            if #available(iOS 13.0, *) {
+//                
+//            } else {
+//                // Fallback on earlier versions
+//            }
 
         case .none: ()
         }
