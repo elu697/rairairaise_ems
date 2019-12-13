@@ -38,7 +38,7 @@ internal class GoogleDriveFileListViewController: UIViewController {
         }
     }
 
-    override func loadView() {
+    override internal func loadView() {
         view = GoogleDriveFileListView()
     }
 
@@ -111,19 +111,29 @@ internal class GoogleDriveFileListViewController: UIViewController {
         alert.addTextField(configurationHandler: { textField in
             textField.placeholder = "管理場所"
             textField.clearButtonMode = .whileEditing
-        })
+        }
+        )
         let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
             if let text = alert.textFields?.first?.text {
                 SVProgressHUD.show()
                 DBStore.share.search(field: .location, value: text) { assets, error in
                     if let assets = assets {
-                        self?.pdfDownloadUpload(assets: assets) { fileId, error in
-                            print("upload: \(fileId), error: \(error?.localizedDescription)")
+                        guard !assets.isEmpty else {
                             SVProgressHUD.dismiss()
-                            SVProgressHUD.showSuccess(withStatus: "生成完了")
+                            SVProgressHUD.showError(withStatus: "資産情報が存在しません")
+                            return
+                        }
+                        self?.pdfDownloadUpload(assets: assets) { _, error in
+                            SVProgressHUD.dismiss()
+                            if error != nil {
+                                SVProgressHUD.showError(withStatus: "失敗しました")
+                            } else {
+                                SVProgressHUD.showSuccess(withStatus: "生成完了")
+                            }
                         }
                     } else {
-                        print("error: \(error?.localizedDescription)")
+                        SVProgressHUD.dismiss()
+                        SVProgressHUD.showError(withStatus: "失敗しました")
                     }
                 }
             }
@@ -175,7 +185,7 @@ internal class GoogleDriveFileListViewController: UIViewController {
     private func uploadData(values: [String], _ completion: @escaping () -> Void) {
         let dispatch = Dispatch(label: "upload")
         values.forEach { data in
-            var asset = data.components(separatedBy: ",")
+            let asset = data.components(separatedBy: ",")
             if asset.count != 8 {
                 SVProgressHUD.showError(withStatus: "CSVがフォーマットに沿っていません")
 //                dispatch.notify {
