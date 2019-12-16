@@ -21,40 +21,59 @@ internal class Assets: Object {
     internal dynamic var discard: Bool = false
     internal dynamic var location: String?
     internal dynamic var quantity: Int = 0
-    
-    struct Field {
-        private let variable: Variable
-        internal var type: `Type`? {
-            switch variable {
+
+    internal enum Collection {
+        case persons
+        case locations
+        case assetNames
+        case assets
+    }
+
+    internal enum Field: String, CaseIterable {
+        case code
+        case name
+        case admin
+        case user
+        case loss
+        case discard
+        case location
+        case quantity
+
+        internal var name: String {
+            switch self {
+            case .code:
+                return "資産コード"
             case .name:
-                return .name
-            case .admin, .user:
-                return .person
+                return "資産名"
+            case .admin:
+                return " 管理者"
+            case .user:
+                return "使用者"
+            case .loss:
+                return "紛失"
+            case .discard:
+                return "廃棄"
             case .location:
-                return .location
-            default: return nil
+                return "管理場所"
+            case .quantity:
+                return "数量"
             }
         }
-        
-        init(variable: Variable) {
-            self.variable = variable
-        }
-        
-        enum `Type` {
-            case person
-            case location
-            case name
-        }
-        
-        enum Variable: String, CaseIterable {
-            case code
-            case name
-            case admin
-            case user
-            case loss
-            case discard
-            case location
-            case quantity
+
+        var type: Collection {
+            switch self {
+            case .admin, .user:
+                return .persons
+
+            case .location:
+                return .locations
+
+            case .name:
+                return .assetNames
+
+            default:
+                return .assets
+            }
         }
     }
 
@@ -77,20 +96,26 @@ internal class Assets: Object {
 
     internal func updateWithSetParam(_ result: @escaping (Error?) -> Void) {
         print("Assets: updateWithSetParam")
-        convertValue { data in
-            self.setValue(data: data)
+        convertDocRef().done { data in
+            self.setField(data: data)
             self.update { error in
                 result(error)
             }
         }
+        .catch { error in
+            result(error)
+        }
     }
 
     internal func saveWithSetParam(_ result: @escaping (Error?) -> Void) {
-        convertValue { data in
-            self.setValue(data: data)
+        convertDocRef().done { data in
+            self.setField(data: data)
             self.save { _, error in
                 result(error)
             }
+        }
+        .catch { error in
+            result(error)
         }
     }
 
@@ -135,56 +160,57 @@ internal class Assets: Object {
 // MARK: - private function
 extension Assets {
     /// 生の情報からDocumentReferenceを取得する。ない場合はデータをDBへ追加して取得する。
-    private func convertDocRef() -> Promise<[Field.Variable: DocumentReference]> {
-        var data: [Field.Variable: DocumentReference] = [:]
-        
-        return Promise<[Field.Variable: DocumentReference]> { seal in
+    private func convertDocRef() -> Promise<[Field: String]> {
+        var data: [Field: String] = [:]
+
+        return Promise<[Field: String]> { seal in
             firstly {
-                prosess(field: Field(variable: .admin))
+                prosess(field: .admin)
             }.then { docRef -> Promise<DocumentReference> in
-                data[.admin] = docRef
-                return self.prosess(field: Field(variable: .user))
+                data[.admin] = docRef.documentID
+                return self.prosess(field: .user)
             }
             .then { docRef -> Promise<DocumentReference> in
-                data[.user] = docRef
-                return self.prosess(field: Field(variable: .location))
+                data[.user] = docRef.documentID
+                return self.prosess(field: .location)
             }
             .then { docRef -> Promise<DocumentReference> in
-                data[.location] = docRef
-                return self.prosess(field: Field(variable: .name))
+                data[.location] = docRef.documentID
+                return self.prosess(field: .name)
             }
             .done { docRef in
-                data[.name] = docRef
+                data[.name] = docRef.documentID
                 seal.fulfill(data)
             }.catch { error in
                 seal.reject(error)
             }
         }
     }
-    
+
     private func prosess(field: Field) -> Promise<DocumentReference> {
-        guard let type = field.type else {
-            return Promise<DocumentReference>.init(error: DBStoreError.inputFailed)
-        }
-        
         let value = getValue(field: field)
-        switch type {
-        case .person:
+        switch field.type {
+        case .persons:
             return Persons.existCheck(keyPath: \Persons.name, value: value).recover { _ -> Promise<DocumentReference> in
                 Persons(value: value).save()
             }
-        case .location:
+
+        case .locations:
             return Locations.existCheck(keyPath: \Locations.location, value: value).recover { _ -> Promise<DocumentReference> in
                 Locations(value: value).save()
             }
-        case .name:
+
+        case .assetNames:
             return AssetNames.existCheck(keyPath: \AssetNames.assetName, value: value).recover { _ -> Promise<DocumentReference> in
                 AssetNames(value: value).save()
             }
+
+        default:
+            return Promise<DocumentReference>(error: DBStoreError.failed)
         }
     }
 
-    private func setField(data: [Field.Variable: Any]) {
+    private func setField(data: [Field: Any]) {
         code = data[.code] as? String ?? code
         name = data[.name] as? String ?? name
         admin = data[.admin] as? String ?? admin
@@ -195,10 +221,8 @@ extension Assets {
         loss = data[.loss] as? Bool ?? loss
     }
 
-    /*private func setValue(_ complete: @escaping () -> Void) {
+    private func setValue(_ complete: @escaping () -> Void) {
         let dispatch = Dispatch(label: "value")
-        
-        
 
         Field.allCases.forEach { field in
             switch field.type {

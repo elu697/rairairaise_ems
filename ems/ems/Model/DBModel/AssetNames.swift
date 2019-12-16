@@ -14,6 +14,14 @@ import Pring
 internal class AssetNames: Object {
     internal dynamic var assetName: String?
 
+    init(value: String? = nil) {
+        assetName = value
+    }
+
+    override required init() {
+        fatalError("init() has not been implemented")
+    }
+
     internal static func getDocumentId(value: String, _ complete: @escaping (QueryDocumentSnapshot?, Error?) -> Void) {
         self.where(\AssetNames.assetName, isEqualTo: value).get { snapShot, error in
             guard let snapShot = snapShot else {
