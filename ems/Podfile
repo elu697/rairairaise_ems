@@ -18,6 +18,7 @@ def install_pods
     pod 'QRCodeReader.swift', '~> 10.1.0'
     pod 'GoogleAPIClientForREST/Drive'
     pod 'GoogleSignIn'
+    pod 'PromiseKit', '~> 6.8'
     
     pod 'Firebase/Core'
     pod 'Firebase/Firestore' 

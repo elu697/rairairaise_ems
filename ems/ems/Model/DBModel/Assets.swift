@@ -9,6 +9,7 @@
 import FirebaseFirestore
 import Foundation
 import Pring
+import PromiseKit
 
 @objcMembers
 internal class Assets: Object {
@@ -20,59 +21,40 @@ internal class Assets: Object {
     internal dynamic var discard: Bool = false
     internal dynamic var location: String?
     internal dynamic var quantity: Int = 0
-
-    internal enum Collection {
-        case persons
-        case locations
-        case assetNames
-        case assets
-    }
-
-    internal enum Field: String, CaseIterable {
-        case code
-        case name
-        case admin
-        case user
-        case loss
-        case discard
-        case location
-        case quantity
-
-        internal var name: String {
-            switch self {
-            case .code:
-                return "資産コード"
+    
+    struct Field {
+        private let variable: Variable
+        internal var type: `Type`? {
+            switch variable {
             case .name:
-                return "資産名"
-            case .admin:
-                return " 管理者"
-            case .user:
-                return "使用者"
-            case .loss:
-                return "紛失"
-            case .discard:
-                return "廃棄"
+                return .name
+            case .admin, .user:
+                return .person
             case .location:
-                return "管理場所"
-            case .quantity:
-                return "数量"
+                return .location
+            default: return nil
             }
         }
-
-        var type: Collection {
-            switch self {
-            case .admin, .user:
-                return .persons
-
-            case .location:
-                return .locations
-
-            case .name:
-                return .assetNames
-
-            default:
-                return .assets
-            }
+        
+        init(variable: Variable) {
+            self.variable = variable
+        }
+        
+        enum `Type` {
+            case person
+            case location
+            case name
+        }
+        
+        enum Variable: String, CaseIterable {
+            case code
+            case name
+            case admin
+            case user
+            case loss
+            case discard
+            case location
+            case quantity
         }
     }
 
@@ -152,117 +134,71 @@ internal class Assets: Object {
 
 // MARK: - private function
 extension Assets {
-    private func convertValue(_ complete: @escaping ([Field: DocumentReference?]) -> Void) {
-        let dispatch = Dispatch(label: "convert")
-
-        var data: [Field: DocumentReference?] = [:]
-        Field.allCases.forEach { field in
-            dispatch.async {
-                switch field.type {
-                case .persons:
-                    Persons.isExist(keyPath: \Persons.name, value: self.getValue(field: field)) { docRef, _ in
-                        if let docRef = docRef {
-                            data[field] = docRef
-                            dispatch.leave()
-                        } else {
-                            let person = Persons()
-                            person.name = self.getValue(field: field)
-                            person.save { docRef, _ in
-                                data[field] = docRef
-                                dispatch.leave()
-                            }
-                        }
-                    }
-
-                case .assetNames:
-                    AssetNames.isExist(keyPath: \AssetNames.assetName, value: self.getValue(field: field)) { docRef, _ in
-                        if let docRef = docRef {
-                            data[field] = docRef
-                            dispatch.leave()
-                        } else {
-                            let assetName = AssetNames()
-                            assetName.assetName = self.getValue(field: field)
-                            assetName.save { docRef, _ in
-                                data[field] = docRef
-                                dispatch.leave()
-                            }
-                        }
-                    }
-
-                case .locations:
-                    Locations.isExist(keyPath: \Locations.location, value: self.getValue(field: field)) { docRef, _ in
-                        if let docRef = docRef {
-                            data[field] = docRef
-                            dispatch.leave()
-                        } else {
-                            let location = Locations()
-                            location.location = self.getValue(field: field)
-                            location.save { docRef, _ in
-                                data[field] = docRef
-                                dispatch.leave()
-                            }
-                        }
-                    }
-                default: dispatch.leave(); return
-                }
+    /// 生の情報からDocumentReferenceを取得する。ない場合はデータをDBへ追加して取得する。
+    private func convertDocRef() -> Promise<[Field.Variable: DocumentReference]> {
+        var data: [Field.Variable: DocumentReference] = [:]
+        
+        return Promise<[Field.Variable: DocumentReference]> { seal in
+            firstly {
+                prosess(field: Field(variable: .admin))
+            }.then { docRef -> Promise<DocumentReference> in
+                data[.admin] = docRef
+                return self.prosess(field: Field(variable: .user))
+            }
+            .then { docRef -> Promise<DocumentReference> in
+                data[.user] = docRef
+                return self.prosess(field: Field(variable: .location))
+            }
+            .then { docRef -> Promise<DocumentReference> in
+                data[.location] = docRef
+                return self.prosess(field: Field(variable: .name))
+            }
+            .done { docRef in
+                data[.name] = docRef
+                seal.fulfill(data)
+            }.catch { error in
+                seal.reject(error)
             }
         }
-
-        dispatch.notify {
-            complete(data)
-        }
     }
-
-    private func setDocRef(collection: Assets.Collection, value: String?, docRef: DocumentReference?, _ complete: @escaping (DocumentReference?) -> Void) {
-        if let docRef = docRef {
-            complete(docRef)
-            return
+    
+    private func prosess(field: Field) -> Promise<DocumentReference> {
+        guard let type = field.type else {
+            return Promise<DocumentReference>.init(error: DBStoreError.inputFailed)
         }
-        createFieldCollection(collection: collection, value: value) { newDocRef, _ in
-            complete(newDocRef)
-        }
-    }
-
-    private func createFieldCollection(collection: Collection, value: String?, _ complete: @escaping (DocumentReference?, Error?) -> Void) {
-        switch collection {
-        case .persons:
-            let person = Persons()
-            person.name = value
-            person.save(complete)
-
-        case .locations:
-            let location = Locations()
-            location.location = value
-            location.save(complete)
-
-        case .assetNames:
-            let assetName = AssetNames()
-            assetName.assetName = value
-            assetName.save(complete)
-        default: return
-        }
-    }
-
-    private func setValue(data: [Field: DocumentReference?]) {
-        Field.allCases.forEach { field in
-            guard let value = data[field] else { return }
-            switch field.type {
-            case .persons:
-                if field == .user { self.user = value?.documentID }
-                if field == .admin { self.admin = value?.documentID }
-
-            case .locations:
-                self.location = value?.documentID
-
-            case .assetNames:
-                self.name = value?.documentID
-            default: return
+        
+        let value = getValue(field: field)
+        switch type {
+        case .person:
+            return Persons.existCheck(keyPath: \Persons.name, value: value).recover { _ -> Promise<DocumentReference> in
+                Persons(value: value).save()
+            }
+        case .location:
+            return Locations.existCheck(keyPath: \Locations.location, value: value).recover { _ -> Promise<DocumentReference> in
+                Locations(value: value).save()
+            }
+        case .name:
+            return AssetNames.existCheck(keyPath: \AssetNames.assetName, value: value).recover { _ -> Promise<DocumentReference> in
+                AssetNames(value: value).save()
             }
         }
     }
 
-    private func setValue(_ complete: @escaping () -> Void) {
+    private func setField(data: [Field.Variable: Any]) {
+        code = data[.code] as? String ?? code
+        name = data[.name] as? String ?? name
+        admin = data[.admin] as? String ?? admin
+        user = data[.user] as? String ?? user
+        location = data[.location] as? String ?? location
+        quantity = data[.quantity] as? Int ?? quantity
+        discard = data[.discard] as? Bool ?? discard
+        loss = data[.loss] as? Bool ?? loss
+    }
+
+    /*private func setValue(_ complete: @escaping () -> Void) {
         let dispatch = Dispatch(label: "value")
+        
+        
 
         Field.allCases.forEach { field in
             switch field.type {

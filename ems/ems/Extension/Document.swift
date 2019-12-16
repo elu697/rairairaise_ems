@@ -5,9 +5,10 @@
 import FirebaseFirestore
 import Foundation
 import Pring
+import PromiseKit
 
 extension Document where Self: Object {
-    internal static func isExist(keyPath: PartialKeyPath<Self>, value: Any?, _ exist: @escaping (DocumentReference?, Error?) -> Void) {
+    /*internal static func isExist(keyPath: PartialKeyPath<Self>, value: Any?, _ exist: @escaping (DocumentReference?, Error?) -> Void) {
         guard let value = value else { exist(nil, NSError(domain: "not input value", code: -1, userInfo: nil)); return }
         if let key = keyPath._kvcKeyPathString {
             Self.where(key, isEqualTo: value).get { snapShot, error in
@@ -17,6 +18,34 @@ extension Document where Self: Object {
                     guard let snapShot = snapShot else { exist(nil, error); return }
                     exist(snapShot.isEmpty ? nil : snapShot.documents[0].reference, nil)
                 }
+            }
+        }
+    }*/
+
+    internal static func existCheck(keyPath: PartialKeyPath<Self>, value: Any?) -> Promise<DocumentReference> {
+        return Promise<DocumentReference> { seal in
+            guard let value = value else {
+                seal.reject(DBStoreError.inputFailed)
+                return
+            }
+            if let key = keyPath._kvcKeyPathString {
+                Self.where(key, isEqualTo: value).get { snapShot, _ in
+                    guard let snapShot = snapShot, !snapShot.isEmpty else {
+                        seal.reject(DBStoreError.notFound)
+                        return
+                    }
+                    seal.fulfill(snapShot.documents[0].reference)
+                }
+            } else {
+                seal.reject(DBStoreError.failed)
+            }
+        }
+    }
+
+    internal func save() -> Promise<DocumentReference> {
+        return Promise<DocumentReference> { seal in
+            save { docRef, error in
+                seal.resolve(error, docRef)
             }
         }
     }

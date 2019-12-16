@@ -11,6 +11,7 @@
 		08EF48E32334753B0015F46C /* UDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EF48E22334753B0015F46C /* UDManager.swift */; };
 		0B0C291D233DC80F000C1172 /* ScanAssetCheckList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0C291C233DC80F000C1172 /* ScanAssetCheckList.swift */; };
 		0B28258A23323E9400892912 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B28258923323E9400892912 /* Document.swift */; };
+		0B34628C23A67BAE007BAC82 /* DBStoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B34628B23A67BAE007BAC82 /* DBStoreError.swift */; };
 		0B3C9622235EC56F00D04982 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3C9621235EC56F00D04982 /* Test.swift */; };
 		0B3C9624235EF1C200D04982 /* icons8-search.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B3C9623235EF1C200D04982 /* icons8-search.png */; };
 		0B488CDE239A9C0A009B1CFD /* GoogleDriveWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B488CDD239A9C0A009B1CFD /* GoogleDriveWrapper.swift */; };
@@ -129,6 +130,7 @@
 		08EF48E22334753B0015F46C /* UDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UDManager.swift; sourceTree = "<group>"; };
 		0B0C291C233DC80F000C1172 /* ScanAssetCheckList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanAssetCheckList.swift; sourceTree = "<group>"; };
 		0B28258923323E9400892912 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		0B34628B23A67BAE007BAC82 /* DBStoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBStoreError.swift; sourceTree = "<group>"; };
 		0B3C9621235EC56F00D04982 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		0B3C9623235EF1C200D04982 /* icons8-search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-search.png"; sourceTree = "<group>"; };
 		0B488CDD239A9C0A009B1CFD /* GoogleDriveWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveWrapper.swift; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 				0BB2865A22FC1F11007B4E9D /* DBStore.swift */,
 				0B488CDD239A9C0A009B1CFD /* GoogleDriveWrapper.swift */,
 				89F9B74A23289A4A00F7C6EE /* Profile.swift */,
+				0B34628B23A67BAE007BAC82 /* DBStoreError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -904,6 +907,7 @@
 				0BB2865E22FE529B007B4E9D /* Assets.swift in Sources */,
 				892BD83E22AFEC91005DBA8F /* UIApplication.swift in Sources */,
 				0B488CEC239BEB8E009B1CFD /* GoogleDriveFileListViewController.swift in Sources */,
+				0B34628C23A67BAE007BAC82 /* DBStoreError.swift in Sources */,
 				892BD84422AFEC91005DBA8F /* UIColor.swift in Sources */,
 				0B488CF2239D2119009B1CFD /* GoogleDriveEnum.swift in Sources */,
 				89AB15E522C76F1B000632E4 /* SwitchCameraButton.swift in Sources */,
