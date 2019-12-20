@@ -254,6 +254,9 @@ extension GoogleDriveFileListViewController {
     @objc
     private func signInNotify() {
         print("signin")
+        if let view = view as? GoogleDriveFileListView {
+            view.addBtn.isHidden = false
+        }
         fetch()
     }
 }
@@ -370,6 +373,7 @@ extension GoogleDriveFileListViewController: UITableViewDelegate {
         guard GoogleDriveMime(rawValue: file.mimeType ?? "") == .folder else {
             showSaveCSVAlert(file: file) { [weak self] in
                 self?.tappedProcess()
+                self?.dismiss(animated: true, completion: nil)
             }
             return
         }

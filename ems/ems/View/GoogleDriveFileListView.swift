@@ -29,6 +29,7 @@ internal class GoogleDriveFileListView: UIView {
         backgroundColor = .white
 
         addBtn.backgroundColor = .red
+        addBtn.isHidden = true
 
         addSubview(tableView)
         addSubview(emptyLbl)
