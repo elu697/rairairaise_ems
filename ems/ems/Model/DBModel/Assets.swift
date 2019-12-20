@@ -192,17 +192,23 @@ extension Assets {
         switch field.type {
         case .persons:
             return Persons.existCheck(keyPath: \Persons.name, value: value).recover { _ -> Promise<DocumentReference> in
-                Persons(value: value).save()
+                let person = Persons()
+                person.name = value
+                return person.save()
             }
 
         case .locations:
             return Locations.existCheck(keyPath: \Locations.location, value: value).recover { _ -> Promise<DocumentReference> in
-                Locations(value: value).save()
+                let loc = Locations()
+                loc.location = value
+                return loc.save()
             }
 
         case .assetNames:
             return AssetNames.existCheck(keyPath: \AssetNames.assetName, value: value).recover { _ -> Promise<DocumentReference> in
-                AssetNames(value: value).save()
+                let assetName = AssetNames()
+                assetName.assetName = value
+                return assetName.save()
             }
 
         default:

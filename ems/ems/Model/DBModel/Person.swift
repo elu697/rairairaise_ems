@@ -14,13 +14,9 @@ import Pring
 internal class Persons: Object {
     internal dynamic var name: String?
 
-    init(value: String? = nil) {
-        name = value
-    }
-
-    override required init() {
+    /*override required init() {
         fatalError("init() has not been implemented")
-    }
+    }*/
 
     internal static func getDocumentId(value: String, _ complete: @escaping (QueryDocumentSnapshot?, Error?) -> Void) {
         self.where(\Persons.name, isEqualTo: value).get { snapShot, error in
