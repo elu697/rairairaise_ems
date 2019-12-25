@@ -8,29 +8,13 @@
 
 import FirebaseFirestore
 import Foundation
+import PromiseKit
 import Pring
 
 internal class DBStore {
     internal static let share = DBStore()
 
     private init() {}
-
-    internal enum DBStoreError: Error {
-        case existCode
-        case failed
-        case notFound
-
-        var descript: String {
-            switch self {
-            case .existCode:
-                return "既にその資産コードは登録されています。"
-            case .failed:
-                return "処理に失敗しました。"
-            case .notFound:
-                return "お探しの資産情報は見つかりませんでした。"
-            }
-        }
-    }
 
     internal func update(code: String, set: @escaping (Assets) -> Void, complete: @escaping (Error?) -> Void) {
         Assets.isExist(keyPath: \Assets.code, value: code) { docRef, error in
@@ -43,8 +27,31 @@ internal class DBStore {
             }
         }
     }
+    
+    func regist(_ input: @escaping (Assets) -> Void) -> Promise<Void> {
+        let model = Assets()
+        input(model)
+        
+        guard !model.code.isEmpty else {
+            return Promise<Void>.init(error: DBStoreError.inputFailed)
+        }
+        
+        return Promise<Void> { seal in
+            firstly {
+                Assets.existCheck(keyPath: \Assets.code, value: model.code)
+            }.then { docRef -> Promise<Assets> in
+                return docRef.isEmpty ? AssetService().convert(model: model) : Promise<Assets>.init(error: DBStoreError.existCode)
+            }.then { converted -> Promise<[DocumentReference]> in
+                return converted.save()
+            }.done { _ in
+                seal.fulfill_()
+            }.catch { error in
+                seal.reject(error)
+            }
+        }
+    }
 
-    internal func set(_ set: @escaping (Assets) -> Void, _ complete: @escaping (DBStoreError?) -> Void) {
+    /*internal func set(_ set: @escaping (Assets) -> Void, _ complete: @escaping (DBStoreError?) -> Void) {
         let asset = Assets()
         set(asset)
         if asset.code.isEmpty {
@@ -63,7 +70,7 @@ internal class DBStore {
                 complete(DBStoreError.existCode)
             }
         }
-    }
+    }*/
 
     internal func delete(code: String, completion: @escaping (Error?) -> Void) {
         Assets.isExist(keyPath: \Assets.code, value: code) { docRef, error in
