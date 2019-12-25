@@ -77,6 +77,19 @@ internal class Assets: Object {
         }
     }
 
+    static func copy(model: Assets) -> Assets {
+        let copy = Assets()
+        copy.code = model.code
+        copy.name = model.name
+        copy.admin = model.admin
+        copy.user = model.user
+        copy.location = model.location
+        copy.discard = model.discard
+        copy.loss = model.loss
+        copy.quantity = model.quantity
+        return copy
+    }
+
     private func getValue(field: Field) -> String? {
         switch field {
         case .user:
@@ -166,20 +179,20 @@ extension Assets {
         return Promise<[Field: String]> { seal in
             firstly {
                 prosess(field: .admin)
-            }.then { docRef -> Promise<DocumentReference> in
-                data[.admin] = docRef.documentID
+            }.then { docRef -> Promise<[DocumentReference]> in
+                data[.admin] = docRef[0].documentID
                 return self.prosess(field: .user)
             }
-            .then { docRef -> Promise<DocumentReference> in
-                data[.user] = docRef.documentID
+            .then { docRef -> Promise<[DocumentReference]> in
+                data[.user] = docRef[0].documentID
                 return self.prosess(field: .location)
             }
-            .then { docRef -> Promise<DocumentReference> in
-                data[.location] = docRef.documentID
+            .then { docRef -> Promise<[DocumentReference]> in
+                data[.location] = docRef[0].documentID
                 return self.prosess(field: .name)
             }
             .done { docRef in
-                data[.name] = docRef.documentID
+                data[.name] = docRef[0].documentID
                 seal.fulfill(data)
             }.catch { error in
                 seal.reject(error)
@@ -187,32 +200,32 @@ extension Assets {
         }
     }
 
-    private func prosess(field: Field) -> Promise<DocumentReference> {
+    private func prosess(field: Field) -> Promise<[DocumentReference]> {
         let value = getValue(field: field)
         switch field.type {
         case .persons:
-            return Persons.existCheck(keyPath: \Persons.name, value: value).recover { _ -> Promise<DocumentReference> in
+            return Persons.existCheck(keyPath: \Persons.name, value: value).recover { _ -> Promise<[DocumentReference]> in
                 let person = Persons()
                 person.name = value
                 return person.save()
             }
 
         case .locations:
-            return Locations.existCheck(keyPath: \Locations.location, value: value).recover { _ -> Promise<DocumentReference> in
+            return Locations.existCheck(keyPath: \Locations.location, value: value).recover { _ -> Promise<[DocumentReference]> in
                 let loc = Locations()
                 loc.location = value
                 return loc.save()
             }
 
         case .assetNames:
-            return AssetNames.existCheck(keyPath: \AssetNames.assetName, value: value).recover { _ -> Promise<DocumentReference> in
+            return AssetNames.existCheck(keyPath: \AssetNames.assetName, value: value).recover { _ -> Promise<[DocumentReference]> in
                 let assetName = AssetNames()
                 assetName.assetName = value
                 return assetName.save()
             }
 
         default:
-            return Promise<DocumentReference>(error: DBStoreError.failed)
+            return Promise<[DocumentReference]>(error: DBStoreError.failed)
         }
     }
 

@@ -42,10 +42,14 @@ extension Document where Self: Object {
         }
     }
 
-    func save() -> Promise<DocumentReference> {
-        return Promise<DocumentReference> { seal in
+    func save() -> Promise<[DocumentReference]> {
+        return Promise<[DocumentReference]> { seal in
             save { docRef, error in
-                seal.resolve(error, docRef)
+                if let docRef = docRef {
+                    seal.resolve(error, [docRef])
+                } else {
+                    seal.resolve(error, [])
+                }
             }
         }
     }
