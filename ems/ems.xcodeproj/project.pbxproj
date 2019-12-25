@@ -10,6 +10,10 @@
 		0845480122E1606D00D79616 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0845480022E1606D00D79616 /* GoogleService-Info.plist */; };
 		08EF48E32334753B0015F46C /* UDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EF48E22334753B0015F46C /* UDManager.swift */; };
 		0B0C291D233DC80F000C1172 /* ScanAssetCheckList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0C291C233DC80F000C1172 /* ScanAssetCheckList.swift */; };
+		0B10EF5B23B397830059E1F3 /* AssetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B10EF5A23B397830059E1F3 /* AssetService.swift */; };
+		0B10EF5E23B3979C0059E1F3 /* PersonService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B10EF5D23B3979C0059E1F3 /* PersonService.swift */; };
+		0B10EF6023B397A80059E1F3 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B10EF5F23B397A80059E1F3 /* LocationService.swift */; };
+		0B10EF6223B397BC0059E1F3 /* AssetNameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B10EF6123B397BC0059E1F3 /* AssetNameService.swift */; };
 		0B28258A23323E9400892912 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B28258923323E9400892912 /* Document.swift */; };
 		0B34628C23A67BAE007BAC82 /* DBStoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B34628B23A67BAE007BAC82 /* DBStoreError.swift */; };
 		0B3C9622235EC56F00D04982 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3C9621235EC56F00D04982 /* Test.swift */; };
@@ -129,6 +133,10 @@
 		0845480022E1606D00D79616 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		08EF48E22334753B0015F46C /* UDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UDManager.swift; sourceTree = "<group>"; };
 		0B0C291C233DC80F000C1172 /* ScanAssetCheckList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanAssetCheckList.swift; sourceTree = "<group>"; };
+		0B10EF5A23B397830059E1F3 /* AssetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetService.swift; sourceTree = "<group>"; };
+		0B10EF5D23B3979C0059E1F3 /* PersonService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonService.swift; sourceTree = "<group>"; };
+		0B10EF5F23B397A80059E1F3 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		0B10EF6123B397BC0059E1F3 /* AssetNameService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetNameService.swift; sourceTree = "<group>"; };
 		0B28258923323E9400892912 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		0B34628B23A67BAE007BAC82 /* DBStoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBStoreError.swift; sourceTree = "<group>"; };
 		0B3C9621235EC56F00D04982 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
@@ -270,6 +278,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B10EF5C23B397890059E1F3 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				0B10EF5A23B397830059E1F3 /* AssetService.swift */,
+				0B10EF5D23B3979C0059E1F3 /* PersonService.swift */,
+				0B10EF5F23B397A80059E1F3 /* LocationService.swift */,
+				0B10EF6123B397BC0059E1F3 /* AssetNameService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		0B18F975235375EE008D5D8B /* Scan */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,6 +362,7 @@
 		892BD7F922AFE590005DBA8F /* ems */ = {
 			isa = PBXGroup;
 			children = (
+				0B10EF5C23B397890059E1F3 /* Service */,
 				89C33CF622DF0147005C2D23 /* Resource */,
 				8958D28322D9A3C2002337F3 /* Constants.swift */,
 				892BD85422AFEE7D005DBA8F /* R.generated.swift */,
@@ -848,12 +868,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				897AB95F22D03824006E1F70 /* InfoView.swift in Sources */,
+				0B10EF6223B397BC0059E1F3 /* AssetNameService.swift in Sources */,
 				8995F3E222C8EB5A00830300 /* Bundle.swift in Sources */,
 				892BD84922AFEC91005DBA8F /* UITextField.swift in Sources */,
 				0B837B812352F76F006A6A95 /* ScanAssetCheckListViewController.swift in Sources */,
 				8995F3D822C8A2F700830300 /* ProfileView.swift in Sources */,
 				89AB156F22C752E7000632E4 /* Sound.swift in Sources */,
 				89AB15E822C76F1B000632E4 /* ReaderOverlayView.swift in Sources */,
+				0B10EF6023B397A80059E1F3 /* LocationService.swift in Sources */,
 				8995F3D622C8A2E900830300 /* MenuView.swift in Sources */,
 				892BD84522AFEC91005DBA8F /* UIViewController.swift in Sources */,
 				89F9B74B23289A4A00F7C6EE /* Profile.swift in Sources */,
@@ -865,6 +887,7 @@
 				8995F3CE22C8A21200830300 /* ProfileViewController.swift in Sources */,
 				892BD84022AFEC91005DBA8F /* UIButton.swift in Sources */,
 				892BD84122AFEC91005DBA8F /* Class.swift in Sources */,
+				0B10EF5B23B397830059E1F3 /* AssetService.swift in Sources */,
 				89AB15E622C76F1B000632E4 /* QRCodeReaderViewController.swift in Sources */,
 				0B76955123A1486200FB589E /* PDFDownloader.swift in Sources */,
 				892BD84222AFEC91005DBA8F /* UIBarButton.swift in Sources */,
@@ -900,6 +923,7 @@
 				0B3C9622235EC56F00D04982 /* Test.swift in Sources */,
 				89AB156D22C72CC6000632E4 /* ScanView.swift in Sources */,
 				89B915F42399D2490030E143 /* UIImage.swift in Sources */,
+				0B10EF5E23B3979C0059E1F3 /* PersonService.swift in Sources */,
 				892BD85322AFEE1D005DBA8F /* HomeViewController.swift in Sources */,
 				0BB2865B22FC1F11007B4E9D /* DBStore.swift in Sources */,
 				0B488CDE239A9C0A009B1CFD /* GoogleDriveWrapper.swift in Sources */,
@@ -1105,7 +1129,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4XKKKM86RN;
+				DEVELOPMENT_TEAM = 24435CS59T;
 				INFOPLIST_FILE = ems/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1124,7 +1148,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4XKKKM86RN;
+				DEVELOPMENT_TEAM = 24435CS59T;
 				INFOPLIST_FILE = ems/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
