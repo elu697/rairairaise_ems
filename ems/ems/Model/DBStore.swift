@@ -50,35 +50,17 @@ internal class DBStore {
             }
         }
     }
-
-    /*internal func set(_ set: @escaping (Assets) -> Void, _ complete: @escaping (DBStoreError?) -> Void) {
-        let asset = Assets()
-        set(asset)
-        if asset.code.isEmpty {
-            return
-        }
-
-        Assets.isExist(keyPath: \Assets.code, value: asset.code) { docId, error in
-            if error != nil {
-                complete(DBStoreError.failed)
-                return
-            } else if docId == nil {
-                asset.saveWithSetParam { error in
-                    complete(error != nil ? DBStoreError.failed : nil)
-                }
-            } else {
-                complete(DBStoreError.existCode)
-            }
-        }
-    }*/
-
-    internal func delete(code: String, completion: @escaping (Error?) -> Void) {
-        Assets.isExist(keyPath: \Assets.code, value: code) { docRef, error in
-            if let error = error {
-                completion(error)
-            } else {
-                docRef?.delete()
-                completion(nil)
+    
+    func delete(code: String) -> Promise<Void> {
+        Promise<Void> { seal in
+            firstly {
+                Assets.existCheck(keyPath: \Assets.code, value: code)
+            }.then { docRef -> Promise<Void> in
+                Assets(id: docRef[0].documentID).delete()
+            }.done {
+                seal.fulfill_()
+            }.catch { error in
+                seal.reject(error)
             }
         }
     }

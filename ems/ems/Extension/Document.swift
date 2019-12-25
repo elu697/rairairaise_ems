@@ -43,12 +43,24 @@ extension Document where Self: Object {
     }
 
     func save() -> Promise<[DocumentReference]> {
-        return Promise<[DocumentReference]> { seal in
+        Promise<[DocumentReference]> { seal in
             save { docRef, error in
                 if let docRef = docRef {
                     seal.resolve(error, [docRef])
                 } else {
                     seal.resolve(error, [])
+                }
+            }
+        }
+    }
+    
+    func delete() -> Promise<Void> {
+        Promise<Void> { seal in
+            delete { error in
+                if error != nil {
+                    seal.reject(DBStoreError.failed)
+                } else {
+                    seal.fulfill_()
                 }
             }
         }
