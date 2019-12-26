@@ -22,8 +22,8 @@ extension Document where Self: Object {
         }
     }
 
-    static func existCheck(keyPath: PartialKeyPath<Self>, value: Any?) -> Promise<[DocumentReference]> {
-        return Promise<[DocumentReference]> { seal in
+    static func existCheck(keyPath: PartialKeyPath<Self>, value: Any?) -> Promise<DocumentReference> {
+        return Promise<DocumentReference> { seal in
             guard let value = value else {
                 seal.reject(DBStoreError.inputFailed)
                 return
@@ -31,10 +31,10 @@ extension Document where Self: Object {
             if let key = keyPath._kvcKeyPathString {
                 Self.where(key, isEqualTo: value).get { snapShot, _ in
                     guard let snapShot = snapShot, !snapShot.isEmpty else {
-                        seal.fulfill([])
+                        seal.reject(DBStoreError.notFound)
                         return
                     }
-                    seal.fulfill([snapShot.documents[0].reference])
+                    seal.fulfill(snapShot.documents[0].reference)
                 }
             } else {
                 seal.reject(DBStoreError.failed)

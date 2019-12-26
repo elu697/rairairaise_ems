@@ -16,17 +16,17 @@ class AssetService {
             let buf = Assets.copy(model: model)
             firstly {
                 PersonService().convertProsess(value: model.admin)
-            }.then { docRef -> Promise<DocumentReference> in
-                buf.admin = docRef.documentID
+            }.then { docRef -> Promise<DocumentReference?> in
+                buf.admin = docRef?.documentID
                 return PersonService().convertProsess(value: model.user)
-            }.then { docRef -> Promise<DocumentReference> in
-                buf.user = docRef.documentID
+            }.then { docRef -> Promise<DocumentReference?> in
+                buf.user = docRef?.documentID
                 return AssetNameService().convertProsess(value: model.name)
-            }.then { docRef -> Promise<DocumentReference> in
-                buf.name = docRef.documentID
+            }.then { docRef -> Promise<DocumentReference?> in
+                buf.name = docRef?.documentID
                 return LocationService().convertProsess(value: model.location)
             }.done { docRef in
-                buf.location = docRef.documentID
+                buf.location = docRef?.documentID
                 seal.fulfill(buf)
             }.catch { error in
                 seal.reject(error)

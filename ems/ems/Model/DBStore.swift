@@ -15,15 +15,20 @@ internal class DBStore {
     internal static let share = DBStore()
 
     private init() {}
-
-    internal func update(code: String, set: @escaping (Assets) -> Void, complete: @escaping (Error?) -> Void) {
-        Assets.isExist(keyPath: \Assets.code, value: code) { docRef, error in
-            guard let docRef = docRef else { complete(error); return }
-            let asset = Assets(id: docRef.documentID, value: [:])
-            asset.code = code
-            set(asset)
-            asset.updateWithSetParam { error in
-                complete(error)
+    
+    func update(code: String, _ input: @escaping (Assets) -> Void) -> Promise<Void> {
+        Promise<Void> { seal in
+            firstly {
+                Assets.existCheck(keyPath: \Assets.code, value: code)
+            }.then { docRef -> Promise<Assets> in
+                let model = Assets(id: docRef.documentID, value: [:])
+                model.code = code
+                input(model)
+                return AssetService().convert(model: model)
+            }.done { _ in
+                seal.fulfill_()
+            }.catch { error in
+                seal.reject(error)
             }
         }
     }
@@ -40,9 +45,9 @@ internal class DBStore {
             firstly {
                 Assets.existCheck(keyPath: \Assets.code, value: model.code)
             }.then { docRef -> Promise<Assets> in
-                return docRef.isEmpty ? AssetService().convert(model: model) : Promise<Assets>.init(error: DBStoreError.existCode)
+               AssetService().convert(model: model)
             }.then { converted -> Promise<[DocumentReference]> in
-                return converted.save()
+                converted.save()
             }.done { _ in
                 seal.fulfill_()
             }.catch { error in
@@ -56,7 +61,7 @@ internal class DBStore {
             firstly {
                 Assets.existCheck(keyPath: \Assets.code, value: code)
             }.then { docRef -> Promise<Void> in
-                Assets(id: docRef[0].documentID).delete()
+                Assets(id: docRef.documentID).delete()
             }.done {
                 seal.fulfill_()
             }.catch { error in

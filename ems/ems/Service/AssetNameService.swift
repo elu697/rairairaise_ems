@@ -11,22 +11,21 @@ import Foundation
 import PromiseKit
 
 class AssetNameService {
-    func convertProsess(value: String?) -> Promise<DocumentReference> {
-        guard let value = value else {
-            return Promise<DocumentReference>(error: DBStoreError.inputFailed)
-        }
-
-        return firstly {
+    func convertProsess(value: String?) -> Promise<DocumentReference?> {
+        firstly {
             convert(value: value)
-        }.then { docRef in
-            docRef.isEmpty ? self.regist(value: value) : Promise<DocumentReference>.value(docRef[0])
+        }.then { docRef -> Promise<DocumentReference?> in
+            guard let docRef = docRef else {
+                return self.regist(value: value)
+            }
+            return Promise<DocumentReference?>.value(docRef)
         }
     }
 
-    private func convert(value: String) -> Promise<[DocumentReference]> {
-        Promise<[DocumentReference]> { seal in
+    private func convert(value: String?) -> Promise<DocumentReference?> {
+        Promise<DocumentReference?> { seal in
             AssetNames.existCheck(keyPath: \AssetNames.assetName, value: value).done { docRef in
-                seal.fulfill(docRef)
+                seal.fulfill(docRef.isEmpty ? nil : docRef[0])
             }.catch { error in
                 if let error = error as? DBStoreError {
                     seal.reject(error)
@@ -37,15 +36,15 @@ class AssetNameService {
         }
     }
 
-    private func regist(value: String) -> Promise<DocumentReference> {
-        Promise<DocumentReference> { seal in
-            let assetName = AssetNames()
-            assetName.assetName = value
-            assetName.save { docRef, error in
-                if let docRef = docRef {
-                    seal.fulfill(docRef)
+    private func regist(value: String?) -> Promise<DocumentReference?> {
+        Promise<DocumentReference?> { seal in
+            let model = AssetNames()
+            model.assetName = value
+            model.save { docRef, error in
+                if error != nil {
+                    seal.reject(DBStoreError.failed)
                 } else {
-                    seal.reject(error ?? DBStoreError.failed)
+                    seal.fulfill(docRef)
                 }
             }
         }
