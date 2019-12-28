@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PromiseKit
 import SVProgressHUD
 import UIKit
 
@@ -23,7 +24,7 @@ internal class AssetCheckViewController: UIViewController {
         view.setNeedsUpdateConstraints()
     }
 
-    private func setInputValue(value: Assets) {
+    private func setInputValue(value: Asset) {
         guard let view = view as? AssetCheckView else { return }
 
         view.content.codeTxf.text = value.code
@@ -36,10 +37,13 @@ internal class AssetCheckViewController: UIViewController {
         view.content.discardSwitch.setSwitchState(state: value.discard ? .on : .off, animated: true, completion: nil)
     }
 
-    internal func fetch(value: String, _ comp: @escaping (DBStore.DBStoreError?) -> Void) {
+    internal func fetch(value: String) -> Promise<Void> {
         SVProgressHUD.show()
         print("fetch")
-        DBStore.share.search(field: .code, value: value, limit: 1) { assets, error in
+        return DBStore.shared.search(field: .code, value: value).done { assets in
+            self.setInputValue(value: assets[0])
+        }
+        /*DBStore.share.search(field: .code, value: value, limit: 1) { assets, error in
             DispatchQueue.main.async {
                 SVProgressHUD.dismiss()
                 if let asset = assets?.first {
@@ -50,6 +54,6 @@ internal class AssetCheckViewController: UIViewController {
                 }
                 comp(nil)
             }
-        }
+        }*/
     }
 }

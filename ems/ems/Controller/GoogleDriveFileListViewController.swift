@@ -105,7 +105,7 @@ internal class GoogleDriveFileListViewController: UIViewController {
     }
 
     private func pdfDownloadUpload(assets: [Assets], completion: @escaping (String?, Error?) -> Void) {
-        PDFDownloader.shared.download(fileName: "qr.pdf", param: assets) { _ in
+        /*PDFDownloader.shared.download(fileName: "qr.pdf", param: assets) { _ in
             guard let currentFolder = GoogleDriveFileListViewController.globalCurrentFolder else {
                 completion(nil, GDriveError.noDataAtPath)
                 return
@@ -118,7 +118,7 @@ internal class GoogleDriveFileListViewController: UIViewController {
             } else {
                 completion(nil, GDriveError.noDataAtPath)
             }
-        }
+        }*/
     }
 
     @objc
@@ -132,7 +132,26 @@ internal class GoogleDriveFileListViewController: UIViewController {
         let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
             if let text = alert.textFields?.first?.text {
                 SVProgressHUD.show()
-                DBStore.share.search(field: .location, value: text) { assets, error in
+                /*DBStore.shared.search(field: .location, value: text).done { assets in
+                    guard !assets.isEmpty else {
+                        SVProgressHUD.dismiss()
+                        SVProgressHUD.showError(withStatus: "資産情報が存在しません")
+                        return
+                    }
+                    self?.pdfDownloadUpload(assets: assets) { _, error in
+                        SVProgressHUD.dismiss()
+                        if error != nil {
+                            print(error?.localizedDescription)
+                            SVProgressHUD.showError(withStatus: "失敗しました")
+                        } else {
+                            SVProgressHUD.showSuccess(withStatus: "生成完了")
+                        }
+                    }
+                }.catch { _ in
+                    SVProgressHUD.dismiss()
+                    SVProgressHUD.showError(withStatus: "失敗しました")
+                }*/
+                /*DBStore.share.search(field: .location, value: text) { assets, error in
                     if let assets = assets {
                         guard !assets.isEmpty else {
                             SVProgressHUD.dismiss()
@@ -152,7 +171,7 @@ internal class GoogleDriveFileListViewController: UIViewController {
                         SVProgressHUD.dismiss()
                         SVProgressHUD.showError(withStatus: "失敗しました")
                     }
-                }
+                }*/
             }
         }
         let cancelAction = UIAlertAction(title: "CANCEL", style: .cancel, handler: nil)
@@ -200,7 +219,7 @@ internal class GoogleDriveFileListViewController: UIViewController {
     }
 
     private func uploadData(values: [String], _ completion: @escaping () -> Void) {
-        let dispatch = Dispatch(label: "upload")
+        /*let dispatch = Dispatch(label: "upload")
         values.forEach { data in
             let asset = data.components(separatedBy: ",")
             if asset.count != 8 {
@@ -230,7 +249,7 @@ internal class GoogleDriveFileListViewController: UIViewController {
 
         dispatch.notify {
             completion()
-        }
+        }*/
     }
 
     internal required init?(coder: NSCoder) {
@@ -288,7 +307,7 @@ extension GoogleDriveFileListViewController {
     }
 
     private func getUploadData(values: [String], completion: @escaping ([Assets]) -> Void) {
-        let dispatch = Dispatch(label: "getUploadData")
+        /*let dispatch = Dispatch(label: "getUploadData")
         var assets: [Assets] = []
 
         values.forEach { value in
@@ -308,7 +327,7 @@ extension GoogleDriveFileListViewController {
 
         dispatch.notify {
             completion(assets)
-        }
+        }*/
     }
 
     private func tappedProcess() {

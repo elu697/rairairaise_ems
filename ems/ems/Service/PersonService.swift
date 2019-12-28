@@ -12,8 +12,12 @@ import PromiseKit
 
 class PersonService {
     func convertProsess(value: String?) -> Promise<DocumentReference?> {
-        firstly {
-            convert(value: value)
+        guard let value = value else {
+            return Promise<DocumentReference?>.value(nil)
+        }
+
+        return firstly {
+            convert(value)
         }.then { docRef -> Promise<DocumentReference?> in
             guard let docRef = docRef else {
                 return self.regist(value: value)
@@ -22,10 +26,30 @@ class PersonService {
         }
     }
 
-    private func convert(value: String?) -> Promise<DocumentReference?> {
+    func convertProcess(docRef: DocumentReference?) -> Promise<String?> {
+        guard let docRef = docRef else {
+            return Promise<String?>.value(nil)
+        }
+
+        return convert(docRef)
+    }
+
+    private func convert(_ docRef: DocumentReference) -> Promise<String?> {
+        Promise<String?> { seal in
+            Persons.get(docRef.documentID) { model, _ in
+                if let model = model {
+                    seal.fulfill(model.name)
+                } else {
+                    seal.reject(DBStoreError.failed)
+                }
+            }
+        }
+    }
+
+    private func convert(_ value: String) -> Promise<DocumentReference?> {
         Promise<DocumentReference?> { seal in
             Persons.existCheck(keyPath: \Persons.name, value: value).done { docRef in
-                seal.fulfill(docRef.isEmpty ? nil : docRef[0])
+                seal.fulfill(docRef)
             }.catch { error in
                 if let error = error as? DBStoreError {
                     seal.reject(error)
@@ -36,7 +60,7 @@ class PersonService {
         }
     }
 
-    private func regist(value: String?) -> Promise<DocumentReference?> {
+    private func regist(value: String) -> Promise<DocumentReference?> {
         Promise<DocumentReference?> { seal in
             let person = Persons()
             person.name = value

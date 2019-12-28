@@ -8,11 +8,12 @@
 
 import Foundation
 import Material
+import PromiseKit
 import SVProgressHUD
 import UIKit
 
 internal class ScanAssetCheckListViewController: UIViewController {
-    private static var assets: [Assets] = []
+    private static var assets: [Asset] = []
     private var checkList: [String: Bool] = [:]
     private static var searchType: Assets.Field?
 
@@ -42,13 +43,26 @@ internal class ScanAssetCheckListViewController: UIViewController {
         view.setNeedsUpdateConstraints()
     }
 
-    internal func fetch(value: String, _ err: @escaping (DBStore.DBStoreError) -> Void) {
+    internal func fetch(value: String) -> Promise<[Asset]> {
         guard let searchType = ScanAssetCheckListViewController.searchType else {
             SVProgressHUD.showError(withStatus: "検索項目を選択してください")
-            return
+            return Promise<[Asset]>(error: DBStoreError.inputFailed)
         }
         SVProgressHUD.show()
-        DBStore.share.search(field: searchType, value: value) { assets, error in
+        return DBStore.shared.search(field: searchType, value: value).then { assets -> Promise<[Asset]> in
+            SVProgressHUD.dismiss()
+            ScanAssetCheckListViewController.assets = assets
+            for item in assets {
+                self.checkList[item.code ?? ""] = false
+            }
+            DispatchQueue.main.async {
+                guard let view = self.view as? ScanAssetCheckList else { return }
+                view.isEmpty = ScanAssetCheckListViewController.assets.isEmpty
+                view.tableView.reloadData()
+            }
+            return Promise<[Asset]>.value(assets)
+        }
+        /*DBStore.share.search(field: searchType, value: value).done { assets, error in
             SVProgressHUD.dismiss()
             guard let assets = assets else {
                 DispatchQueue.main.async {
@@ -65,7 +79,7 @@ internal class ScanAssetCheckListViewController: UIViewController {
                 view.isEmpty = ScanAssetCheckListViewController.assets.isEmpty
                 view.tableView.reloadData()
             }
-        }
+        }*/
     }
 
     internal func check(code: String) {
@@ -84,7 +98,7 @@ extension ScanAssetCheckListViewController: UITableViewDataSource {
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.className, for: indexPath)
         cell.textLabel?.text = ScanAssetCheckListViewController.assets[indexPath.row].name ?? "名前が登録されていません"
-        if let isChecked = checkList[ScanAssetCheckListViewController.assets[indexPath.row].code], isChecked {
+        if let isChecked = checkList[ScanAssetCheckListViewController.assets[indexPath.row].code ?? ""], isChecked {
             cell.accessoryType = .checkmark
         } else {
             cell.accessoryType = .none
@@ -101,7 +115,7 @@ extension ScanAssetCheckListViewController: UITableViewDataSource {
             boolValue(true) // pass true if you want the handler to allow the action
             let code = ScanAssetCheckListViewController.assets[indexPath.row].code
             SVProgressHUD.show()
-            DBStore.share.delete(code: code, completion: { error in
+            /*DBStore.share.delete(code: code, completion: { error in
                 SVProgressHUD.dismiss()
                 if error != nil {
                     SVProgressHUD.showError(withStatus: "削除に失敗しました")
@@ -113,7 +127,7 @@ extension ScanAssetCheckListViewController: UITableViewDataSource {
                     tableView.reloadData()
                 }
             }
-            )
+            )*/
         }
         contextItem.backgroundColor = .red
         let swipeActions = UISwipeActionsConfiguration(actions: [contextItem])
@@ -128,9 +142,9 @@ extension ScanAssetCheckListViewController: UITableViewDelegate {
         print("\(className): tap")
 
         let vc = AssetCheckViewController()
-        vc.fetch(value: ScanAssetCheckListViewController.assets[indexPath.row].code) { _ in
+        /*vc.fetch(value: ScanAssetCheckListViewController.assets[indexPath.row].code) { _ in
             self.pushNewNavigationController(rootViewController: vc)
-        }
+        }*/
     }
 }
 
@@ -162,8 +176,8 @@ extension ScanAssetCheckListViewController: UISearchBarDelegate {
     internal func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
         guard let value = searchBar.text else { return }
-        fetch(value: value) { error in
+        /*fetch(value: value) { error in
             SVProgressHUD.showError(withStatus: error.descript)
-        }
+        }*/
     }
 }

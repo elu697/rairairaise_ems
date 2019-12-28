@@ -16,7 +16,7 @@ internal class ScanInfoInputViewController: UIViewController {
 
     internal var mode: MenuViewController.MenuType = .change
 
-    private static var cash: Assets?
+    private static var cash: Asset?
 
     override internal func loadView() {
         view = ScanInfoInputView(isCodeEnable: true)
@@ -39,7 +39,7 @@ internal class ScanInfoInputViewController: UIViewController {
         view.numberTxf.delegate = self
     }
 
-    private func setInputValue(value: Assets) {
+    private func setInputValue(value: Asset) {
         guard let view = view as? ScanInfoInputView else { return }
 
         view.codeTxf.text = value.code
@@ -87,7 +87,21 @@ internal class ScanInfoInputViewController: UIViewController {
             return
         }
         SVProgressHUD.show()
-        DBStore.share.update(code: cash.code, set: { asset in
+        /*DBStore.share.update(code: cash.code, { model in
+            model.code = value[.code] as? String ?? cash.code
+            model.name = value[.name] as? String
+            model.admin = value[.admin] as? String
+            model.user = value[.user] as? String
+            model.location = value[.location] as? String
+            model.loss = value[.loss] as? Bool ?? false
+            model.discard = value[.discard] as? Bool ?? false
+            model.quantity = Int(value[.quantity] as? String ?? "0") ?? 0
+        }).done {
+            SVProgressHUD.showSuccess(withStatus: "更新しました")
+        }.catch { _ in
+            SVProgressHUD.showError(withStatus: "エラーが発生しました")
+        }*/
+        /*DBStore.share.update(code: cash.code, set: { asset in
             asset.code = value[.code] as? String ?? cash.code
             asset.name = value[.name] as? String
             asset.admin = value[.admin] as? String
@@ -107,15 +121,24 @@ internal class ScanInfoInputViewController: UIViewController {
                 SVProgressHUD.showSuccess(withStatus: "更新しました")
             }
         }
-        )
+        )*/
     }
 
-    internal func fetch(value: String, _ comp: @escaping (DBStore.DBStoreError?) -> Void) {
-        guard !isFetching, value != beforeCode else { return }
+    internal func fetch(value: String) {
+        guard !isFetching, value != beforeCode else {
+            return
+        }
         SVProgressHUD.show()
         isFetching = true
         print("fetch")
-        DBStore.share.search(field: .code, value: value, limit: 1) { assets, error in
+        /*DBStore.share.search(field: .code, value: value).then { assets in
+            if let asset = assets.first {
+                self.beforeCode = asset.code
+                self.setInputValue(value: <#T##Assets#>)
+            }
+            
+        }*/
+        /*DBStore.share.search(field: .code, value: value, limit: 1) { assets, error in
             DispatchQueue.main.async {
                 if let asset = assets?.first {
                     self.beforeCode = asset.code
@@ -129,7 +152,7 @@ internal class ScanInfoInputViewController: UIViewController {
                 SVProgressHUD.dismiss()
                 self.isFetching = false
             }
-        }
+        }*/
     }
 }
 

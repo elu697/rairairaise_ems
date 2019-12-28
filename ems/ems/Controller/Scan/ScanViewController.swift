@@ -179,10 +179,10 @@ extension ScanViewController {
             }
             if let child = self.children.first as? ScanInfoInputViewController {
                 scanView.updateBtn.isEnabled = true
-                child.fetch(value: scanQrData) { error in
+                /*child.fetch(value: scanQrData) { error in
                     guard let error = error else { return }
                     SVProgressHUD.showError(withStatus: error.descript)
-                }
+                }*/
             }
         }
     }
@@ -239,9 +239,9 @@ extension ScanViewController: ProfileDelegate {
         if currentView == .check {
             guard let vc = children.first as? ScanAssetCheckListViewController, let value = value else { return }
             print("reload")
-            vc.fetch(value: value) { error in
+            /*vc.fetch(value: value) { error in
                 SVProgressHUD.showError(withStatus: error.descript)
-            }
+            }*/
             beforeQrData = ""
         }
     }

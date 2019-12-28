@@ -12,7 +12,11 @@ import PromiseKit
 
 class AssetNameService {
     func convertProsess(value: String?) -> Promise<DocumentReference?> {
-        firstly {
+        guard let value = value else {
+            return Promise<DocumentReference?>.value(nil)
+        }
+
+        return firstly {
             convert(value: value)
         }.then { docRef -> Promise<DocumentReference?> in
             guard let docRef = docRef else {
@@ -22,10 +26,30 @@ class AssetNameService {
         }
     }
 
-    private func convert(value: String?) -> Promise<DocumentReference?> {
+    func convertProsess(docRef: DocumentReference?) -> Promise<String?> {
+        guard let docRef = docRef else {
+            return Promise<String?>.value(nil)
+        }
+
+        return convert(docRef)
+    }
+
+    private func convert(_ docRef: DocumentReference) -> Promise<String?> {
+        Promise<String?> { seal in
+            AssetNames.get(docRef.documentID) { model, _ in
+                if let model = model {
+                    seal.fulfill(model.assetName)
+                } else {
+                    seal.reject(DBStoreError.failed)
+                }
+            }
+        }
+    }
+
+    private func convert(value: String) -> Promise<DocumentReference?> {
         Promise<DocumentReference?> { seal in
             AssetNames.existCheck(keyPath: \AssetNames.assetName, value: value).done { docRef in
-                seal.fulfill(docRef.isEmpty ? nil : docRef[0])
+                seal.fulfill(docRef)
             }.catch { error in
                 if let error = error as? DBStoreError {
                     seal.reject(error)
@@ -36,7 +60,7 @@ class AssetNameService {
         }
     }
 
-    private func regist(value: String?) -> Promise<DocumentReference?> {
+    private func regist(value: String) -> Promise<DocumentReference?> {
         Promise<DocumentReference?> { seal in
             let model = AssetNames()
             model.assetName = value

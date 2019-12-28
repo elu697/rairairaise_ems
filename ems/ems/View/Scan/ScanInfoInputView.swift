@@ -22,7 +22,7 @@ internal class ScanInfoInputView: UIView {
     private let discardTitleLbl = UILabel()
     internal let discardSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
 
-    private var assetData: Assets?
+    private var assetData: Asset?
 
     internal var isEditing: Bool {
         set {
@@ -176,7 +176,7 @@ internal class ScanInfoInputView: UIView {
     }
 
     // MARK: - Function
-    internal func setAssetData(data: Assets) {
+    internal func setAssetData(data: Asset) {
         self.assetData = data
         UIView.animate(withDuration: 1.0) {
             self.codeTxf.text = self.assetData?.code

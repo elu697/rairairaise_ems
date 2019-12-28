@@ -46,24 +46,20 @@ internal class RegisterViewController: UIViewController {
             return
         }
         SVProgressHUD.show()
-        DBStore.share.set({ asset in
-            asset.code = code
-            asset.name = value[.name] as? String
-            asset.admin = value[.admin] as? String
-            asset.user = value[.user] as? String
-            asset.location = value[.location] as? String
-            asset.loss = value[.loss] as? Bool ?? false
-            asset.discard = value[.discard] as? Bool ?? false
-            asset.quantity = Int(value[.quantity] as? String ?? "0") ?? 0
-        }, { error in
-//            SVProgressHUD.dismiss()
-            guard let error = error else {
-                SVProgressHUD.showSuccess(withStatus: "登録に成功しました")
-                return
-            }
-            SVProgressHUD.showError(withStatus: error.descript)
-        }
-        )
+        /*DBStore.shared.regist({ model in
+            model.code = code
+            model.name = value[.name] as? String
+            model.admin = value[.admin] as? String
+            model.user = value[.user] as? String
+            model.location = value[.location] as? String
+            model.loss = value[.loss] as? Bool ?? false
+            model.discard = value[.discard] as? Bool ?? false
+            model.quantity = Int(value[.quantity] as? String ?? "0") ?? 0
+        }).done {
+            SVProgressHUD.showSuccess(withStatus: "登録に成功しました")
+        }.catch { error in
+            SVProgressHUD.showError(withStatus: (error as? DBStoreError)?.descript)
+        }*/
     }
 
     override internal func viewDidLayoutSubviews() {
