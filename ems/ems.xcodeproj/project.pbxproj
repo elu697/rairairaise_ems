@@ -35,6 +35,8 @@
 		0BB2865E22FE529B007B4E9D /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB2865D22FE529B007B4E9D /* Assets.swift */; };
 		0BC21818231BF16200D04E47 /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC21817231BF16200D04E47 /* Dispatch.swift */; };
 		0BCDE7502397F4C80050186B /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCDE74F2397F4C80050186B /* PickerView.swift */; };
+		0BD1F5A523B9C0C900C55DF0 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD1F5A423B9C0C900C55DF0 /* TextField.swift */; };
+		0BD1F5A723B9C37100C55DF0 /* AppDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD1F5A623B9C37100C55DF0 /* AppDataManager.swift */; };
 		0BD9A4B8238EC8C80085E9D0 /* AssetCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD9A4B7238EC8C80085E9D0 /* AssetCheckView.swift */; };
 		0BD9A4BA238EC9740085E9D0 /* AssetCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD9A4B9238EC9740085E9D0 /* AssetCheckViewController.swift */; };
 		0BE89A5323B7885C00F0412D /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE89A5223B7885C00F0412D /* Asset.swift */; };
@@ -160,6 +162,8 @@
 		0BB2865D22FE529B007B4E9D /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		0BC21817231BF16200D04E47 /* Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
 		0BCDE74F2397F4C80050186B /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
+		0BD1F5A423B9C0C900C55DF0 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
+		0BD1F5A623B9C37100C55DF0 /* AppDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataManager.swift; sourceTree = "<group>"; };
 		0BD9A4B7238EC8C80085E9D0 /* AssetCheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetCheckView.swift; sourceTree = "<group>"; };
 		0BD9A4B9238EC9740085E9D0 /* AssetCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetCheckViewController.swift; sourceTree = "<group>"; };
 		0BE89A5223B7885C00F0412D /* Asset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
@@ -479,6 +483,7 @@
 				892BD83822AFEC91005DBA8F /* UIViewController.swift */,
 				89B915ED2399CF480030E143 /* URL.swift */,
 				0B84398223A112DE00682327 /* String.swift */,
+				0BD1F5A423B9C0C900C55DF0 /* TextField.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -496,6 +501,7 @@
 				89C6411C23A0B8DE00BA46A0 /* ReachabilityObserverDelegate.swift */,
 				89AB156E22C752E7000632E4 /* Sound.swift */,
 				08EF48E22334753B0015F46C /* UDManager.swift */,
+				0BD1F5A623B9C37100C55DF0 /* AppDataManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -904,6 +910,7 @@
 				0BD9A4B8238EC8C80085E9D0 /* AssetCheckView.swift in Sources */,
 				89C6411723A09FFB00BA46A0 /* ErrorViewController.swift in Sources */,
 				892BD84822AFEC91005DBA8F /* UIFont.swift in Sources */,
+				0BD1F5A723B9C37100C55DF0 /* AppDataManager.swift in Sources */,
 				89AB156B22C72CB6000632E4 /* ScanViewController.swift in Sources */,
 				892BD7FB22AFE590005DBA8F /* AppDelegate.swift in Sources */,
 				0B837B7F2352F581006A6A95 /* ScanInfoInputViewController.swift in Sources */,
@@ -925,6 +932,7 @@
 				89C6411D23A0B8DE00BA46A0 /* ReachabilityObserverDelegate.swift in Sources */,
 				08EF48E32334753B0015F46C /* UDManager.swift in Sources */,
 				0B84397F23A1084400682327 /* FileIO.swift in Sources */,
+				0BD1F5A523B9C0C900C55DF0 /* TextField.swift in Sources */,
 				892BD84622AFEC91005DBA8F /* CALayer.swift in Sources */,
 				89B915EE2399CF480030E143 /* URL.swift in Sources */,
 				0B49BEE1232BCB7A00215D86 /* AssetNames.swift in Sources */,

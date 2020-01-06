@@ -16,12 +16,16 @@ internal class DBStore {
 
     private init() {}
 
-    func update(code: String, _ input: Asset) -> Promise<Void> {
-        Promise<Void> { seal in
+    func update(_ input: Asset) -> Promise<Void> {
+        guard input.validated else {
+            return Promise<Void>(error: DBStoreError.inputFailed)
+        }
+
+        return Promise<Void> { seal in
             firstly {
-                Assets.existCheck(keyPath: \Assets.code, value: code)
+                Assets.existCheck(keyPath: \Assets.code, value: input.code)
             }.then { _ -> Promise<[Assets]> in
-                AssetService(field: .code).getBy(value: code)
+                AssetService(field: .code).getBy(value: input.code as Any)
             }.then { models -> Promise<Assets> in
                 guard let model = models.first else {
                     return Promise<Assets>(error: DBStoreError.notFound)

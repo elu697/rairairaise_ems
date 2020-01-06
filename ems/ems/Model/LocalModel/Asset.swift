@@ -45,10 +45,14 @@ struct Asset {
         loss = value["loss"] as? Bool ?? false
         discard = value["discard"] as? Bool ?? false
         location = value["location"] as? String ?? ""
-        quantity = value["quantity"] as? Int ?? 0
+        if let quantity = value["quantity"] as? Int {
+            self.quantity = quantity
+        } else {
+            self.quantity = Int(value["quantity"] as? String ?? "0") ?? 0
+        }
     }
 
     private func validate() -> Bool {
-        return !(code?.isEmpty ?? true)
+        return !(code?.isEmptyInWhiteSpace ?? true)
     }
 }

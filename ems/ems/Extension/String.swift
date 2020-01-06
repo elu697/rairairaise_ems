@@ -19,4 +19,8 @@ extension String {
         }
         return lines
     }
+
+    var isEmptyInWhiteSpace: Bool {
+        return trimmingCharacters(in: .whitespaces).isEmpty
+    }
 }

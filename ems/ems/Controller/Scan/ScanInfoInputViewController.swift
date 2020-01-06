@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PromiseKit
 import SVProgressHUD
 import UIKit
 
@@ -15,6 +16,9 @@ internal class ScanInfoInputViewController: UIViewController {
     private var beforeCode = ""
 
     internal var mode: MenuViewController.MenuType = .change
+    private var infoInputView: ScanInfoInputView? {
+        return view as? ScanInfoInputView
+    }
 
     private static var cash: Asset?
 
@@ -27,132 +31,80 @@ internal class ScanInfoInputViewController: UIViewController {
         view.setNeedsUpdateConstraints()
 
         if let cash = ScanInfoInputViewController.cash, mode == .change {
-            setInputValue(value: cash)
+            setAssetValue(value: cash)
         }
 
-        guard let view = view as? ScanInfoInputView else { return }
-        view.codeTxf.delegate = self
-        view.nameTxf.delegate = self
-        view.adminTxf.delegate = self
-        view.userTxf.delegate = self
-        view.placeTxf.delegate = self
-        view.numberTxf.delegate = self
+        infoInputView?.codeTxf.delegate = self
+        infoInputView?.nameTxf.delegate = self
+        infoInputView?.adminTxf.delegate = self
+        infoInputView?.userTxf.delegate = self
+        infoInputView?.placeTxf.delegate = self
+        infoInputView?.numberTxf.delegate = self
     }
+}
 
-    private func setInputValue(value: Asset) {
-        guard let view = view as? ScanInfoInputView else { return }
-
-        view.codeTxf.text = value.code
-        view.nameTxf.text = value.name
-        view.adminTxf.text = value.admin
-        view.userTxf.text = value.user
-        view.placeTxf.text = value.location
-        view.numberTxf.text = String(value.quantity)
-        view.lostSwitch.setSwitchState(state: value.loss ? .on : .off, animated: true, completion: nil)
-        view.discardSwitch.setSwitchState(state: value.discard ? .on : .off, animated: true, completion: nil)
-
-        ScanInfoInputViewController.cash = value
-    }
-
-    internal func getInputValue() -> [Assets.Field: Any?]? {
-        var value: [Assets.Field: Any?] = [:]
-
-        guard validate() else { return nil }
-        guard let view = view as? ScanInfoInputView else { return nil }
-
-        value[.code] = (view.codeTxf.text ?? "").isEmpty ? nil : view.codeTxf.text
-        value[.name] = (view.nameTxf.text ?? "").isEmpty ? nil : view.nameTxf.text
-        value[.admin] = (view.adminTxf.text ?? "").isEmpty ? nil : view.adminTxf.text
-        value[.user] = (view.userTxf.text ?? "").isEmpty ? nil : view.userTxf.text
-        value[.location] = (view.placeTxf.text ?? "").isEmpty ? nil : view.placeTxf.text
-        value[.loss] = view.lostSwitch.isOn
-        value[.discard] = view.discardSwitch.isOn
-        value[.quantity] = view.numberTxf.text
+// MARK: ValueIO
+extension ScanInfoInputViewController {
+    var inputedValue: [String: Any] {
+        var value: [String: Any] = [:]
+        value["code"] = infoInputView?.codeTxf.emptyText
+        value["name"] = infoInputView?.nameTxf.emptyText
+        value["admin"] = infoInputView?.adminTxf.emptyText
+        value["user"] = infoInputView?.userTxf.emptyText
+        value["location"] = infoInputView?.placeTxf.emptyText
+        value["loss"] = infoInputView?.lostSwitch.isOn
+        value["discard"] = infoInputView?.discardSwitch.isOn
+        value["quantity"] = infoInputView?.numberTxf.emptyText
 
         return value
     }
 
-    private func validate() -> Bool {
-        guard let view = view as? ScanInfoInputView, let code = view.codeTxf.text else { return false }
-        return !code.isEmpty
-    }
+    private func setAssetValue(value: Asset) {
+        infoInputView?.codeTxf.text = value.code
+        infoInputView?.nameTxf.text = value.name
+        infoInputView?.adminTxf.text = value.admin
+        infoInputView?.userTxf.text = value.user
+        infoInputView?.placeTxf.text = value.location
+        infoInputView?.numberTxf.text = String(value.quantity)
+        infoInputView?.lostSwitch.setSwitchState(state: value.loss ? .on : .off, animated: true, completion: nil)
+        infoInputView?.discardSwitch.setSwitchState(state: value.discard ? .on : .off, animated: true, completion: nil)
 
-    internal func update() {
-        guard let cash = ScanInfoInputViewController.cash else {
-            SVProgressHUD.showError(withStatus: "資産情報がありません")
-            return
-        }
-        guard let value = getInputValue() else {
-            SVProgressHUD.showError(withStatus: "資産情報が異常です")
-            return
-        }
+        ScanInfoInputViewController.cash = value
+    }
+}
+
+// MARK: Network
+extension ScanInfoInputViewController {
+    func update() {
         SVProgressHUD.show()
-        /*DBStore.share.update(code: cash.code, { model in
-            model.code = value[.code] as? String ?? cash.code
-            model.name = value[.name] as? String
-            model.admin = value[.admin] as? String
-            model.user = value[.user] as? String
-            model.location = value[.location] as? String
-            model.loss = value[.loss] as? Bool ?? false
-            model.discard = value[.discard] as? Bool ?? false
-            model.quantity = Int(value[.quantity] as? String ?? "0") ?? 0
-        }).done {
+        DBStore.shared.update(Asset(value: inputedValue)).done {
             SVProgressHUD.showSuccess(withStatus: "更新しました")
-        }.catch { _ in
-            SVProgressHUD.showError(withStatus: "エラーが発生しました")
-        }*/
-        /*DBStore.share.update(code: cash.code, set: { asset in
-            asset.code = value[.code] as? String ?? cash.code
-            asset.name = value[.name] as? String
-            asset.admin = value[.admin] as? String
-            asset.user = value[.user] as? String
-            asset.location = value[.location] as? String
-            asset.loss = value[.loss] as? Bool ?? false
-            asset.discard = value[.discard] as? Bool ?? false
-            asset.quantity = Int(value[.quantity] as? String ?? "0") ?? 0
-            let buf = Assets()
-            buf.setValue(value: value)
-            self.setInputValue(value: buf)
-        }, complete: { error in
-            SVProgressHUD.dismiss()
-            if error != nil {
-                SVProgressHUD.showError(withStatus: "エラーが発生しました")
-            } else {
-                SVProgressHUD.showSuccess(withStatus: "更新しました")
-            }
+        }.catch { error in
+            SVProgressHUD.showError(withStatus: (error as? DBStoreError)?.descript)
         }
-        )*/
     }
 
-    internal func fetch(value: String) {
+    func fetch(value: String) {
         guard !isFetching, value != beforeCode else {
             return
         }
         SVProgressHUD.show()
         isFetching = true
         print("fetch")
-        /*DBStore.share.search(field: .code, value: value).then { assets in
-            if let asset = assets.first {
-                self.beforeCode = asset.code
-                self.setInputValue(value: <#T##Assets#>)
+
+        DBStore.shared.search(field: .code, value: value).then { models -> Promise<Void> in
+            if let model = models.first, let code = model.code {
+                self.beforeCode = code
+                self.setAssetValue(value: model)
+                return Promise<Void>()
+            } else {
+                return Promise<Void>(error: DBStoreError.notFound)
             }
-            
-        }*/
-        /*DBStore.share.search(field: .code, value: value, limit: 1) { assets, error in
-            DispatchQueue.main.async {
-                if let asset = assets?.first {
-                    self.beforeCode = asset.code
-                    self.setInputValue(value: asset)
-                } else {
-                    comp(error != nil ? .failed : .notFound)
-                    self.isFetching = false
-                    return
-                }
-                comp(nil)
-                SVProgressHUD.dismiss()
-                self.isFetching = false
-            }
-        }*/
+        }.catch { error in
+            SVProgressHUD.showError(withStatus: (error as? DBStoreError)?.descript)
+        }.finally {
+            SVProgressHUD.dismiss()
+        }
     }
 }
 

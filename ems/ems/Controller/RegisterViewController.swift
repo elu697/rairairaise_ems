@@ -37,29 +37,20 @@ internal class RegisterViewController: UIViewController {
     @objc
     internal func regist() {
         guard let viewController = children.first as? ScanInfoInputViewController else { return }
-        guard let value = viewController.getInputValue(), let code = value[.code] as? String else {
+        guard let code = viewController.inputedValue["code"] as? String else {
             SVProgressHUD.showError(withStatus: "資産コードは必須入力です。")
             return
         }
-        guard !code.trimmingCharacters(in: .whitespaces).isEmpty else {
+        guard !code.isEmptyInWhiteSpace else {
             SVProgressHUD.showError(withStatus: "空白のみの入力は受け付けられません。")
             return
         }
         SVProgressHUD.show()
-        /*DBStore.shared.regist({ model in
-            model.code = code
-            model.name = value[.name] as? String
-            model.admin = value[.admin] as? String
-            model.user = value[.user] as? String
-            model.location = value[.location] as? String
-            model.loss = value[.loss] as? Bool ?? false
-            model.discard = value[.discard] as? Bool ?? false
-            model.quantity = Int(value[.quantity] as? String ?? "0") ?? 0
-        }).done {
+        DBStore.shared.regist(Asset(value: viewController.inputedValue)).done {
             SVProgressHUD.showSuccess(withStatus: "登録に成功しました")
         }.catch { error in
             SVProgressHUD.showError(withStatus: (error as? DBStoreError)?.descript)
-        }*/
+        }
     }
 
     override internal func viewDidLayoutSubviews() {

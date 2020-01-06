@@ -117,6 +117,8 @@ internal class ScanView: UIView {
     internal init(scaner: QRCodeReader) {
         super.init(frame: .zero)
 
+        backgroundColor = .white
+
         scanPreviewView.setupComponents(with: scanViewBuild(scaner: scaner))
         setSubViews()
     }

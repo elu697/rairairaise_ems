@@ -38,22 +38,14 @@ internal class AssetCheckViewController: UIViewController {
     }
 
     internal func fetch(value: String) -> Promise<Void> {
-        SVProgressHUD.show()
         print("fetch")
-        return DBStore.shared.search(field: .code, value: value).done { assets in
-            self.setInputValue(value: assets[0])
-        }
-        /*DBStore.share.search(field: .code, value: value, limit: 1) { assets, error in
-            DispatchQueue.main.async {
-                SVProgressHUD.dismiss()
-                if let asset = assets?.first {
-                    self.setInputValue(value: asset)
-                } else {
-                    comp(error != nil ? .failed : .notFound)
-                    return
-                }
-                comp(nil)
+        return DBStore.shared.search(field: .code, value: value).then { models -> Promise<Void> in
+            if let model = models.first {
+                self.setInputValue(value: model)
+                return Promise<Void>()
+            } else {
+                return Promise<Void>(error: DBStoreError.notFound)
             }
-        }*/
+        }
     }
 }

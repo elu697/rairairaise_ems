@@ -8,18 +8,18 @@
 
 import Foundation
 
-internal class UDManager {
-    internal enum UDkey: String {
+class UDManager {
+    enum UDkey: String {
         case sound = "ud_sound"
     }
     
-    internal static func setUD(key: UDkey, value: Any) {
+    static func setUD(key: UDkey, value: Any) {
         let share = UserDefaults.standard
         share.set(value, forKey: key.rawValue)
         share.synchronize()
     }
     
-    internal static func getUD(key: UDkey) -> Any {
+    static func getUD(key: UDkey) -> Any {
         let share = UserDefaults.standard
         return share.object(forKey: key.rawValue) as Any
     }
