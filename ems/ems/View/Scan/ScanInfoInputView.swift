@@ -10,36 +10,46 @@ import Material
 import UIKit
 
 internal class ScanInfoInputView: UIView {
-    internal let codeTxf = TextField()
-    internal let nameTxf = TextField()
-    internal let adminTxf = TextField()
-    internal let userTxf = TextField()
-    internal let placeTxf = TextField()
-    internal let numberTxf = TextField()
+    let codeTxf = TextField()
+    let nameTxf = TextField()
+    let adminTxf = TextField()
+    let userTxf = TextField()
+    let placeTxf = TextField()
+    let numberTxf = TextField()
 
     private let lostTitleLbl = UILabel()
-    internal let lostSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
+    let lostSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
     private let discardTitleLbl = UILabel()
-    internal let discardSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
+    let discardSwitch = Switch(state: .off, size: .custom(width: 40, height: 30))
 
     private var assetData: Asset?
 
-    internal var isEditing: Bool {
+    var isEditing: Bool {
         set {
-            codeTxf.isEnabled = newValue
             nameTxf.isEnabled = newValue
             adminTxf.isEnabled = newValue
             userTxf.isEnabled = newValue
             placeTxf.isEnabled = newValue
             numberTxf.isEnabled = newValue
+            lostSwitch.button.isEnabled = newValue
+            discardSwitch.button.isEnabled = newValue
         }
         get {
-            return codeTxf.isEnabled
+            adminTxf.isEnabled
+        }
+    }
+
+    var isCodeEditing: Bool {
+        set {
+            codeTxf.isEnabled = newValue
+        }
+        get {
+            codeTxf.isEnabled
         }
     }
 
     // MARK: - Default
-    internal init(isCodeEnable: Bool) {
+    internal init() {
         super.init(frame: .zero)
 //        self.backgroundColor = .lightGray
         addSubview(codeTxf)
@@ -53,8 +63,11 @@ internal class ScanInfoInputView: UIView {
         addSubview(discardSwitch)
         addSubview(numberTxf)
 
+        isEditing = false
+        isCodeEditing = false
+
         autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        componentSetting(isCodeEnable: isCodeEnable)
+        componentSetting()
 
         backgroundColor = .white
     }
@@ -130,54 +143,35 @@ internal class ScanInfoInputView: UIView {
     }
 
     // MARK: - Layout
-    private func componentSetting(isCodeEnable: Bool) {
-        self.codeTxf.placeholder = "資産コード"
-        self.codeTxf.text = self.assetData?.code
-        self.codeTxf.isEnabled = isCodeEnable
-
-        self.nameTxf.placeholder = "資産名"
-        self.nameTxf.text = self.assetData?.name
-        self.nameTxf.isEnabled = true
-
-        self.adminTxf.placeholder = "管理者"
-        self.adminTxf.text = self.assetData?.admin
-        self.adminTxf.isEnabled = true
-
-        self.userTxf.placeholder = "使用者"
-        self.userTxf.text = self.assetData?.user
-        self.userTxf.isEnabled = true
-
-        self.placeTxf.placeholder = "管理場所"
-        self.placeTxf.text = self.assetData?.location
-        self.placeTxf.isEnabled = true
-
+    private func componentSetting() {
+        codeTxf.placeholder = "資産コード"
+        nameTxf.placeholder = "資産名"
+        adminTxf.placeholder = "管理者"
+        userTxf.placeholder = "使用者"
+        placeTxf.placeholder = "管理場所"
         numberTxf.placeholder = "数量"
-        numberTxf.text = assetData?.quantity != nil ? String(assetData!.quantity) : ""
-        numberTxf.isEnabled = true
         numberTxf.keyboardType = .numberPad
 
-        self.lostTitleLbl.text = "紛失"
-        self.lostTitleLbl.font = .systemFont(ofSize: 13)
-        self.lostTitleLbl.textColor = Color.lightGray
-        self.lostSwitch.buttonOffColor = Color.gray
-        self.lostSwitch.buttonOnColor = Color.red.accent3
-        self.lostSwitch.trackOffColor = Color.lightGray
-        self.lostSwitch.trackOnColor = Color.red.accent2
-        self.lostSwitch.isOn = self.assetData?.loss ?? false
+        lostTitleLbl.text = "紛失"
+        lostTitleLbl.font = .systemFont(ofSize: 13)
+        lostTitleLbl.textColor = Color.lightGray
+        lostSwitch.buttonOffColor = Color.gray
+        lostSwitch.buttonOnColor = Color.red.accent3
+        lostSwitch.trackOffColor = Color.lightGray
+        lostSwitch.trackOnColor = Color.red.accent2
 
-        self.discardTitleLbl.text = "廃棄"
-        self.discardTitleLbl.font = .systemFont(ofSize: 13)
-        self.discardTitleLbl.textColor = Color.lightGray
-        self.discardSwitch.buttonOffColor = Color.gray
-        self.discardSwitch.buttonOnColor = Color.red.accent3
-        self.discardSwitch.trackOffColor = Color.lightGray
-        self.discardSwitch.trackOnColor = Color.red.accent2
-        self.discardSwitch.isOn = self.assetData?.discard ?? false
+        discardTitleLbl.text = "廃棄"
+        discardTitleLbl.font = .systemFont(ofSize: 13)
+        discardTitleLbl.textColor = Color.lightGray
+        discardSwitch.buttonOffColor = Color.gray
+        discardSwitch.buttonOnColor = Color.red.accent3
+        discardSwitch.trackOffColor = Color.lightGray
+        discardSwitch.trackOnColor = Color.red.accent2
     }
 
     // MARK: - Function
-    internal func setAssetData(data: Asset) {
-        self.assetData = data
+    func setAssetData(data: Asset) {
+        assetData = data
         UIView.animate(withDuration: 1.0) {
             self.codeTxf.text = self.assetData?.code
             self.nameTxf.text = self.assetData?.name

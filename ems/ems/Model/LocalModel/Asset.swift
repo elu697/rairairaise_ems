@@ -25,10 +25,10 @@ struct Asset {
     var value: [String: Any] {
         var buf: [String: Any] = [:]
         buf["code"] = code
-        buf["name"] = name
-        buf["admin"] = admin
-        buf["user"] = user
-        buf["location"] = location
+        buf["name"] = name?.isEmptyInWhiteSpace ?? false ? "" : name
+        buf["admin"] = admin?.isEmptyInWhiteSpace ?? false ? "" : admin
+        buf["user"] = user?.isEmptyInWhiteSpace ?? false ? "" : user
+        buf["location"] = location?.isEmptyInWhiteSpace ?? false ? "" : location
         buf["discard"] = discard
         buf["loss"] = loss
         buf["quantity"] = quantity

@@ -10,6 +10,7 @@ import Foundation
 import GoogleAPIClientForREST
 import GoogleSignIn
 import Material
+import PromiseKit
 import SVProgressHUD
 import UIKit
 
@@ -89,11 +90,6 @@ internal class GoogleDriveFileListViewController: UIViewController {
         self.showAlert(title: "サインアウト", message: "Googleからサインアウトしますか？", {_ in
             GIDSignIn.sharedInstance()?.signOut()
             self.closeVC()
-//            GIDSignIn.sharedInstance()?.disconnect()
-//            self.refreshing()
-//            self.files.removeAll()
-//            guard let view = self.view as? GoogleDriveFileListView else { return }
-//            view.tableView.reloadData()
         }, cancelAction: {_ in
             print("cancel")
         })
@@ -104,8 +100,8 @@ internal class GoogleDriveFileListViewController: UIViewController {
         self.navigationController?.dissmissView()
     }
 
-    private func pdfDownloadUpload(assets: [Assets], completion: @escaping (String?, Error?) -> Void) {
-        /*PDFDownloader.shared.download(fileName: "qr.pdf", param: assets) { _ in
+    private func pdfDownloadUpload(assets: [Asset], completion: @escaping (String?, Error?) -> Void) {
+        PDFDownloader.shared.download(fileName: "qr.pdf", param: assets) { _ in
             guard let currentFolder = GoogleDriveFileListViewController.globalCurrentFolder else {
                 completion(nil, GDriveError.noDataAtPath)
                 return
@@ -118,7 +114,7 @@ internal class GoogleDriveFileListViewController: UIViewController {
             } else {
                 completion(nil, GDriveError.noDataAtPath)
             }
-        }*/
+        }
     }
 
     @objc
@@ -132,7 +128,7 @@ internal class GoogleDriveFileListViewController: UIViewController {
         let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
             if let text = alert.textFields?.first?.text {
                 SVProgressHUD.show()
-                /*DBStore.shared.search(field: .location, value: text).done { assets in
+                DBStore.shared.search(field: .location, value: text).done { assets in
                     guard !assets.isEmpty else {
                         SVProgressHUD.dismiss()
                         SVProgressHUD.showError(withStatus: "資産情報が存在しません")
@@ -150,7 +146,7 @@ internal class GoogleDriveFileListViewController: UIViewController {
                 }.catch { _ in
                     SVProgressHUD.dismiss()
                     SVProgressHUD.showError(withStatus: "失敗しました")
-                }*/
+                }
                 /*DBStore.share.search(field: .location, value: text) { assets, error in
                     if let assets = assets {
                         guard !assets.isEmpty else {
@@ -219,37 +215,29 @@ internal class GoogleDriveFileListViewController: UIViewController {
     }
 
     private func uploadData(values: [String], _ completion: @escaping () -> Void) {
-        /*let dispatch = Dispatch(label: "upload")
+        var process: [Promise<Void>] = []
         values.forEach { data in
             let asset = data.components(separatedBy: ",")
             if asset.count != 8 {
                 SVProgressHUD.showError(withStatus: "CSVがフォーマットに沿っていません")
                 return
             }
-            dispatch.async(attributes: nil) {
-                DBStore.share.set({ save in
-                    save.code = asset[0]
-                    save.name = !asset[1].isEmpty ? asset[1] : nil
-                    save.admin = !asset[2].isEmpty ? asset[2] : nil
-                    save.user = !asset[3].isEmpty ? asset[3] : nil
-                    save.location = !asset[4].isEmpty ? asset[4] : nil
-                    save.quantity = Int(asset[5]) ?? 0
-                    save.loss = asset[6] == "TRUE"
-                    save.discard = asset[7] == "TRUE"
-                }, { error in
-                    if let error = error {
-                        SVProgressHUD.showError(withStatus: error.descript)
-                        print("\(error.descript)")
-                    }
-                    dispatch.leave()
-                }
-                )
-            }
+            var value: [String: Any] = [:]
+            value["code"] = asset[0]
+            value["name"] = asset[1]
+            value["admin"] = asset[2]
+            value["user"] = asset[3]
+            value["location"] = asset[4]
+            value["quantity"] = asset[5]
+            value["loss"] = asset[6]
+            value["discard"] = asset[7]
+            process.append(DBStore.shared.regist(Asset(value: value)))
         }
-
-        dispatch.notify {
+        when(fulfilled: process).done {
             completion()
-        }*/
+        }.catch { error in
+            SVProgressHUD.showError(withStatus: (error as? DBStoreError)?.descript)
+        }
     }
 
     internal required init?(coder: NSCoder) {

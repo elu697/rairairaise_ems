@@ -14,24 +14,53 @@ import UIKit
 internal class ScanInfoInputViewController: UIViewController {
     private var isFetching = false
     private var beforeCode = ""
-
-    internal var mode: MenuViewController.MenuType = .change
+    private var model: Asset? {
+        get {
+            AppDataManager.shared.get(key: DataKey.model.rawValue) as? Asset
+        }
+        set(value) {
+            AppDataManager.shared.set(key: DataKey.model.rawValue, value: value as Any)
+        }
+    }
     private var infoInputView: ScanInfoInputView? {
         return view as? ScanInfoInputView
     }
 
-    private static var cash: Asset?
+    var isInputEditing: Bool {
+        get {
+            infoInputView?.isEditing ?? false
+        }
+        set(value) {
+            infoInputView?.isEditing = value
+        }
+    }
+
+    var isCodeEditing: Bool {
+        get {
+            infoInputView?.isCodeEditing ?? false
+        }
+        set {
+            infoInputView?.isCodeEditing = newValue
+        }
+    }
+
+    var mode: MenuViewController.MenuType = .change
+
+    enum DataKey: String {
+        case model
+    }
 
     override internal func loadView() {
-        view = ScanInfoInputView(isCodeEnable: true)
+        view = ScanInfoInputView()
     }
 
     override internal func viewDidLoad() {
         super.viewDidLoad()
         view.setNeedsUpdateConstraints()
 
-        if let cash = ScanInfoInputViewController.cash, mode == .change {
-            setAssetValue(value: cash)
+        if let model = model, mode == .change {
+            setAssetValue(value: model)
+            infoInputView?.isEditing = true
         }
 
         infoInputView?.codeTxf.delegate = self
@@ -66,10 +95,10 @@ extension ScanInfoInputViewController {
         infoInputView?.userTxf.text = value.user
         infoInputView?.placeTxf.text = value.location
         infoInputView?.numberTxf.text = String(value.quantity)
-        infoInputView?.lostSwitch.setSwitchState(state: value.loss ? .on : .off, animated: true, completion: nil)
-        infoInputView?.discardSwitch.setSwitchState(state: value.discard ? .on : .off, animated: true, completion: nil)
+        infoInputView?.lostSwitch.isOn = value.loss
+        infoInputView?.discardSwitch.isOn = value.discard
 
-        ScanInfoInputViewController.cash = value
+        model = value
     }
 }
 
@@ -90,10 +119,10 @@ extension ScanInfoInputViewController {
         }
         SVProgressHUD.show()
         isFetching = true
-        print("fetch")
 
         DBStore.shared.search(field: .code, value: value).then { models -> Promise<Void> in
             if let model = models.first, let code = model.code {
+                self.infoInputView?.isEditing = true
                 self.beforeCode = code
                 self.setAssetValue(value: model)
                 return Promise<Void>()

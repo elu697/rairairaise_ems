@@ -33,8 +33,8 @@ internal class AssetCheckViewController: UIViewController {
         view.content.userTxf.text = value.user
         view.content.placeTxf.text = value.location
         view.content.numberTxf.text = String(value.quantity)
-        view.content.lostSwitch.setSwitchState(state: value.loss ? .on : .off, animated: true, completion: nil)
-        view.content.discardSwitch.setSwitchState(state: value.discard ? .on : .off, animated: true, completion: nil)
+        view.content.lostSwitch.isOn = value.loss
+        view.content.discardSwitch.isOn = value.discard
     }
 
     internal func fetch(value: String) -> Promise<Void> {

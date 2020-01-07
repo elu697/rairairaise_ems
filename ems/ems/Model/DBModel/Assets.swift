@@ -14,12 +14,16 @@ import PromiseKit
 @objcMembers
 class Assets: Object {
     dynamic var code: String = ""
-    dynamic var name: [String: String] = [:]
-    dynamic var admin: [String: String] = [:]
-    dynamic var user: [String: String] = [:]
+    dynamic var name: String?
+    dynamic var nameDocId: String?
+    dynamic var admin: String?
+    dynamic var adminDocId: String?
+    dynamic var user: String?
+    dynamic var userDocId: String?
     dynamic var loss: Bool = false
     dynamic var discard: Bool = false
-    dynamic var location: [String: String] = [:]
+    dynamic var location: String?
+    dynamic var locationDocId: String?
     dynamic var quantity: Int = 0
 
     enum Collection {
@@ -80,10 +84,10 @@ class Assets: Object {
     var dictionary: [String: Any] {
         var buf: [String: Any] = [:]
         buf["code"] = code
-        buf["name"] = name["value"]
-        buf["admin"] = admin["value"]
-        buf["user"] = user["value"]
-        buf["location"] = location["value"]
+        buf["name"] = name
+        buf["admin"] = admin
+        buf["user"] = user
+        buf["location"] = location
         buf["discard"] = discard
         buf["loss"] = loss
         buf["quantity"] = quantity
@@ -92,10 +96,10 @@ class Assets: Object {
 
     func set(_ value: [String: Any]) {
         code = value["code"] as? String ?? code
-        name["value"] = value["name"] as? String ?? name["value"]
-        admin["value"] = value["admin"] as? String ?? admin["value"]
-        user["value"] = value["user"] as? String ?? user["value"]
-        location["value"] = value["location"] as? String ?? location["value"]
+        name = value["name"] as? String ?? name
+        admin = value["admin"] as? String ?? admin
+        user = value["user"] as? String ?? user
+        location = value["location"] as? String ?? location
         discard = value["discard"] as? Bool ?? discard
         loss = value["loss"] as? Bool ?? loss
         quantity = value["quantity"] as? Int ?? quantity
@@ -104,10 +108,10 @@ class Assets: Object {
     static func copy(id: String? = nil, model: Asset) -> Assets {
         let copy = id != nil ? Assets(id: id!, value: [:]) : Assets()
         copy.code = model.code ?? ""
-        copy.name["value"] = model.name
-        copy.admin["value"] = model.admin
-        copy.user["value"] = model.user
-        copy.location["value"] = model.location
+        copy.name = model.name
+        copy.admin = model.admin
+        copy.user = model.user
+        copy.location = model.location
         copy.discard = model.discard
         copy.loss = model.loss
         copy.quantity = model.quantity

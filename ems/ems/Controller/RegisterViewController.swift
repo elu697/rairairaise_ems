@@ -57,6 +57,9 @@ internal class RegisterViewController: UIViewController {
         super.viewDidLayoutSubviews()
         let vc = ScanInfoInputViewController()
         vc.mode = .register
+        vc.isInputEditing = true
+        vc.isCodeEditing = true
+
         updateInfoView(viewController: vc)
     }
 

@@ -50,18 +50,18 @@ class AssetService {
     func convert(model: Assets) -> Promise<Assets> {
         Promise<Assets> { seal in
             firstly {
-                PersonService().convertProsess(value: model.admin["value"])
+                PersonService().convertProsess(value: model.admin)
             }.then { docRef -> Promise<DocumentReference?> in
-                model.admin["docId"] = docRef?.documentID
-                return PersonService().convertProsess(value: model.user["value"])
+                model.adminDocId = docRef?.documentID
+                return PersonService().convertProsess(value: model.user)
             }.then { docRef -> Promise<DocumentReference?> in
-                model.user["docId"] = docRef?.documentID
-                return AssetNameService().convertProsess(value: model.name["value"])
+                model.userDocId = docRef?.documentID
+                return AssetNameService().convertProsess(value: model.name)
             }.then { docRef -> Promise<DocumentReference?> in
-                model.name["docId"] = docRef?.documentID
-                return LocationService().convertProsess(value: model.location["value"])
+                model.nameDocId = docRef?.documentID
+                return LocationService().convertProsess(value: model.location)
             }.done { docRef in
-                model.location["docId"] = docRef?.documentID
+                model.locationDocId = docRef?.documentID
                 seal.fulfill(model)
             }.catch { error in
                 seal.reject(error)
