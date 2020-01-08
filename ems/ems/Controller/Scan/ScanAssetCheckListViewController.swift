@@ -48,11 +48,15 @@ internal class ScanAssetCheckListViewController: UIViewController {
         case query
     }
 
-    override internal func loadView() {
+    var isSearched: Bool {
+        return !models.isEmpty
+    }
+
+    override func loadView() {
         view = ScanAssetCheckList()
     }
 
-    override internal func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         checkView?.tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.className)
@@ -87,9 +91,19 @@ internal class ScanAssetCheckListViewController: UIViewController {
         return DBStore.shared.search(field: searchType, value: value)
     }
 
-    internal func check(code: String) {
-        checkList[code] = true
-        checkView?.tableView.reloadData()
+    func check(code: String) {
+        var model = Asset()
+        model.code = code
+        model.checkedAt = Date()
+        SVProgressHUD.show()
+        DBStore.shared.update(model).done {
+            self.checkList[code] = true
+            DispatchQueue.main.async {
+                self.checkView?.tableView.reloadData()
+            }
+        }.catch { error in
+            SVProgressHUD.showError(withStatus: (error as? DBStoreError)?.descript)
+        }
     }
 }
 

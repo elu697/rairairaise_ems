@@ -25,6 +25,7 @@ class Assets: Object {
     dynamic var location: String?
     dynamic var locationDocId: String?
     dynamic var quantity: Int = 0
+    dynamic var checkedAt: Timestamp?
 
     enum Collection {
         case persons
@@ -91,6 +92,7 @@ class Assets: Object {
         buf["discard"] = discard
         buf["loss"] = loss
         buf["quantity"] = quantity
+        buf["checkedAt"] = checkedAt?.dateValue()
         return buf
     }
 
@@ -103,6 +105,9 @@ class Assets: Object {
         discard = value["discard"] as? Bool ?? discard
         loss = value["loss"] as? Bool ?? loss
         quantity = value["quantity"] as? Int ?? quantity
+        if let checkedAt = value["checkedAt"] as? Date {
+            self.checkedAt = Timestamp(date: checkedAt)
+        }
     }
 
     static func copy(id: String? = nil, model: Asset) -> Assets {
@@ -115,6 +120,10 @@ class Assets: Object {
         copy.discard = model.discard
         copy.loss = model.loss
         copy.quantity = model.quantity
+        if let checkedAt = model.checkedAt {
+            copy.checkedAt? = Timestamp(date: checkedAt)
+        }
+
         return copy
     }
 }

@@ -17,6 +17,7 @@ struct Asset {
     var discard: Bool = false
     var location: String?
     var quantity: Int = 0
+    var checkedAt: Date?
 
     var validated: Bool {
         return validate()
@@ -32,6 +33,7 @@ struct Asset {
         buf["discard"] = discard
         buf["loss"] = loss
         buf["quantity"] = quantity
+        buf["checkedAt"] = checkedAt
         return buf
     }
 
@@ -50,6 +52,7 @@ struct Asset {
         } else {
             self.quantity = Int(value["quantity"] as? String ?? "0") ?? 0
         }
+        checkedAt = value["checkedAt"] as? Date
     }
 
     private func validate() -> Bool {

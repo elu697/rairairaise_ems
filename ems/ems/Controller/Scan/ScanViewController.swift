@@ -162,9 +162,11 @@ extension ScanViewController {
         sound(tone: .accept)
         scanView?.previewQrInfo(msg: "")
         if let child = self.children.first as? ScanAssetCheckListViewController {
-            DispatchQueue.main.async {
-                child.check(code: self.scanQrData)
+            guard child.isSearched else {
+                SVProgressHUD.showError(withStatus: "確認する候補が検索されていません")
+                return
             }
+            child.check(code: self.scanQrData)
         }
         if let child = self.children.first as? ScanInfoInputViewController {
             scanView?.updateBtn.isEnabled = true
