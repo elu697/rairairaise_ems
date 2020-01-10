@@ -88,12 +88,10 @@ internal class PickerView: UIView {
 
 extension PickerView: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
     }
 }
 
 extension PickerView: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        
     }
 }

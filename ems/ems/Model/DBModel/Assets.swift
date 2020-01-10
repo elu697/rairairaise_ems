@@ -12,24 +12,29 @@ import Pring
 import PromiseKit
 
 @objcMembers
-internal class Assets: Object {
-    internal dynamic var code: String = ""
-    internal dynamic var name: String?
-    internal dynamic var admin: String?
-    internal dynamic var user: String?
-    internal dynamic var loss: Bool = false
-    internal dynamic var discard: Bool = false
-    internal dynamic var location: String?
-    internal dynamic var quantity: Int = 0
+class Assets: Object {
+    dynamic var code: String = ""
+    dynamic var name: String?
+    dynamic var nameDocId: String?
+    dynamic var admin: String?
+    dynamic var adminDocId: String?
+    dynamic var user: String?
+    dynamic var userDocId: String?
+    dynamic var loss: Bool = false
+    dynamic var discard: Bool = false
+    dynamic var location: String?
+    dynamic var locationDocId: String?
+    dynamic var quantity: Int = 0
+    dynamic var checkedAt: Timestamp?
 
-    internal enum Collection {
+    enum Collection {
         case persons
         case locations
         case assetNames
         case assets
     }
 
-    internal enum Field: String, CaseIterable {
+    enum Field: String, CaseIterable {
         case code
         case name
         case admin
@@ -39,7 +44,7 @@ internal class Assets: Object {
         case location
         case quantity
 
-        internal var name: String {
+        var name: String {
             switch self {
             case .code:
                 return "資産コード"
@@ -77,209 +82,48 @@ internal class Assets: Object {
         }
     }
 
-    private func getValue(field: Field) -> String? {
-        switch field {
-        case .user:
-            return user
+    var dictionary: [String: Any] {
+        var buf: [String: Any] = [:]
+        buf["code"] = code
+        buf["name"] = name
+        buf["admin"] = admin
+        buf["user"] = user
+        buf["location"] = location
+        buf["discard"] = discard
+        buf["loss"] = loss
+        buf["quantity"] = quantity
+        buf["checkedAt"] = checkedAt?.dateValue()
+        return buf
+    }
 
-        case .admin:
-            return admin
-
-        case .location:
-            return location
-
-        case .name:
-            return name
-        default: return nil
+    func set(_ value: [String: Any]) {
+        code = value["code"] as? String ?? code
+        name = value["name"] as? String ?? name
+        admin = value["admin"] as? String ?? admin
+        user = value["user"] as? String ?? user
+        location = value["location"] as? String ?? location
+        discard = value["discard"] as? Bool ?? discard
+        loss = value["loss"] as? Bool ?? loss
+        quantity = value["quantity"] as? Int ?? quantity
+        if let checkedAt = value["checkedAt"] as? Date {
+            self.checkedAt = Timestamp(date: checkedAt)
         }
     }
 
-    internal func updateWithSetParam(_ result: @escaping (Error?) -> Void) {
-        print("Assets: updateWithSetParam")
-        convertDocRef().done { data in
-            self.setField(data: data)
-            self.update { error in
-                result(error)
-            }
-        }
-        .catch { error in
-            result(error)
-        }
-    }
-
-    internal func saveWithSetParam(_ result: @escaping (Error?) -> Void) {
-        convertDocRef().done { data in
-            self.setField(data: data)
-            self.save { _, error in
-                result(error)
-            }
-        }
-        .catch { error in
-            result(error)
-        }
-    }
-
-    internal static func getAssets(snapShots: [QueryDocumentSnapshot], _ complete: @escaping ([Assets]) -> Void) {
-        var assets: [Assets] = []
-        guard !snapShots.isEmpty else {
-            complete(assets)
-            return
-        }
-        let dispatch = Dispatch(label: "assets")
-
-        snapShots.forEach { docRef in
-            dispatch.async {
-                Assets.get(docRef.documentID) { asset, _ in
-                    guard let asset = asset else { dispatch.leave(); return }
-                    asset.setValue {
-                        assets.append(asset)
-                        dispatch.leave()
-                    }
-                }
-            }
+    static func copy(id: String? = nil, model: Asset) -> Assets {
+        let copy = id != nil ? Assets(id: id!, value: [:]) : Assets()
+        copy.code = model.code ?? ""
+        copy.name = model.name
+        copy.admin = model.admin
+        copy.user = model.user
+        copy.location = model.location
+        copy.discard = model.discard
+        copy.loss = model.loss
+        copy.quantity = model.quantity
+        if let checkedAt = model.checkedAt {
+            copy.checkedAt? = Timestamp(date: checkedAt)
         }
 
-        dispatch.notify {
-            complete(assets)
-        }
-    }
-
-    internal func setValue(value: [Field: Any?]) {
-        guard let code = value[.code] as? String else { return }
-        self.code = code
-        name = value[.name] as? String
-        admin = value[.admin] as? String
-        user = value[.user] as? String
-        location = value[.location] as? String
-        loss = value[.loss] as? Bool ?? false
-        discard = value[.discard] as? Bool ?? false
-        quantity = Int(value[.quantity] as? String ?? "0") ?? 0
-    }
-}
-
-// MARK: - private function
-extension Assets {
-    /// 生の情報からDocumentReferenceを取得する。ない場合はデータをDBへ追加して取得する。
-    private func convertDocRef() -> Promise<[Field: String]> {
-        var data: [Field: String] = [:]
-
-        return Promise<[Field: String]> { seal in
-            firstly {
-                prosess(field: .admin)
-            }.then { docRef -> Promise<DocumentReference> in
-                data[.admin] = docRef.documentID
-                return self.prosess(field: .user)
-            }
-            .then { docRef -> Promise<DocumentReference> in
-                data[.user] = docRef.documentID
-                return self.prosess(field: .location)
-            }
-            .then { docRef -> Promise<DocumentReference> in
-                data[.location] = docRef.documentID
-                return self.prosess(field: .name)
-            }
-            .done { docRef in
-                data[.name] = docRef.documentID
-                seal.fulfill(data)
-            }.catch { error in
-                seal.reject(error)
-            }
-        }
-    }
-
-    private func prosess(field: Field) -> Promise<DocumentReference> {
-        let value = getValue(field: field)
-        switch field.type {
-        case .persons:
-            return Persons.existCheck(keyPath: \Persons.name, value: value).recover { _ -> Promise<DocumentReference> in
-                let person = Persons()
-                person.name = value
-                return person.save()
-            }
-
-        case .locations:
-            return Locations.existCheck(keyPath: \Locations.location, value: value).recover { _ -> Promise<DocumentReference> in
-                let loc = Locations()
-                loc.location = value
-                return loc.save()
-            }
-
-        case .assetNames:
-            return AssetNames.existCheck(keyPath: \AssetNames.assetName, value: value).recover { _ -> Promise<DocumentReference> in
-                let assetName = AssetNames()
-                assetName.assetName = value
-                return assetName.save()
-            }
-
-        default:
-            return Promise<DocumentReference>(error: DBStoreError.failed)
-        }
-    }
-
-    private func setField(data: [Field: Any]) {
-        code = data[.code] as? String ?? code
-        name = data[.name] as? String ?? name
-        admin = data[.admin] as? String ?? admin
-        user = data[.user] as? String ?? user
-        location = data[.location] as? String ?? location
-        quantity = data[.quantity] as? Int ?? quantity
-        discard = data[.discard] as? Bool ?? discard
-        loss = data[.loss] as? Bool ?? loss
-    }
-
-    private func setValue(_ complete: @escaping () -> Void) {
-        let dispatch = Dispatch(label: "value")
-
-        Field.allCases.forEach { field in
-            switch field.type {
-            case .persons:
-                if field == .user, let user = user {
-                    dispatch.async {
-                        Persons.get(user) { person, _ in
-                            self.user = person?.name
-                            dispatch.leave()
-                        }
-                    }
-                }
-                if field == .admin, let admin = admin {
-                    dispatch.async {
-                        Persons.get(admin) { person, _ in
-                            self.admin = person?.name
-                            dispatch.leave()
-                        }
-                    }
-                }
-
-            case .locations:
-                if let location = location {
-                    dispatch.async {
-                        Locations.get(location) { location, _ in
-                            self.location = location?.location
-                            dispatch.leave()
-                        }
-                    }
-                }
-
-            case .assetNames:
-                if let assetName = name {
-                    dispatch.async {
-                        AssetNames.get(assetName) { assetName, _ in
-                            self.name = assetName?.assetName
-                            dispatch.leave()
-                        }
-                    }
-                }
-
-            default:
-                dispatch .async {
-                    dispatch.leave()
-                    return
-                }
-            }
-        }
-
-        dispatch.notify {
-            complete()
-        }
+        return copy
     }
 }

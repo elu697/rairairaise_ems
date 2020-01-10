@@ -22,19 +22,19 @@ extension Document where Self: Object {
         }
     }
 
-    internal static func existCheck(keyPath: PartialKeyPath<Self>, value: Any?) -> Promise<DocumentReference> {
-        return Promise<DocumentReference> { seal in
+    static func existCheck(keyPath: PartialKeyPath<Self>, value: Any?) -> Promise<DocumentReference?> {
+        return Promise<DocumentReference?> { seal in
             guard let value = value else {
-                seal.reject(DBStoreError.inputFailed)
+                seal.fulfill(nil)
                 return
             }
             if let key = keyPath._kvcKeyPathString {
                 Self.where(key, isEqualTo: value).get { snapShot, _ in
-                    guard let snapShot = snapShot, !snapShot.isEmpty else {
-                        seal.reject(DBStoreError.notFound)
+                    guard let snapShot = snapShot else {
+                        seal.reject(DBStoreError.failed)
                         return
                     }
-                    seal.fulfill(snapShot.documents[0].reference)
+                    seal.fulfill(snapShot.isEmpty ? nil : snapShot.documents[0].reference)
                 }
             } else {
                 seal.reject(DBStoreError.failed)
@@ -42,10 +42,38 @@ extension Document where Self: Object {
         }
     }
 
-    internal func save() -> Promise<DocumentReference> {
-        return Promise<DocumentReference> { seal in
+    func save() -> Promise<[DocumentReference]> {
+        Promise<[DocumentReference]> { seal in
             save { docRef, error in
-                seal.resolve(error, docRef)
+                if let docRef = docRef {
+                    seal.resolve(error, [docRef])
+                } else {
+                    seal.resolve(error, [])
+                }
+            }
+        }
+    }
+
+    func delete() -> Promise<Void> {
+        Promise<Void> { seal in
+            delete { error in
+                if error != nil {
+                    seal.reject(DBStoreError.failed)
+                } else {
+                    seal.fulfill_()
+                }
+            }
+        }
+    }
+
+    func update() -> Promise<Void> {
+        Promise<Void> { seal in
+            update { error in
+                if error != nil {
+                    seal.reject(DBStoreError.failed)
+                } else {
+                    seal.fulfill_()
+                }
             }
         }
     }

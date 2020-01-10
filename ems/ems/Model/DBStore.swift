@@ -9,174 +9,86 @@
 import FirebaseFirestore
 import Foundation
 import Pring
+import PromiseKit
 
 internal class DBStore {
-    internal static let share = DBStore()
+    static let shared = DBStore()
 
     private init() {}
 
-    internal enum DBStoreError: Error {
-        case existCode
-        case failed
-        case notFound
+    func update(_ input: Asset) -> Promise<Void> {
+        guard input.validated else {
+            return Promise<Void>(error: DBStoreError.inputFailed)
+        }
 
-        var descript: String {
-            switch self {
-            case .existCode:
-                return "既にその資産コードは登録されています。"
-            case .failed:
-                return "処理に失敗しました。"
-            case .notFound:
-                return "お探しの資産情報は見つかりませんでした。"
+        return Promise<Void> { seal in
+            firstly {
+                Assets.existCheck(keyPath: \Assets.code, value: input.code)
+            }.then { _ -> Promise<[Assets]> in
+                AssetService(field: .code).getBy(value: input.code as Any)
+            }.then { models -> Promise<Assets> in
+                guard let model = models.first else {
+                    return Promise<Assets>(error: DBStoreError.notFound)
+                }
+                model.set(input.value)
+                return AssetService().convert(model: model)
+            }.then { asset -> Promise<Void> in
+                asset.update()
+            }.done { _ in
+                seal.fulfill_()
+            }.catch { error in
+                seal.reject(error)
             }
         }
     }
 
-    internal func update(code: String, set: @escaping (Assets) -> Void, complete: @escaping (Error?) -> Void) {
-        Assets.isExist(keyPath: \Assets.code, value: code) { docRef, error in
-            guard let docRef = docRef else { complete(error); return }
-            let asset = Assets(id: docRef.documentID, value: [:])
-            asset.code = code
-            set(asset)
-            asset.updateWithSetParam { error in
-                complete(error)
+    func regist(_ input: Asset) -> Promise<Void> {
+        guard input.validated else {
+            return Promise<Void>(error: DBStoreError.inputFailed)
+        }
+
+        return Promise<Void> { seal in
+            let model = Assets.copy(model: input)
+            firstly {
+                Assets.existCheck(keyPath: \Assets.code, value: model.code)
+            }.then { _ -> Promise<Assets> in
+               AssetService().convert(model: model)
+            }.then { converted -> Promise<[DocumentReference]> in
+                converted.save()
+            }.done { _ in
+                seal.fulfill_()
+            }.catch { error in
+                seal.reject(error)
             }
         }
     }
 
-    internal func set(_ set: @escaping (Assets) -> Void, _ complete: @escaping (DBStoreError?) -> Void) {
-        let asset = Assets()
-        set(asset)
-        if asset.code.isEmpty {
-            return
-        }
-
-        Assets.isExist(keyPath: \Assets.code, value: asset.code) { docId, error in
-            if error != nil {
-                complete(DBStoreError.failed)
-                return
-            } else if docId == nil {
-                asset.saveWithSetParam { error in
-                    complete(error != nil ? DBStoreError.failed : nil)
+    func delete(code: String) -> Promise<Void> {
+        Promise<Void> { seal in
+            firstly {
+                Assets.existCheck(keyPath: \Assets.code, value: code)
+            }.then { docRef -> Promise<Void> in
+                guard let docRef = docRef else {
+                    return Promise<Void>(error: DBStoreError.failed)
                 }
-            } else {
-                complete(DBStoreError.existCode)
+                return Assets(id: docRef.documentID).delete()
+            }.done {
+                seal.fulfill_()
+            }.catch { error in
+                seal.reject(error)
             }
         }
     }
 
-    internal func delete(code: String, completion: @escaping (Error?) -> Void) {
-        Assets.isExist(keyPath: \Assets.code, value: code) { docRef, error in
-            if let error = error {
-                completion(error)
-            } else {
-                docRef?.delete()
-                completion(nil)
+    func search(field: Assets.Field, value: Any) -> Promise<[Asset]> {
+        Promise<[Asset]> { seal in
+            firstly {
+                AssetService(field: field).getBy(value: value)
+            }.done { models in
+                seal.fulfill(models.map { Asset(value: $0.dictionary) })
+            }.catch { error in
+                seal.reject(error)
             }
         }
-    }
-
-    internal func search(field: Assets.Field, value: Any, limit: Int? = nil, _ complete: @escaping ([Assets]?, Error?) -> Void) {
-        let dispatch = Dispatch(label: "search")
-        var item: Any?
-        switch field.type {
-        case .persons:
-            dispatch.async {
-                guard let value = value as? String else { return }
-                Persons.getDocumentId(value: value) { docRef, error in
-                    guard let docRef = docRef else { dispatch.leave(); complete([], error); return }
-                    item = docRef
-                    dispatch.leave()
-                }
-            }
-
-        case .locations:
-            dispatch.async {
-                guard let value = value as? String else { return }
-                Locations.getDocumentId(value: value) { docRef, error in
-                    guard let docRef = docRef else { dispatch.leave(); complete([], error); return }
-                    item = docRef
-                    dispatch.leave()
-                }
-            }
-
-        case .assetNames:
-            dispatch.async {
-                guard let value = value as? String else { return }
-                AssetNames.getDocumentId(value: value) { docRef, error in
-                    guard let docRef = docRef else { dispatch.leave(); complete([], error); return }
-                    item = docRef
-                    dispatch.leave()
-                }
-            }
-
-        default:
-            dispatch.async {
-                item = value
-                dispatch.leave()
-            }
-        }
-
-        dispatch.notify {
-            guard let searchItem = item, let query = self.classificationQuery(field: field, value: searchItem) else { return }
-            if let limit = limit {
-                query.limit(to: limit).get { snapShot, error in
-                    guard let snapShot = snapShot else {
-                        complete(nil, error)
-                        return
-                    }
-                    print("DBStore: \(snapShot.documents.count)")
-                    Assets.getAssets(snapShots: snapShot.documents) { assets in
-                        complete(assets, nil)
-                    }
-                }
-            } else {
-                query.get { snapShot, error in
-                    guard let snapShot = snapShot else {
-                        complete(nil, error)
-                        return
-                    }
-                    print("DBStore: \(snapShot.documents.count)")
-                    Assets.getAssets(snapShots: snapShot.documents) { assets in
-                        complete(assets, nil)
-                    }
-                }
-            }
-        }
-    }
-
-    private func classificationQuery(field: Assets.Field, value: Any) -> DataSource<Assets>.Query? {
-        var query: DataSource<Assets>.Query
-        switch field {
-        case .user:
-            guard let docRef = value as? QueryDocumentSnapshot else { return nil }
-            query = Assets.where(\Assets.user, isEqualTo: docRef.documentID)
-
-        case .admin:
-            guard let docRef = value as? QueryDocumentSnapshot else { return  nil }
-            query = Assets.where(\Assets.admin, isEqualTo: docRef.documentID)
-
-        case .location:
-            guard let docRef = value as? QueryDocumentSnapshot else { return nil }
-            query = Assets.where(\Assets.location, isEqualTo: docRef.documentID)
-
-        case .name:
-            guard let docRef = value as? QueryDocumentSnapshot else { return nil }
-            query = Assets.where(\Assets.name, isEqualTo: docRef.documentID)
-
-        case .code:
-            query = Assets.where(\Assets.code, isEqualTo: value)
-
-        case .discard:
-            query = Assets.where(\Assets.discard, isEqualTo: value)
-
-        case .loss:
-            query = Assets.where(\Assets.loss, isEqualTo: value)
-
-        case .quantity:
-            query = Assets.where(\Assets.quantity, isEqualTo: value)
-        }
-
-        return query
     }
 }

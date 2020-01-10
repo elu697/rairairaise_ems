@@ -10,10 +10,12 @@ import Foundation
 import UIKit
 
 internal class AssetCheckView: UIView {
-    internal var content = ScanInfoInputView(isCodeEnable: false)
+    var content = ScanInfoInputView()
 
     override internal init(frame: CGRect) {
         super.init(frame: .zero)
+
+        content.isEditing = false
 
         backgroundColor = .white
 
