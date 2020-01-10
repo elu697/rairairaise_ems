@@ -13,6 +13,18 @@ def install_pods
     pod 'SPPermission/Camera'
     pod 'Material', '~> 3.1.0'
     pod 'SwiftLint'
+    pod 'IQKeyboardManagerSwift'
+    pod 'Pring'
+    pod 'QRCodeReader.swift', '~> 10.1.0'
+    pod 'GoogleAPIClientForREST/Drive'
+    pod 'GoogleSignIn'
+    pod 'PromiseKit', '~> 6.8'
+    
+    pod 'Firebase/Core'
+    pod 'Firebase/Firestore' 
+    pod 'Eureka'
+    
+    pod 'ReachabilitySwift'
 
     #Pods for FiMap
 

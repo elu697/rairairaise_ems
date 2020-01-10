@@ -11,27 +11,33 @@ import SVProgressHUD
 import UIKit
 
 internal class HomeViewController: UIViewController {
+    private let errorVC = ErrorViewController()
+    private let scanVC = ScanViewController()
+
     // MARK: - Property
     // MARK: - Default
     //    override func loadView() {
-    //        super.loadView()
+    //        super.loadView() t
     ////        self.view = HomeView()
     //
     //    }
 
+    deinit {
+        removeReachabilityObserver()
+    }
+
     override internal func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        // Do any additional setup after loading the view.
+        SVProgressHUD.setMaximumDismissTimeInterval(1.0)
     }
 
     override internal func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        SVProgressHUD.show()
-        SVProgressHUD.dismiss()
-        self.present(ScanViewController(), animated: true, completion: nil)
+        scanVC.modalPresentationStyle = .fullScreen
+        self.present(scanVC, animated: true, completion: nil)
+        addReachabilityObserver()
     }
-
     // MARK: - Layout
     // MARK: - Function
     // MARK: - Action
@@ -45,4 +51,20 @@ internal class HomeViewController: UIViewController {
      // Pass the selected object to the new view controller.
      }
      */
+}
+
+extension HomeViewController: ReachabilityObserverDelegate {
+    internal func reachabilityChanged(_ isReachable: Bool) {
+        if isReachable {
+            print("internet connection")
+            errorVC.dissmissView()
+        } else {
+            print("No internet connection")
+            errorVC.modalPresentationStyle = .fullScreen
+//            errorVC.is
+            errorVC.setError(msg: "- オフライン -\n\nインターネット接続がないと\nこのシステムは利用できません")
+            guard let vc = UIApplication.topViewController else { return }
+            vc.present(errorVC, animated: true, completion: nil)
+        }
+    }
 }

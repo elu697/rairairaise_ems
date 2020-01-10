@@ -24,9 +24,13 @@
 import SnapKit
 import SVProgressHUD
 import UIKit
+import Firebase
+import IQKeyboardManagerSwift
+import GTMSessionFetcher
+import GoogleSignIn
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -60,10 +64,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func initializedApplication() {
+        FirebaseApp.configure()
+        
+        IQKeyboardManager.shared.enable = true
         let rootVC = HomeViewController()
+        rootVC.modalPresentationStyle = .fullScreen
 
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.rootViewController = rootVC
         self.window?.makeKeyAndVisible()
+        
+        GIDSignIn.sharedInstance()?.clientID = FirebaseApp.app()?.options.clientID
+        GIDSignIn.sharedInstance()?.delegate = self
+        
+        SVProgressHUD.setDefaultMaskType(.clear)
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if let error = error {
+            if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
+                print("The user has not signed in before or they have since signed out.")
+            } else {
+                print("\(error.localizedDescription)")
+            }
+            GoogleDriveWrapper.shared.driveService.authorizer = nil
+            return
+        }
+        GoogleDriveWrapper.shared.driveService.authorizer = user.authentication.fetcherAuthorizer()
+        NotificationCenter.default.post(name: Notification.Name(GoogleDriveNotify.name.value),
+                                        object: nil,
+                                        userInfo: ["status": GoogleDriveStatus.signin])
+        
+    }
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        NotificationCenter.default.post( name: Notification.Name(GoogleDriveNotify.name.value),
+                                         object: nil,
+                                         userInfo: ["status": GoogleDriveStatus.signout])
+    }
+    
+    @available(iOS 9.0, *)
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+        return GIDSignIn.sharedInstance().handle(url)
     }
 }

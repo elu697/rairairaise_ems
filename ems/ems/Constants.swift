@@ -32,6 +32,10 @@ struct Constants {
         static let flashOn = R.image.icons8Flash_on()
         static let flashOff = R.image.icons8Flash_off()
         static let qr = R.image.icons8Qr_code()
+        static let search = R.image.icons8Search()
+        static let folder = R.image.baseline_folder_black_36pt()
+        static let file = R.image.icons8Csv()
+        static let logout = R.image.icons8Logout_rounded_up()
     }
 
     struct Font {
