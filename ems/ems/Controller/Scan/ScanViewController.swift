@@ -226,8 +226,8 @@ extension ScanViewController: MenuDelegate {
             pushNewNavigationController(rootViewController: RegisterViewController())
             return
         }
-        if type == .drive {
-            pushNewNavigationController(rootViewController: GoogleDriveFileListViewController(isRoot: true))
+        if type == .qr {
+            pushNewNavigationController(rootViewController: GoogleDriveFileListViewController(isRoot: true, isPDFSelect: true))
             return
         }
         currentView = type

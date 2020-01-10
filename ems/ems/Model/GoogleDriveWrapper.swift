@@ -14,6 +14,10 @@ internal enum GoogleDriveMime: String {
     case csv = "text/csv"
 }
 
+internal enum GDriveError: Error {
+    case noDataAtPath
+}
+
 internal class GoogleDriveWrapper {
     public static var shared = GoogleDriveWrapper()
     private var service = GTLRDriveService()
@@ -52,6 +56,28 @@ internal class GoogleDriveWrapper {
 
     public func listFilesInFolder(_ folderID: String, _ completion: @escaping (GTLRDrive_FileList?, Error?) -> Void) {
         listFiles(.search(folderID: folderID), completion)
+    }
+
+    public func uploadFile(folderID: String, filePath: String, mimeType: String, completion: ((String?, Error?) -> Void)?) {
+        guard let data = FileManager.default.contents(atPath: filePath) else {
+            completion?(nil, GDriveError.noDataAtPath)
+            return
+        }
+
+        let file = GTLRDrive_File()
+        file.name = filePath.components(separatedBy: "/").last
+        file.parents = [folderID]
+
+        let uploadParams = GTLRUploadParameters(data: data, mimeType: mimeType)
+        uploadParams.shouldUploadWithSingleRequest = true
+
+        let query = GTLRDriveQuery_FilesCreate.query(withObject: file, uploadParameters: uploadParams)
+        query.fields = "id"
+
+        service.executeQuery(query, completionHandler: { _, file, error in
+            completion?((file as? GTLRDrive_File)?.identifier, error)
+        }
+        )
     }
 
     private func listFiles(_ mode: Mode, _ completion: @escaping (GTLRDrive_FileList?, Error?) -> Void) {

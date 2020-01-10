@@ -24,8 +24,14 @@ internal class RegisterViewController: UIViewController {
 
         guard let view = view as? RegisterView else { return }
         view.registBtn.addTarget(self, action: #selector(regist), for: .touchUpInside)
+        view.driveBtn.addTarget(self, action: #selector(drive), for: .touchUpInside)
 
         view.setNeedsUpdateConstraints()
+    }
+
+    @objc
+    internal func drive() {
+        pushNewNavigationController(rootViewController: GoogleDriveFileListViewController(isRoot: true, isPDFSelect: false))
     }
 
     @objc

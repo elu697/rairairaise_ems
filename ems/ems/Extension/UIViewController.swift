@@ -111,7 +111,7 @@ extension UIViewController {
     internal func showAlert(title: String?, message: String?, _ okAction: @escaping ((UIAlertAction) -> Void), cancelAction: ((UIAlertAction) -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action1 = UIAlertAction(title: "OK", style: .default, handler: okAction)
-        let action2 = UIAlertAction(title: "CANCEL", style: .cancel, handler: cancelAction)
+        let action2 = UIAlertAction(title: "キャンセル", style: .cancel, handler: cancelAction)
 
         alert.addAction(action1)
         if cancelAction != nil {

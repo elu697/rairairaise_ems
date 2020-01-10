@@ -25,7 +25,7 @@ internal class MenuViewController: UIViewController {
         case change
         case check
         case register
-        case drive
+        case qr
 
         internal var title: String {
             switch self {
@@ -35,8 +35,8 @@ internal class MenuViewController: UIViewController {
                 return "資産情報確認"
             case .register:
                 return "資産情報登録"
-            case .drive:
-                return "GoogleDrive"
+            case .qr:
+                return "QRコード生成"
             }
         }
     }
@@ -48,7 +48,7 @@ internal class MenuViewController: UIViewController {
 
     override internal func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+//        self.view.backgroundColor = .white
         self.controllerSetting()
         tableView?.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.className)
         tableView?.dataSource = self
@@ -64,6 +64,10 @@ internal class MenuViewController: UIViewController {
 }
 
 extension MenuViewController: UITableViewDataSource {
+    internal func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+
     internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return MenuType.allCases.count
     }
@@ -71,6 +75,9 @@ extension MenuViewController: UITableViewDataSource {
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.className, for: indexPath)
         cell.textLabel?.text = MenuType(rawValue: indexPath.row)?.title
+        cell.textLabel?.textColor = .darkGray
+        cell.textLabel?.font = .boldSystemFont(ofSize: 20)
+        cell.textLabel?.textAlignment = .center
         return cell
     }
 }

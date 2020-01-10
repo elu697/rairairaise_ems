@@ -15,7 +15,7 @@ extension UITextField {
         self.layer.shadowOpacity = 1.0
         self.layer.shadowRadius = 0.0
     }
-    
+
     func configure(color: UIColor = .blue,
                    font: UIFont = UIFont.boldSystemFont(ofSize: 12),
                    cornerRadius: CGFloat,

@@ -25,7 +25,7 @@ internal class AssetCheckView: UIView {
 
         content.snp.makeConstraints { make in
             make.width.equalToSuperview()
-            make.top.equalToSuperview().inset(64)
+            make.top.equalToSuperview().offset(100)
             make.bottom.equalToSuperview()
         }
     }

@@ -14,6 +14,15 @@ import Pring
 internal class Locations: Object {
     internal dynamic var location: String?
 
+    /*init(value: String? = nil) {
+        location = value
+        super.init()
+    }*/
+
+    /*override required init() {
+        fatalError("init() has not been implemented")
+    }*/
+
     internal static func getDocumentId(value: String, _ complete: @escaping (QueryDocumentSnapshot?, Error?) -> Void) {
         self.where(\Locations.location, isEqualTo: value).get { snapShot, error in
             guard let snapShot = snapShot else {

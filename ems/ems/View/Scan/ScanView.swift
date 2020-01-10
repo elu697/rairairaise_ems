@@ -24,7 +24,7 @@ internal class ScanView: UIView {
 
     internal let scanBtn: UIButton = {
         let button = UIButton(type: .system)
-        button.roundRadius = 35
+        button.roundRadius = 33
         button.borderWidth = 5
         button.borderColor = .gray
         button.tintColor = .gray
@@ -155,7 +155,7 @@ internal class ScanView: UIView {
         scanBtn.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().offset(-10 - safeAreaInsets.bottom)
-            make.width.height.equalTo(70)
+            make.width.height.equalTo(66)
         }
 
         //switch scanViewType.showType {
@@ -186,7 +186,7 @@ internal class ScanView: UIView {
         }
 
         updateBtn.snp.makeConstraints { make in
-            make.bottom.equalTo(scanBtn.snp.top).inset(-30)
+            make.bottom.equalTo(scanBtn.snp.top).inset(-22)
             make.centerX.equalToSuperview()
             make.height.equalTo(30)
             make.width.equalTo(80)

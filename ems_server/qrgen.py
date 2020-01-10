@@ -19,17 +19,17 @@ class QrGen:
         self.x_margin = 12.5 * mm
         self.y_margin = 15.5 * mm
 
-    def _draw_label(self, qr_sheet, x, y, data, name):
+    def _draw_label(self, qr_sheet, x, y, hashcode, code, name):
         qr_sheet.setLineWidth(0.5)
         qr_sheet.rect(x, y, self.cell_width * mm, self.cell_height * mm, stroke=1, fill=0)
         qr_sheet.setFont("HeiseiKakuGo-W5", 6.5)
         qr_sheet.drawCentredString(x + 15.0 * mm, y + 9 * mm, name[:10], 0, wordSpace=(self.cell_width+15))
-        qr_sheet.drawCentredString(x + 15.0 * mm, y + 6 * mm, data[:15], 0, wordSpace=(self.cell_width+15))
+        qr_sheet.drawCentredString(x + 15.0 * mm, y + 6 * mm, code[:15], 0, wordSpace=(self.cell_width+15))
 
         # qr_sheet.drawString(x + 15.0 * mm, y + 9 * mm, data)
         # qr_sheet.drawString(x + 15.0 * mm, y + 6 * mm, name)
 
-        cell = qr.QrCode(data)
+        cell = qr.QrCode(hashcode)
         cell.width = 40
         cell.height = 40
         cell.hAlign = "CENTER"
@@ -52,7 +52,7 @@ class QrGen:
 
             x = self.x_margin + (self.cell_width * mm) * (i % self.cell_column)
             y = self.y_margin + (self.cell_height * mm) * ((self.cell_line - 1) - (i // self.cell_column))
-            self._draw_label(pdf, x, y, data=data[i][0], name=data[i][1])
+            self._draw_label(pdf, x, y, hashcode=data[i][0], code=data[i][1], name=data[i][2])
             i += 1
         out = pdf.getpdfdata()
         fp.close()
