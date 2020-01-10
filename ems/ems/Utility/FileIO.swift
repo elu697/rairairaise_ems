@@ -9,8 +9,8 @@
 import Foundation
 
 class FileIO {
-    static internal func load(fileName: String) -> [String]? {
-        var csvData: [String]? = nil
+    internal static func load(fileName: String) -> [String]? {
+        var csvData: [String]?
         if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             let pathFileName = dir.appendingPathComponent(fileName)
             do {
@@ -23,7 +23,7 @@ class FileIO {
         return csvData
     }
     
-    static internal func save(data: Data, fileName: String) -> Bool {
+    internal static func save(data: Data, fileName: String) -> Bool {
         if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             let pathFileName = dir.appendingPathComponent(fileName)
             do {
