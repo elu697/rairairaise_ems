@@ -60,11 +60,11 @@ internal class ScanInfoInputViewController: UIViewController {
         guard validate() else { return nil }
         guard let view = view as? ScanInfoInputView else { return nil }
 
-        value[.code] = view.codeTxf.text
-        value[.name] = view.nameTxf.text
-        value[.admin] = view.adminTxf.text
-        value[.user] = view.userTxf.text
-        value[.location] = view.placeTxf.text
+        value[.code] = (view.codeTxf.text ?? "").isEmpty ? nil : view.codeTxf.text
+        value[.name] = (view.nameTxf.text ?? "").isEmpty ? nil : view.nameTxf.text
+        value[.admin] = (view.adminTxf.text ?? "").isEmpty ? nil : view.adminTxf.text
+        value[.user] = (view.userTxf.text ?? "").isEmpty ? nil : view.userTxf.text
+        value[.location] = (view.placeTxf.text ?? "").isEmpty ? nil : view.placeTxf.text
         value[.loss] = view.lostSwitch.isOn
         value[.discard] = view.discardSwitch.isOn
         value[.quantity] = view.numberTxf.text

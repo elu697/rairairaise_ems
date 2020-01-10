@@ -47,7 +47,7 @@ internal class GoogleDriveFileListViewController: UIViewController {
         self.currentFolder = currentFolder
         self.folderName = folderName
         self.isPDFSelect = isPDFSelect
-        GoogleDriveFileListViewController.globalCurrentFolder = currentFolder
+        GoogleDriveFileListViewController.globalCurrentFolder = isRoot ? "root" : currentFolder
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -142,6 +142,7 @@ internal class GoogleDriveFileListViewController: UIViewController {
                         self?.pdfDownloadUpload(assets: assets) { _, error in
                             SVProgressHUD.dismiss()
                             if error != nil {
+                                print(error?.localizedDescription)
                                 SVProgressHUD.showError(withStatus: "失敗しました")
                             } else {
                                 SVProgressHUD.showSuccess(withStatus: "生成完了")
@@ -209,18 +210,19 @@ internal class GoogleDriveFileListViewController: UIViewController {
             dispatch.async(attributes: nil) {
                 DBStore.share.set({ save in
                     save.code = asset[0]
-                    save.name = asset[1]
-                    save.admin = asset[2]
-                    save.user = asset[3]
-                    save.location = asset[4]
+                    save.name = !asset[1].isEmpty ? asset[1] : nil
+                    save.admin = !asset[2].isEmpty ? asset[2] : nil
+                    save.user = !asset[3].isEmpty ? asset[3] : nil
+                    save.location = !asset[4].isEmpty ? asset[4] : nil
                     save.quantity = Int(asset[5]) ?? 0
                     save.loss = asset[6] == "TRUE"
                     save.discard = asset[7] == "TRUE"
                 }, { error in
                     if let error = error {
+                        SVProgressHUD.showError(withStatus: error.descript)
                         print("\(error.descript)")
-                        dispatch.leave()
                     }
+                    dispatch.leave()
                 }
                 )
             }
@@ -254,6 +256,9 @@ extension GoogleDriveFileListViewController {
     @objc
     private func signInNotify() {
         print("signin")
+        if let view = view as? GoogleDriveFileListView {
+            view.addBtn.isHidden = false
+        }
         fetch()
     }
 }
@@ -367,9 +372,11 @@ extension GoogleDriveFileListViewController: UITableViewDelegate {
 
         print(file.mimeType)
 
-        guard GoogleDriveMime(rawValue: file.mimeType ?? "") == .folder else {
+        if GoogleDriveMime(rawValue: file.mimeType ?? "") != .folder {
+            guard !isPDFSelect else { return }
             showSaveCSVAlert(file: file) { [weak self] in
                 self?.tappedProcess()
+                self?.dismiss(animated: true, completion: nil)
             }
             return
         }
