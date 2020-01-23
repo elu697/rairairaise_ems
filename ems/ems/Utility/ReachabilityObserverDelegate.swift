@@ -17,14 +17,13 @@ protocol ReachabilityActionDelegate {
     func reachabilityChanged(_ isReachable: Bool)
 }
 
-protocol ReachabilityObserverDelegate: class, ReachabilityActionDelegate {
+protocol ReachabilityObserverDelegate: AnyObject, ReachabilityActionDelegate {
     func addReachabilityObserver()
     func removeReachabilityObserver()
 }
 
 // Declaring default implementation of adding/removing observer
 extension ReachabilityObserverDelegate {
-
     /** Subscribe on reachability changing */
     func addReachabilityObserver() {
         do {
