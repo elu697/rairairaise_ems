@@ -9,13 +9,17 @@
 import Foundation
 import GoogleAPIClientForREST
 import GoogleSignIn
+import Material
+import PromiseKit
 import SVProgressHUD
 import UIKit
 
-internal class GoogleDriveFileListViewController: UITableViewController {
+internal class GoogleDriveFileListViewController: UIViewController {
     private let isRoot: Bool
-    private var currentFolder: String?
-    private var folderName: String?
+    private let currentFolder: String?
+    private static var globalCurrentFolder: String?
+    private let folderName: String?
+    private let isPDFSelect: Bool
     private var files: [GTLRDrive_File] = []
 
     private let refresh = UIRefreshControl()
@@ -28,38 +32,149 @@ internal class GoogleDriveFileListViewController: UITableViewController {
         }
         self?.files = fileList
         DispatchQueue.main.async {
-            self?.tableView.reloadData()
+            if let view = self?.view as? GoogleDriveFileListView {
+                view.tableView.reloadData()
+            }
             self?.dismissProgress()
         }
     }
 
-    internal init(isRoot: Bool, currentFolder: String? = nil, folderName: String? = nil) {
+    override internal func loadView() {
+        view = GoogleDriveFileListView()
+    }
+
+    internal init(isRoot: Bool, isPDFSelect: Bool, currentFolder: String? = nil, folderName: String? = nil) {
         self.isRoot = isRoot
         self.currentFolder = currentFolder
         self.folderName = folderName
+        self.isPDFSelect = isPDFSelect
+        GoogleDriveFileListViewController.globalCurrentFolder = isRoot ? "root" : currentFolder
         super.init(nibName: nil, bundle: nil)
     }
 
     override internal func viewDidLoad() {
         super.viewDidLoad()
 
-        setRightCloseBarButtonItem()
+        setRightCloseBarButtonItem(action: #selector(closeVC))
         setNavigationBarTitleString(title: isRoot ? "GoogleDrive" : folderName ?? "")
 
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.className)
-        tableView.tableFooterView = UIView(frame: .zero)
-        tableView.allowsMultipleSelection = false
+        guard let view = view as? GoogleDriveFileListView else { return }
 
-        refreshControl = refresh
-        refreshControl?.addTarget(self, action: #selector(refreshing), for: .valueChanged)
+        view.tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.className)
+        view.tableView.tableFooterView = UIView(frame: .zero)
+        view.tableView.allowsMultipleSelection = false
+        view.tableView.delegate = self
+        view.tableView.dataSource = self
+
+        view.tableView.refreshControl = refresh
+        view.tableView.refreshControl?.addTarget(self, action: #selector(refreshing), for: .valueChanged)
 
         NotificationCenter.default.addObserver(self, selector: #selector(signInNotify), name: Notification.Name(GoogleDriveNotify.name.value), object: nil)
 
         if isRoot {
             googleDriveSignIn()
+            if isPDFSelect {
+                navigationController?.view.layout(view.addBtn).width(48).height(48).bottomRight(bottom: 30, right: 30)
+                view.addBtn.addTarget(self, action: #selector(tappedAddBtn), for: .touchUpInside)
+            }
+            setLeftBackBarButtonItem(action: #selector(logout), image: Constants.Image.logout)
         } else {
             fetch()
         }
+
+        view.updateConstraintsIfNeeded()
+    }
+
+    @objc
+    private func logout() {
+        self.showAlert(title: "サインアウト", message: "Googleからサインアウトしますか？", {_ in
+            GIDSignIn.sharedInstance()?.signOut()
+            self.closeVC()
+        }, cancelAction: {_ in
+            print("cancel")
+        })
+    }
+
+    @objc
+    private func closeVC() {
+        self.navigationController?.dissmissView()
+    }
+
+    private func pdfDownloadUpload(assets: [Asset], completion: @escaping (String?, Error?) -> Void) {
+        PDFDownloader.shared.download(fileName: "qr.pdf", param: assets) { _ in
+            guard let currentFolder = GoogleDriveFileListViewController.globalCurrentFolder else {
+                completion(nil, GDriveError.noDataAtPath)
+                return
+            }
+
+            if let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last {
+                let filePath = documentDir.appendingPathComponent("qr.pdf").path
+                let mimeType = "application/pdf"
+                GoogleDriveWrapper.shared.uploadFile(folderID: currentFolder, filePath: filePath, mimeType: mimeType, completion: completion)
+            } else {
+                completion(nil, GDriveError.noDataAtPath)
+            }
+        }
+    }
+
+    @objc
+    private func tappedAddBtn() {
+        let alert = UIAlertController(title: "確認", message: "ここにQRコードPDFを生成します", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: { textField in
+            textField.placeholder = "管理場所"
+            textField.clearButtonMode = .whileEditing
+        }
+        )
+        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            if let text = alert.textFields?.first?.text {
+                SVProgressHUD.show()
+                DBStore.shared.search(field: .location, value: text).done { assets in
+                    guard !assets.isEmpty else {
+                        SVProgressHUD.dismiss()
+                        SVProgressHUD.showError(withStatus: "資産情報が存在しません")
+                        return
+                    }
+                    self?.pdfDownloadUpload(assets: assets) { _, error in
+                        SVProgressHUD.dismiss()
+                        if error != nil {
+                            print(error?.localizedDescription)
+                            SVProgressHUD.showError(withStatus: "失敗しました")
+                        } else {
+                            SVProgressHUD.showSuccess(withStatus: "生成完了")
+                        }
+                    }
+                }.catch { _ in
+                    SVProgressHUD.dismiss()
+                    SVProgressHUD.showError(withStatus: "失敗しました")
+                }
+                /*DBStore.share.search(field: .location, value: text) { assets, error in
+                    if let assets = assets {
+                        guard !assets.isEmpty else {
+                            SVProgressHUD.dismiss()
+                            SVProgressHUD.showError(withStatus: "資産情報が存在しません")
+                            return
+                        }
+                        self?.pdfDownloadUpload(assets: assets) { _, error in
+                            SVProgressHUD.dismiss()
+                            if error != nil {
+                                print(error?.localizedDescription)
+                                SVProgressHUD.showError(withStatus: "失敗しました")
+                            } else {
+                                SVProgressHUD.showSuccess(withStatus: "生成完了")
+                            }
+                        }
+                    } else {
+                        SVProgressHUD.dismiss()
+                        SVProgressHUD.showError(withStatus: "失敗しました")
+                    }
+                }*/
+            }
+        }
+        let cancelAction = UIAlertAction(title: "CANCEL", style: .cancel, handler: nil)
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+
+        present(alert, animated: true, completion: nil)
     }
 
     @objc
@@ -100,34 +215,28 @@ internal class GoogleDriveFileListViewController: UITableViewController {
     }
 
     private func uploadData(values: [String], _ completion: @escaping () -> Void) {
-        let dispatch = Dispatch(label: "upload")
+        var process: [Promise<Void>] = []
         values.forEach { data in
-            var asset = data.components(separatedBy: ",")
-            if asset.count < 8 {
-                asset.append("")
+            let asset = data.components(separatedBy: ",")
+            if asset.count != 8 {
+                SVProgressHUD.showError(withStatus: "CSVがフォーマットに沿っていません")
+                return
             }
-            dispatch.async(attributes: nil) {
-                DBStore.share.set({ save in
-                    save.code = asset[0]
-                    save.name = asset[1]
-                    save.admin = asset[2]
-                    save.user = asset[3]
-                    save.location = asset[4]
-                    save.quantity = Int(asset[5]) ?? 0
-                    save.loss = asset[6] == "TRUE"
-                    save.discard = asset[7] == "TRUE"
-                }, { error in
-                    if let error = error {
-                        print("\(error.descript)")
-                        dispatch.leave()
-                    }
-                }
-                )
-            }
+            var value: [String: Any] = [:]
+            value["code"] = asset[0]
+            value["name"] = asset[1]
+            value["admin"] = asset[2]
+            value["user"] = asset[3]
+            value["location"] = asset[4]
+            value["quantity"] = asset[5]
+            value["loss"] = asset[6]
+            value["discard"] = asset[7]
+            process.append(DBStore.shared.regist(Asset(value: value)))
         }
-
-        dispatch.notify {
+        when(fulfilled: process).done {
             completion()
+        }.catch { error in
+            SVProgressHUD.showError(withStatus: (error as? DBStoreError)?.descript)
         }
     }
 
@@ -154,6 +263,9 @@ extension GoogleDriveFileListViewController {
     @objc
     private func signInNotify() {
         print("signin")
+        if let view = view as? GoogleDriveFileListView {
+            view.addBtn.isHidden = false
+        }
         fetch()
     }
 }
@@ -167,7 +279,7 @@ extension GoogleDriveFileListViewController {
     private func fetchSearch() {
         guard let currentFolder = currentFolder else {
             SVProgressHUD.dismiss()
-            refreshControl?.endRefreshing()
+            refresh.endRefreshing()
             return
         }
         GoogleDriveWrapper.shared.listFilesInFolder(currentFolder, setFetchResult)
@@ -183,7 +295,7 @@ extension GoogleDriveFileListViewController {
     }
 
     private func getUploadData(values: [String], completion: @escaping ([Assets]) -> Void) {
-        let dispatch = Dispatch(label: "getUploadData")
+        /*let dispatch = Dispatch(label: "getUploadData")
         var assets: [Assets] = []
 
         values.forEach { value in
@@ -203,33 +315,40 @@ extension GoogleDriveFileListViewController {
 
         dispatch.notify {
             completion(assets)
-        }
+        }*/
     }
 
-    private func tappedProcess(completion: @escaping (Error?) -> Void) {
+    private func tappedProcess() {
         guard let values = FileIO.load(fileName: "asset.csv") else {
             SVProgressHUD.showError(withStatus: "CSVの読み込みに失敗しました")
             return
         }
 
         SVProgressHUD.show()
-        self.uploadData(values: values) { [weak self] in
-            self?.getUploadData(values: values) { assets in
-                PDFDownloader.shared.download(fileName: "qr.pdf", param: assets, completion)
-            }
+        self.uploadData(values: values) {
+            SVProgressHUD.dismiss()
+            SVProgressHUD.showSuccess(withStatus: "登録完了しました")
         }
     }
 }
 
 // MARK: UITableView DataSource
-extension GoogleDriveFileListViewController {
-    override internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension GoogleDriveFileListViewController: UITableViewDataSource {
+    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let view = view as? GoogleDriveFileListView else { return 0 }
+        if files.isEmpty {
+            view.emptyLbl.isHiddenWithAlphaAnimation = 1.0
+        } else {
+            view.emptyLbl.isHiddenWithInteraction = true
+        }
+
         return files.count
     }
 
-    override internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.className, for: indexPath)
         cell.textLabel?.text = files[indexPath.row].name
+        cell.backgroundColor = .white
         switch GoogleDriveMime(rawValue: files[indexPath.row].mimeType ?? "") {
         case .folder:
             cell.imageView?.image = Constants.Image.folder
@@ -238,29 +357,38 @@ extension GoogleDriveFileListViewController {
         case .csv:
             cell.imageView?.image = Constants.Image.file
             cell.imageView?.tintColor = .systemBlue
+            cell.imageView?.layoutMargins = .init(top: 8, left: 8, bottom: 8, right: 8)
+//            if #available(iOS 13.0, *) {
+//
+//            } else {
+//                // Fallback on earlier versions
+//            }
 
         case .none: ()
         }
+
         return cell
     }
 }
 
 // MARK: UITableView Delegate
-extension GoogleDriveFileListViewController {
-    override internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+extension GoogleDriveFileListViewController: UITableViewDelegate {
+    internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let file = files[indexPath.row]
-        guard GoogleDriveMime(rawValue: file.mimeType ?? "") == .folder else {
+
+        print(file.mimeType)
+
+        if GoogleDriveMime(rawValue: file.mimeType ?? "") != .folder {
+            guard !isPDFSelect else { return }
             showSaveCSVAlert(file: file) { [weak self] in
-                self?.tappedProcess { error in
-                    if let error = error {
-                        print(error.localizedDescription)
-                    }
-                }
+                self?.tappedProcess()
+                self?.dismiss(animated: true, completion: nil)
             }
             return
         }
 
-        let vc = GoogleDriveFileListViewController(isRoot: false, currentFolder: file.identifier, folderName: file.name)
+        let vc = GoogleDriveFileListViewController(isRoot: false, isPDFSelect: isPDFSelect, currentFolder: file.identifier, folderName: file.name)
         navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -10,10 +10,12 @@ import Foundation
 import UIKit
 
 internal class AssetCheckView: UIView {
-    internal var content = ScanInfoInputView(isCodeEnable: false)
+    var content = ScanInfoInputView()
 
     override internal init(frame: CGRect) {
         super.init(frame: .zero)
+
+        content.isEditing = false
 
         backgroundColor = .white
 
@@ -25,7 +27,7 @@ internal class AssetCheckView: UIView {
 
         content.snp.makeConstraints { make in
             make.width.equalToSuperview()
-            make.top.equalToSuperview().inset(64)
+            make.top.equalToSuperview().offset(100)
             make.bottom.equalToSuperview()
         }
     }

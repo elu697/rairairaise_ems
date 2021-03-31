@@ -24,46 +24,42 @@ internal class RegisterViewController: UIViewController {
 
         guard let view = view as? RegisterView else { return }
         view.registBtn.addTarget(self, action: #selector(regist), for: .touchUpInside)
+        view.driveBtn.addTarget(self, action: #selector(drive), for: .touchUpInside)
 
         view.setNeedsUpdateConstraints()
     }
 
     @objc
+    internal func drive() {
+        pushNewNavigationController(rootViewController: GoogleDriveFileListViewController(isRoot: true, isPDFSelect: false))
+    }
+
+    @objc
     internal func regist() {
         guard let viewController = children.first as? ScanInfoInputViewController else { return }
-        guard let value = viewController.getInputValue(), let code = value[.code] as? String else {
+        guard let code = viewController.inputedValue["code"] as? String else {
             SVProgressHUD.showError(withStatus: "資産コードは必須入力です。")
             return
         }
-        guard !code.trimmingCharacters(in: .whitespaces).isEmpty else {
+        guard !code.isEmptyInWhiteSpace else {
             SVProgressHUD.showError(withStatus: "空白のみの入力は受け付けられません。")
             return
         }
         SVProgressHUD.show()
-        DBStore.share.set({ asset in
-            asset.code = code
-            asset.name = value[.name] as? String
-            asset.admin = value[.admin] as? String
-            asset.user = value[.user] as? String
-            asset.location = value[.location] as? String
-            asset.loss = value[.loss] as? Bool ?? false
-            asset.discard = value[.discard] as? Bool ?? false
-            asset.quantity = Int(value[.quantity] as? String ?? "0") ?? 0
-        }, { error in
-//            SVProgressHUD.dismiss()
-            guard let error = error else {
-                SVProgressHUD.showSuccess(withStatus: "登録に成功しました")
-                return
-            }
-            SVProgressHUD.showError(withStatus: error.descript)
+        DBStore.shared.regist(Asset(value: viewController.inputedValue)).done {
+            SVProgressHUD.showSuccess(withStatus: "登録に成功しました")
+        }.catch { error in
+            SVProgressHUD.showError(withStatus: (error as? DBStoreError)?.descript)
         }
-        )
     }
 
     override internal func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let vc = ScanInfoInputViewController()
         vc.mode = .register
+        vc.isInputEditing = true
+        vc.isCodeEditing = true
+
         updateInfoView(viewController: vc)
     }
 

@@ -17,7 +17,7 @@ class PDFDownloader: NSObject {
 
     override private init() {}
     
-    func download(fileName: String, param: [Assets], _ completion: @escaping (Error?) -> Void) {
+    func download(fileName: String, param: [Asset], _ completion: @escaping (Error?) -> Void) {
         let destination: DownloadRequest.DownloadFileDestination = { _, _ in
             if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
                 let fileURL = documentsURL.appendingPathComponent(fileName)
@@ -27,7 +27,7 @@ class PDFDownloader: NSObject {
             }
         }
         
-        let data: [[String]] = param.map { ["123123", $0.code, $0.name ?? ""] }
+        let data: [[String]] = param.map { [($0.code ?? ""), ($0.code ?? ""), $0.name ?? ""] }
         let url = "https://rairairaise.appspot.com/api/qr"
         Alamofire.download(url, method: .post, parameters: ["data": data], encoding: JSONEncoding.default, to: destination).response { response in
             completion(response.error)

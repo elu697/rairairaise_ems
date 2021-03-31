@@ -8,83 +8,115 @@
 
 import Foundation
 import Material
+import PromiseKit
 import SVProgressHUD
 import UIKit
 
 internal class ScanAssetCheckListViewController: UIViewController {
-    private static var assets: [Assets] = []
+    private var models: [Asset] {
+        AppDataManager.shared.get(key: DataKey.models.rawValue) as? [Asset] ?? []
+    }
+
+    private var searchType: Assets.Field? {
+        get {
+            AppDataManager.shared.get(key: DataKey.searchType.rawValue) as? Assets.Field
+        }
+        set(value) {
+            AppDataManager.shared.set(key: DataKey.searchType.rawValue, value: value as Any)
+        }
+    }
+
+    private var query: String? {
+        get {
+            AppDataManager.shared.get(key: DataKey.query.rawValue) as? String
+        }
+        set(value) {
+            AppDataManager.shared.set(key: DataKey.query.rawValue, value: value as Any)
+        }
+    }
+
     private var checkList: [String: Bool] = [:]
-    private static var searchType: Assets.Field?
 
     private var item: [Assets.Field] = [.code, .admin, .user, .name, .location]
+    private var checkView: ScanAssetCheckList? {
+        return view as? ScanAssetCheckList
+    }
 
-    override internal func loadView() {
+    private enum DataKey: String {
+        case models
+        case searchType
+        case query
+    }
+
+    var isSearched: Bool {
+        return !models.isEmpty
+    }
+
+    override func loadView() {
         view = ScanAssetCheckList()
     }
 
-    override internal func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
-        guard let view = view as? ScanAssetCheckList else { return }
-        view.tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.className)
-        view.tableView.isEditing = false
-        view.tableView.dataSource = self
-        view.tableView.delegate = self
-        if !ScanAssetCheckListViewController.assets.isEmpty {
-            view.tableView.reloadData()
-            view.isEmpty = ScanAssetCheckListViewController.assets.isEmpty
+        checkView?.tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.className)
+        checkView?.tableView.isEditing = false
+        checkView?.tableView.dataSource = self
+        checkView?.tableView.delegate = self
+
+        // 既に取得済みだった場合再読み込み
+        if !models.isEmpty {
+            checkView?.tableView.reloadData()
+            checkView?.isEmpty = models.isEmpty
         }
-        view.pickerView.delegate = self
-        view.pickerView.dataSource = self
-//        view.pickerView.value = ScanAssetCheckListViewController.searchType.name
-        view.pickerView.placeHolder = "検索項目"
-        view.searchBar.delegate = self
+
+        checkView?.pickerView.delegate = self
+        checkView?.pickerView.dataSource = self
+        checkView?.pickerView.placeHolder = "検索項目"
+        if searchType == nil {
+            searchType = item[0]
+        }
+        checkView?.pickerView.value = searchType?.name ?? ""
+        checkView?.searchBar.delegate = self
+        checkView?.searchBar.text = query
         view.setNeedsUpdateConstraints()
     }
 
-    internal func fetch(value: String, _ err: @escaping (DBStore.DBStoreError) -> Void) {
-        guard let searchType = ScanAssetCheckListViewController.searchType else {
+    func fetch(value: String) -> Promise<[Asset]> {
+        guard let searchType = searchType else {
             SVProgressHUD.showError(withStatus: "検索項目を選択してください")
-            return
+            return Promise<[Asset]>(error: DBStoreError.inputFailed)
         }
-        SVProgressHUD.show()
-        DBStore.share.search(field: searchType, value: value) { assets, error in
-            SVProgressHUD.dismiss()
-            guard let assets = assets else {
-                DispatchQueue.main.async {
-                    err(error != nil ? .failed : .notFound)
-                }
-                return
-            }
-            ScanAssetCheckListViewController.assets = assets
-            for item in assets {
-                self.checkList[item.code] = false
-            }
-            DispatchQueue.main.async {
-                guard let view = self.view as? ScanAssetCheckList else { return }
-                view.isEmpty = ScanAssetCheckListViewController.assets.isEmpty
-                view.tableView.reloadData()
-            }
-        }
+
+        return DBStore.shared.search(field: searchType, value: value)
     }
 
-    internal func check(code: String) {
-        checkList[code] = true
-        guard let view = view as? ScanAssetCheckList else { return }
-        view.tableView.reloadData()
+    func check(code: String) {
+        var model = Asset()
+        model.code = code
+        model.checkedAt = Date()
+        SVProgressHUD.show()
+        DBStore.shared.update(model).done {
+            self.checkList[code] = true
+            DispatchQueue.main.async {
+                self.checkView?.tableView.reloadData()
+            }
+        }.catch { error in
+            SVProgressHUD.showError(withStatus: (error as? DBStoreError)?.descript)
+        }
     }
 }
 
 // MARK: UITableViewDataSorce
 extension ScanAssetCheckListViewController: UITableViewDataSource {
-    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ScanAssetCheckListViewController.assets.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return models.count
     }
 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.className, for: indexPath)
-        cell.textLabel?.text = ScanAssetCheckListViewController.assets[indexPath.row].name ?? "名前が登録されていません"
-        if let isChecked = checkList[ScanAssetCheckListViewController.assets[indexPath.row].code], isChecked {
+        cell.textLabel?.text = models[indexPath.row].name ?? "名前が登録されていません"
+        if let isChecked = checkList[models[indexPath.row].code ?? ""], isChecked {
             cell.accessoryType = .checkmark
         } else {
             cell.accessoryType = .none
@@ -96,24 +128,25 @@ extension ScanAssetCheckListViewController: UITableViewDataSource {
         return true
     }
 
-    internal func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let contextItem = UIContextualAction(style: .normal, title: "削除") { _, _, boolValue in
-            boolValue(true) // pass true if you want the handler to allow the action
-            let code = ScanAssetCheckListViewController.assets[indexPath.row].code
-            SVProgressHUD.show()
-            DBStore.share.delete(code: code, completion: { error in
-                SVProgressHUD.dismiss()
-                if error != nil {
-                    SVProgressHUD.showError(withStatus: "削除に失敗しました")
-                } else {
-                    SVProgressHUD.showSuccess(withStatus: "削除に成功しました")
-                    ScanAssetCheckListViewController.assets.remove(at: indexPath.row)
-                    guard let view = self.view as? ScanAssetCheckList else { return }
-                    view.isEmpty = ScanAssetCheckListViewController.assets.isEmpty
-                    tableView.reloadData()
-                }
+            boolValue(true)
+            guard let code = self.models[indexPath.row].code else {
+                return
             }
-            )
+
+            SVProgressHUD.show()
+            DBStore.shared.delete(code: code).done {
+                SVProgressHUD.showSuccess(withStatus: "削除に成功しました")
+                if var value = AppDataManager.shared.get(key: DataKey.models.rawValue) as? [Asset] {
+                    value.remove(at: indexPath.row)
+                    AppDataManager.shared.set(key: DataKey.models.rawValue, value: value)
+                }
+                self.checkView?.isEmpty = self.models.isEmpty
+                tableView.reloadData()
+            }.catch { _ in
+                SVProgressHUD.showError(withStatus: "削除に失敗しました")
+            }
         }
         contextItem.backgroundColor = .red
         let swipeActions = UISwipeActionsConfiguration(actions: [contextItem])
@@ -124,46 +157,66 @@ extension ScanAssetCheckListViewController: UITableViewDataSource {
 
 // MARK: UITableViewDelegate
 extension ScanAssetCheckListViewController: UITableViewDelegate {
-    internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("\(className): tap")
 
         let vc = AssetCheckViewController()
-        vc.fetch(value: ScanAssetCheckListViewController.assets[indexPath.row].code) { _ in
+        SVProgressHUD.show()
+        vc.fetch(value: models[indexPath.row].code ?? "").done {
+            SVProgressHUD.dismiss()
             self.pushNewNavigationController(rootViewController: vc)
+        }.catch { error in
+            SVProgressHUD.showError(withStatus: (error as? DBStoreError)?.descript)
         }
     }
 }
 
 // MARK: PickerViewDelegate
 extension ScanAssetCheckListViewController: UIPickerViewDelegate {
-    internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         guard let view = view as? ScanAssetCheckList else { return }
-        ScanAssetCheckListViewController.searchType = item[row]
+        searchType = item[row]
         view.pickerView.value = item[row].name
     }
 }
 
 // MARK: PickerViewDataSource
 extension ScanAssetCheckListViewController: UIPickerViewDataSource {
-    internal func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
 
-    internal func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return item.count
     }
 
-    internal func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return item[row].name
     }
 }
 
 extension ScanAssetCheckListViewController: UISearchBarDelegate {
-    internal func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        query = searchBar.text
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
         guard let value = searchBar.text else { return }
-        fetch(value: value) { error in
-            SVProgressHUD.showError(withStatus: error.descript)
+
+        SVProgressHUD.show()
+        fetch(value: value).done { assets in
+            SVProgressHUD.dismiss()
+            AppDataManager.shared.set(key: DataKey.models.rawValue, value: assets)
+            for item in assets.filter({ $0.validated }) {
+                self.checkList[item.code!] = false
+            }
+            DispatchQueue.main.async {
+                self.checkView?.isEmpty = self.models.isEmpty
+                self.checkView?.tableView.reloadData()
+            }
+        }.catch { error in
+            SVProgressHUD.showError(withStatus: (error as? DBStoreError)?.descript)
         }
     }
 }

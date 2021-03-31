@@ -26,6 +26,10 @@ internal class ScanViewController: UIViewController {
     private var scanQrDatas = [String]()
     private var searchValue = ""
 
+    var scanView: ScanView? {
+        return view as? ScanView
+    }
+
     // view.contentView.boundsが0の時を回避するためのflag
     private var isFirstLoading = true
 
@@ -41,20 +45,20 @@ internal class ScanViewController: UIViewController {
     override internal func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Permission(vc: self).checkCameraPermission()
-        self.scanReader.startScanning()
+        scanReader.startScanning()
 
+        // 画面に表示するViewの更新
         let viewController = infoViewList[currentView.rawValue].init()
         updateInfoView(viewController: viewController)
     }
 
     override internal func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        self.scanReader.stopScanning()
+        scanReader.stopScanning()
     }
 
     override internal func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         actionSetting()
         setNeedsUpdateOfHomeIndicatorAutoHidden()
         // Do any additional setup after loading the view.
@@ -62,7 +66,7 @@ internal class ScanViewController: UIViewController {
         scanerSetting()
     }
 
-    override internal func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if isFirstLoading {
             let viewController = infoViewList[currentView.rawValue].init()
@@ -88,19 +92,8 @@ extension ScanViewController {
         view.contentView.addSubview(viewController.view)
         viewController.didMove(toParent: self)
 
-        settingInfoLabel()
-        settingUpdateBtn()
-    }
-
-    private func settingInfoLabel() {
-        guard let view = view as? ScanView else { return }
-//        view.qrInfoLbl.isHidden = children.first is ScanAssetCheckListViewController
-        view.scanInfoLbl.isHidden = children.first is ScanAssetCheckListViewController
-    }
-
-    private func settingUpdateBtn() {
-        guard let view = view as? ScanView else { return }
         view.updateBtn.isHidden = children.first is ScanAssetCheckListViewController
+        view.scanInfoLbl.isHidden = children.first is ScanAssetCheckListViewController
     }
 }
 
@@ -160,30 +153,30 @@ extension ScanViewController {
 extension ScanViewController {
     @objc
     private func tappedScanBtn() {
-        guard let scanView = view as? ScanView else { return }
-        if scanQrData.isEmpty {
-            if UDManager.getUD(key: .sound) as? Bool ?? false {
-                Sound.tone(mode: .fail)
+        guard !scanQrData.isEmpty else {
+            sound(tone: .fail)
+            scanView?.previewQrInfo(msg: "QRコードが読み込まれていません")
+            return
+        }
+
+        sound(tone: .accept)
+        scanView?.previewQrInfo(msg: "")
+        if let child = self.children.first as? ScanAssetCheckListViewController {
+            guard child.isSearched else {
+                SVProgressHUD.showError(withStatus: "確認する候補が検索されていません")
+                return
             }
-            scanView.previewQrInfo(msg: "QRコードが読み込まれていません")
-        } else {
-            if UDManager.getUD(key: .sound) as? Bool ?? false {
-                Sound.tone(mode: .accept)
-            }
-            scanView.previewQrInfo(msg: "")
-//            scanView.previewScanInfo(msg: "\(scanQrDatas.count)品スキャン済み")
-            if let child = self.children.first as? ScanAssetCheckListViewController {
-                DispatchQueue.main.async {
-                    child.check(code: self.scanQrData)
-                }
-            }
-            if let child = self.children.first as? ScanInfoInputViewController {
-                scanView.updateBtn.isEnabled = true
-                child.fetch(value: scanQrData) { error in
-                    guard let error = error else { return }
-                    SVProgressHUD.showError(withStatus: error.descript)
-                }
-            }
+            child.check(code: self.scanQrData)
+        }
+        if let child = self.children.first as? ScanInfoInputViewController {
+            scanView?.updateBtn.isEnabled = true
+            child.fetch(value: scanQrData)
+        }
+    }
+
+    private func sound(tone: Sound.SoundMode) {
+        if UDManager.getUD(key: .sound) as? Bool ?? false {
+            Sound.tone(mode: tone)
         }
     }
 
@@ -226,8 +219,8 @@ extension ScanViewController: MenuDelegate {
             pushNewNavigationController(rootViewController: RegisterViewController())
             return
         }
-        if type == .drive {
-            pushNewNavigationController(rootViewController: GoogleDriveFileListViewController(isRoot: true))
+        if type == .qr {
+            pushNewNavigationController(rootViewController: GoogleDriveFileListViewController(isRoot: true, isPDFSelect: true))
             return
         }
         currentView = type
@@ -239,9 +232,9 @@ extension ScanViewController: ProfileDelegate {
         if currentView == .check {
             guard let vc = children.first as? ScanAssetCheckListViewController, let value = value else { return }
             print("reload")
-            vc.fetch(value: value) { error in
+            /*vc.fetch(value: value) { error in
                 SVProgressHUD.showError(withStatus: error.descript)
-            }
+            }*/
             beforeQrData = ""
         }
     }

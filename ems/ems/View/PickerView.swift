@@ -10,6 +10,11 @@ import Foundation
 import SnapKit
 import UIKit
 
+internal protocol CustomPicker {
+    func pickerTapped(_ pickerView: UIPickerView)
+    func picerSelected(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
+}
+
 internal class PickerView: UIView {
     private let picker: UIPickerView
     private let textField: UITextField
@@ -78,5 +83,15 @@ internal class PickerView: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension PickerView: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    }
+}
+
+extension PickerView: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
     }
 }

@@ -117,6 +117,8 @@ internal class ScanView: UIView {
     internal init(scaner: QRCodeReader) {
         super.init(frame: .zero)
 
+        backgroundColor = .white
+
         scanPreviewView.setupComponents(with: scanViewBuild(scaner: scaner))
         setSubViews()
     }
@@ -186,7 +188,7 @@ internal class ScanView: UIView {
         }
 
         updateBtn.snp.makeConstraints { make in
-            make.bottom.equalTo(scanBtn.snp.top).inset(-30)
+            make.bottom.equalTo(scanBtn.snp.top).inset(-22)
             make.centerX.equalToSuperview()
             make.height.equalTo(30)
             make.width.equalTo(80)

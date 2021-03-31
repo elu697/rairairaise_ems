@@ -7,128 +7,132 @@
 //
 
 import Foundation
+import PromiseKit
 import SVProgressHUD
 import UIKit
 
 internal class ScanInfoInputViewController: UIViewController {
     private var isFetching = false
     private var beforeCode = ""
+    private var model: Asset? {
+        get {
+            AppDataManager.shared.get(key: DataKey.model.rawValue) as? Asset
+        }
+        set(value) {
+            AppDataManager.shared.set(key: DataKey.model.rawValue, value: value as Any)
+        }
+    }
+    private var infoInputView: ScanInfoInputView? {
+        return view as? ScanInfoInputView
+    }
 
-    internal var mode: MenuViewController.MenuType = .change
+    var isInputEditing: Bool {
+        get {
+            infoInputView?.isEditing ?? false
+        }
+        set(value) {
+            infoInputView?.isEditing = value
+        }
+    }
 
-    private static var cash: Assets?
+    var isCodeEditing: Bool {
+        get {
+            infoInputView?.isCodeEditing ?? false
+        }
+        set {
+            infoInputView?.isCodeEditing = newValue
+        }
+    }
+
+    var mode: MenuViewController.MenuType = .change
+
+    enum DataKey: String {
+        case model
+    }
 
     override internal func loadView() {
-        view = ScanInfoInputView(isCodeEnable: true)
+        view = ScanInfoInputView()
     }
 
     override internal func viewDidLoad() {
         super.viewDidLoad()
         view.setNeedsUpdateConstraints()
 
-        if let cash = ScanInfoInputViewController.cash, mode == .change {
-            setInputValue(value: cash)
+        if let model = model, mode == .change {
+            setAssetValue(value: model)
+            infoInputView?.isEditing = true
         }
 
-        guard let view = view as? ScanInfoInputView else { return }
-        view.codeTxf.delegate = self
-        view.nameTxf.delegate = self
-        view.adminTxf.delegate = self
-        view.userTxf.delegate = self
-        view.placeTxf.delegate = self
-        view.numberTxf.delegate = self
+        infoInputView?.codeTxf.delegate = self
+        infoInputView?.nameTxf.delegate = self
+        infoInputView?.adminTxf.delegate = self
+        infoInputView?.userTxf.delegate = self
+        infoInputView?.placeTxf.delegate = self
+        infoInputView?.numberTxf.delegate = self
     }
+}
 
-    private func setInputValue(value: Assets) {
-        guard let view = view as? ScanInfoInputView else { return }
-
-        view.codeTxf.text = value.code
-        view.nameTxf.text = value.name
-        view.adminTxf.text = value.admin
-        view.userTxf.text = value.user
-        view.placeTxf.text = value.location
-        view.numberTxf.text = String(value.quantity)
-        view.lostSwitch.setSwitchState(state: value.loss ? .on : .off, animated: true, completion: nil)
-        view.discardSwitch.setSwitchState(state: value.discard ? .on : .off, animated: true, completion: nil)
-
-        ScanInfoInputViewController.cash = value
-    }
-
-    internal func getInputValue() -> [Assets.Field: Any?]? {
-        var value: [Assets.Field: Any?] = [:]
-
-        guard validate() else { return nil }
-        guard let view = view as? ScanInfoInputView else { return nil }
-
-        value[.code] = view.codeTxf.text
-        value[.name] = view.nameTxf.text
-        value[.admin] = view.adminTxf.text
-        value[.user] = view.userTxf.text
-        value[.location] = view.placeTxf.text
-        value[.loss] = view.lostSwitch.isOn
-        value[.discard] = view.discardSwitch.isOn
-        value[.quantity] = view.numberTxf.text
+// MARK: ValueIO
+extension ScanInfoInputViewController {
+    var inputedValue: [String: Any] {
+        var value: [String: Any] = [:]
+        value["code"] = infoInputView?.codeTxf.emptyText
+        value["name"] = infoInputView?.nameTxf.emptyText
+        value["admin"] = infoInputView?.adminTxf.emptyText
+        value["user"] = infoInputView?.userTxf.emptyText
+        value["location"] = infoInputView?.placeTxf.emptyText
+        value["loss"] = infoInputView?.lostSwitch.isOn
+        value["discard"] = infoInputView?.discardSwitch.isOn
+        value["quantity"] = infoInputView?.numberTxf.emptyText
 
         return value
     }
 
-    private func validate() -> Bool {
-        guard let view = view as? ScanInfoInputView, let code = view.codeTxf.text else { return false }
-        return !code.isEmpty
-    }
+    private func setAssetValue(value: Asset) {
+        infoInputView?.codeTxf.text = value.code
+        infoInputView?.nameTxf.text = value.name
+        infoInputView?.adminTxf.text = value.admin
+        infoInputView?.userTxf.text = value.user
+        infoInputView?.placeTxf.text = value.location
+        infoInputView?.numberTxf.text = String(value.quantity)
+        infoInputView?.lostSwitch.isOn = value.loss
+        infoInputView?.discardSwitch.isOn = value.discard
 
-    internal func update() {
-        guard let cash = ScanInfoInputViewController.cash else {
-            SVProgressHUD.showError(withStatus: "資産情報がありません")
-            return
-        }
-        guard let value = getInputValue() else {
-            SVProgressHUD.showError(withStatus: "資産情報が異常です")
-            return
-        }
+        model = value
+    }
+}
+
+// MARK: Network
+extension ScanInfoInputViewController {
+    func update() {
         SVProgressHUD.show()
-        DBStore.share.update(code: cash.code, set: { asset in
-            asset.code = value[.code] as? String ?? cash.code
-            asset.name = value[.name] as? String
-            asset.admin = value[.admin] as? String
-            asset.user = value[.user] as? String
-            asset.location = value[.location] as? String
-            asset.loss = value[.loss] as? Bool ?? false
-            asset.discard = value[.discard] as? Bool ?? false
-            asset.quantity = Int(value[.quantity] as? String ?? "0") ?? 0
-            let buf = Assets()
-            buf.setValue(value: value)
-            self.setInputValue(value: buf)
-        }, complete: { error in
-            SVProgressHUD.dismiss()
-            if error != nil {
-                SVProgressHUD.showError(withStatus: "エラーが発生しました")
-            } else {
-                SVProgressHUD.showSuccess(withStatus: "更新しました")
-            }
+        DBStore.shared.update(Asset(value: inputedValue)).done {
+            SVProgressHUD.showSuccess(withStatus: "更新しました")
+        }.catch { error in
+            SVProgressHUD.showError(withStatus: (error as? DBStoreError)?.descript)
         }
-        )
     }
 
-    internal func fetch(value: String, _ comp: @escaping (DBStore.DBStoreError?) -> Void) {
-        guard !isFetching, value != beforeCode else { return }
+    func fetch(value: String) {
+        guard !isFetching, value != beforeCode else {
+            return
+        }
         SVProgressHUD.show()
         isFetching = true
-        print("fetch")
-        DBStore.share.search(field: .code, value: value, limit: 1) { assets, error in
-            DispatchQueue.main.async {
-                if let asset = assets?.first {
-                    self.beforeCode = asset.code
-                    self.setInputValue(value: asset)
-                } else {
-                    comp(error != nil ? .failed : .notFound)
-                    self.isFetching = false
-                    return
-                }
-                comp(nil)
-                SVProgressHUD.dismiss()
-                self.isFetching = false
+
+        DBStore.shared.search(field: .code, value: value).then { models -> Promise<Void> in
+            if let model = models.first, let code = model.code {
+                self.infoInputView?.isEditing = true
+                self.beforeCode = code
+                self.setAssetValue(value: model)
+                return Promise<Void>()
+            } else {
+                return Promise<Void>(error: DBStoreError.notFound)
             }
+        }.catch { error in
+            SVProgressHUD.showError(withStatus: (error as? DBStoreError)?.descript)
+        }.finally {
+            SVProgressHUD.dismiss()
         }
     }
 }

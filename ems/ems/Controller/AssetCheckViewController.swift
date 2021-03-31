@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PromiseKit
 import SVProgressHUD
 import UIKit
 
@@ -23,7 +24,7 @@ internal class AssetCheckViewController: UIViewController {
         view.setNeedsUpdateConstraints()
     }
 
-    private func setInputValue(value: Assets) {
+    private func setInputValue(value: Asset) {
         guard let view = view as? AssetCheckView else { return }
 
         view.content.codeTxf.text = value.code
@@ -32,23 +33,18 @@ internal class AssetCheckViewController: UIViewController {
         view.content.userTxf.text = value.user
         view.content.placeTxf.text = value.location
         view.content.numberTxf.text = String(value.quantity)
-        view.content.lostSwitch.setSwitchState(state: value.loss ? .on : .off, animated: true, completion: nil)
-        view.content.discardSwitch.setSwitchState(state: value.discard ? .on : .off, animated: true, completion: nil)
+        view.content.lostSwitch.isOn = value.loss
+        view.content.discardSwitch.isOn = value.discard
     }
 
-    internal func fetch(value: String, _ comp: @escaping (DBStore.DBStoreError?) -> Void) {
-        SVProgressHUD.show()
+    internal func fetch(value: String) -> Promise<Void> {
         print("fetch")
-        DBStore.share.search(field: .code, value: value, limit: 1) { assets, error in
-            DispatchQueue.main.async {
-                SVProgressHUD.dismiss()
-                if let asset = assets?.first {
-                    self.setInputValue(value: asset)
-                } else {
-                    comp(error != nil ? .failed : .notFound)
-                    return
-                }
-                comp(nil)
+        return DBStore.shared.search(field: .code, value: value).then { models -> Promise<Void> in
+            if let model = models.first {
+                self.setInputValue(value: model)
+                return Promise<Void>()
+            } else {
+                return Promise<Void>(error: DBStoreError.notFound)
             }
         }
     }
